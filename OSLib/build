@@ -1,6 +1,0 @@
-i686-elf-g++ -I include -c src/video.c -o obj/video.o -ffreestanding -fno-exceptions -fno-rtti
-i686-elf-g++ -I include -c src/stdio.c -o obj/stdio.o -ffreestanding -fno-exceptions -fno-rtti 
-i686-elf-g++ -I include -c src/memory.c -o obj/memory.o -ffreestanding -fno-exceptions -fno-rtti
-i686-elf-g++ -I include -c src/system.c -o obj/system.o -ffreestanding -fno-exceptions -fno-rtti
-i686-elf-g++ -I include -c src/math.c -o obj/math.o -ffreestanding -fno-exceptions -fno-rtti
-i686-elf-ld -r obj/system.o obj/stdio.o obj/memory.o obj/math.o -o bin/oslib.o
