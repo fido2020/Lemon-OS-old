@@ -14,10 +14,10 @@ int screenHeight;
 
 int textModeScreenDepth = 2;
 
-int textMemory = 0xB8000;
-int graphicalMemory = 0xA0000;
+char* textMemory = (char*)0xB8000;
+char* graphicalMemory = (char*)0xA0000;
 
-int videoMemory = textMemory;
+char* videoMemory = textMemory;
 
 void vga_setMode(vga_mode mode){
 	int y;
@@ -35,7 +35,7 @@ void vga_setMode(vga_mode mode){
 		regs.ax = 0x01;
 		screenWidth = 40;
 		screenHeight = 25;
-		videoMemory = textMemory
+		videoMemory = textMemory;
 	} else if(mode == Graphical320x200x256){
 		regs.ax = 0x13;
 		screenWidth = 320;
@@ -67,44 +67,57 @@ void clearScreen(int colour){
 	if(graphical)
 		memset((char*)videoMemory, colour, (screenWidth*screenHeight));
 	else {
-		cursorX = 0;
-		cursorY = 0;
-		for(int i=0;i<=scrWidth*scrHeight;i++){
+		textModeCursorX = 0;
+		textModeCursorY = 0;
+		for(int i=0;i<=screenWidth*screenHeight;i++){
 			putc(' ', colour);
 		}
 	}
 }
 
-#region Text Mode
-	void puts(const char* s){
-		
+// Text Mode
+	void setCursorPosition(int x, int y){
+		textModeCursorX = x;
+		textModeCursorY = y;
+	}
+
+	void clearLine(int line, int colour){
+		textModeCursorY = line;
+		textModeCursorX = 0;
+		for(int i=0;i<screenWidth;i++)
+			putc(' ', colour);
+	}
+
+	void puts(const char* s, int colour){
+		while(*s != 0){
+			putc(*s, colour);
+			s++;
+		}
 	}
 	
 	void putc(const char c, int colour){
-		char* vidmem = (char*)(0xB8000);
 		switch(c)
 		{
 			case(0x09):
-				cursorX++;
+				textModeCursorX++;
 				break;
 			case ('\r'):
-					cursorX = 0;
+					textModeCursorX = 0;
 					break;
 			case ('\n'):
-					cursorX = 0;
-					cursorY++;
+					textModeCursorX = 0;
+					textModeCursorY++;
 					break;
 			default:
-					vidmem [((cursorY * screenWidth + cursorX))*textModeScreenDepth] = c;
-					vidmem [((cursorY * screenHeight + cursorX))*scrDepth+1] = colour;
-					cursorX++; 
+					videoMemory [((textModeCursorY * screenWidth + textModeCursorX))*textModeScreenDepth] = c;
+					videoMemory [((textModeCursorY * screenHeight + textModeCursorX))*textModeScreenDepth+1] = colour;
+					textModeCursorX++; 
 					break;
 		
 		}
 	}
-#endregion
 
-#region Graphical Mode
+// Graphical Mode
 
 void setPixel(int x, int y, int colour){
 	if(graphical){
@@ -131,5 +144,3 @@ void drawRect(int x, int y, unsigned char w, unsigned char h, int colour) {
 		
 	}
 }
-
-#endregion

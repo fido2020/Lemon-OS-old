@@ -1,5 +1,7 @@
-#include <vga.h>
+#include <lemon.h>
 
+#include <vga.h>
+#include <string.h>
 
 
 // int32 test
@@ -15,14 +17,10 @@ void int32_test()
 
 extern "C"
 void kmain(){
-	/*clear(0x1F);
-	puts("Hello World!");*/
-	init_vga(Text40x25);
-	clear(0x2D);
-	/*drawSplash(10,10,44);
-	mouse_init();
-	while(true){
-		mouse_update();
-		//drawrect(mouseX,mouseY,2,2,0);
-	}*/
+	vga_setMode(Default);
+	clearLine(0,0x70);
+	setCursorPosition(0,0);
+	puts("Lemon v", 0x70);
+	puts(lemon_version, 0x70);
+	puts("\n$ ~Lemon>"):
 }
