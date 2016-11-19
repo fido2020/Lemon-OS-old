@@ -1,7 +1,7 @@
-#include <video.h>
+#include <vga.h>
 
 void printf(const char* format, ...){
-	//puts(format);
+	puts(format);
 }
 
 char* scanf(){

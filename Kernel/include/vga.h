@@ -20,3 +20,5 @@ extern void setCursorPosition(int x, int y);
 
 extern void putc(const char c, int colour);
 extern void puts(const char* s, int colour);
+extern void putc(const char c);
+extern void puts(const char* s);

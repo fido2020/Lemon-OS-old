@@ -7,6 +7,9 @@
 int textModeCursorX = 0;
 int textModeCursorY = 0;
 
+int consoleBgColour = 0;
+int consoleFgColour = 15;
+
 bool graphical = false;
 
 int screenWidth;
@@ -73,6 +76,7 @@ void clearScreen(int colour){
 			putc(' ', colour);
 		}
 	}
+	
 }
 
 // Text Mode
@@ -95,6 +99,13 @@ void clearScreen(int colour){
 		}
 	}
 	
+	void puts(const char* s){
+		while(*s != 0){
+			putc(*s);
+			s++;
+		}
+	}
+	
 	void putc(const char c, int colour){
 		switch(c)
 		{
@@ -111,6 +122,28 @@ void clearScreen(int colour){
 			default:
 					videoMemory [((textModeCursorY * screenWidth + textModeCursorX))*textModeScreenDepth] = c;
 					videoMemory [((textModeCursorY * screenHeight + textModeCursorX))*textModeScreenDepth+1] = colour;
+					textModeCursorX++; 
+					break;
+		
+		}
+	}
+
+	void putc(const char c){
+		switch(c)
+		{
+			case(0x09):
+				textModeCursorX++;
+				break;
+			case ('\r'):
+					textModeCursorX = 0;
+					break;
+			case ('\n'):
+					textModeCursorX = 0;
+					textModeCursorY++;
+					break;
+			default:
+					videoMemory [((textModeCursorY * screenWidth + textModeCursorX))*textModeScreenDepth] = c;
+					videoMemory [((textModeCursorY * screenHeight + textModeCursorX))*textModeScreenDepth+1] = consoleBgColour + consoleFgColour;
 					textModeCursorX++; 
 					break;
 		

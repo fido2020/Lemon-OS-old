@@ -2,6 +2,7 @@
 
 #include <vga.h>
 #include <string.h>
+#include <stdio.h>
 
 
 // int32 test
@@ -16,11 +17,11 @@ void int32_test()
 
 
 extern "C"
-void kmain(){
+void kmain(){ 
 	vga_setMode(Default);
 	clearLine(0,0x70);
 	setCursorPosition(0,0);
 	puts("Lemon v", 0x70);
 	puts(lemon_version, 0x70);
-	puts("\n$ ~Lemon>"):
+	puts("\n$ ~Lemon>", 0x0F);
 }
