@@ -1,0 +1,23 @@
+#export CPATH=../include/
+
+cd src
+
+for i in *.asm
+do
+	echo Assembling $i
+    nasm -f elf32 -o "../obj/${i%.asm}.o" "$i"
+done
+
+for i in *.cpp
+do
+	echo Compiling $i
+    i686-elf-g++ -c "$i" -o "../obj/${i%.cpp}.o" -I ../include --freestanding -fno-exceptions -fno-rtti
+done
+
+cd ..
+
+#i686-elf-g++ -c kernel.cpp -o obj/kernel.o -ffreestanding -fno-exceptions -fno-rtti
+
+#nasm -f elf32 entry.asm -o obj/entry.o
+
+i686-elf-ld -m elf_i386 -T linkscript.ld -o bin/kernel.sys obj/*.o 

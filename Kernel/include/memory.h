@@ -1,0 +1,1 @@
+extern void *memset(char *dst,char src, int n);

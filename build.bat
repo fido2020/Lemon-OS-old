@@ -1,0 +1,1 @@
+C:\cygwin\bin\mintty.exe ./build -i /Cygwin-Terminal.ico

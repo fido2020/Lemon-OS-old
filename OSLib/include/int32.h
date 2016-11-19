@@ -1,0 +1,1 @@
+extern "C" void int32(unsigned char intnum, regs16_t *regs);
