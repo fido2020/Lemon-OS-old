@@ -14,6 +14,12 @@ do
     i686-elf-g++ -c "$i" -o "../obj/${i%.cpp}.o" -I ../include --freestanding -fno-exceptions -fno-rtti
 done
 
+for i in *.c
+do
+	echo Compiling $i
+    i686-elf-gcc -c "$i" -o "../obj/${i%.cpp}.o" -I ../include --freestanding
+done
+
 cd ..
 
 #i686-elf-g++ -c kernel.cpp -o obj/kernel.o -ffreestanding -fno-exceptions -fno-rtti

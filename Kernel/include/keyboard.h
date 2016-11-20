@@ -1,3 +1,3 @@
 #pragma once
 
-extern char* readString();
+char* readString();

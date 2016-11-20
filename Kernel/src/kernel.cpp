@@ -4,6 +4,10 @@
 #include <string.h>
 #include <stdio.h>
 
+#include <shell.h>
+#include <keyboard.h>
+
+
 
 // int32 test
 void int32_test()
@@ -23,5 +27,8 @@ void kmain(){
 	setCursorPosition(0,0);
 	puts("Lemon v", 0x70);
 	puts(lemon_version, 0x70);
-	puts("\n$ ~Lemon>", 0x0F);
+	setCursorPosition(0,1);
+	//RunShell();
+	readString();
+	while(1){}
 }
