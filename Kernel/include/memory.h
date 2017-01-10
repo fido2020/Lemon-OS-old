@@ -1,1 +1,4 @@
-extern void *memset(char *dst,char src, int n);
+#pragma once
+
+extern "C"
+void *memset(void *s, int c, int count);

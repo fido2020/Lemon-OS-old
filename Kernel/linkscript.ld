@@ -1,10 +1,11 @@
-
-OUTPUT_FORMAT(elf32-i386)
+/* Old Kernel without Paging */
+OUTPUT_FORMAT(binary)
 ENTRY(entry)
 SECTIONS
  {
-   . = 0x100000;
+ 
+   . = 100000;
    .text : { *(.text) }
    .data : { *(.data) }
    .bss  : { *(.bss)  }
- }
+}

@@ -1,1 +1,2 @@
-qemu-system-i386 --kernel bin/kernel.sys
+#!/bin/bash
+qemu-system-i386 --kernel bin/kernel.sys -vga std

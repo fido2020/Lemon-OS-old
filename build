@@ -1,4 +1,0 @@
-cd OSLib
-./build
-cd ../Kernel
-./build

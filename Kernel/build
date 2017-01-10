@@ -11,7 +11,13 @@ done
 for i in *.cpp
 do
 	echo Compiling $i
-    i686-elf-g++ -c "$i" -o "../obj/${i%.cpp}.o" -I ../include --freestanding -fno-exceptions -fno-rtti
+    i686-elf-g++ -c "$i" -o "../obj/${i%.cpp}.o" -I ../include --freestanding -fno-exceptions -fno-rtti -std=c++14
+done
+
+for i in *.S
+do
+	echo Compiling $i
+    i686-elf-as -c "$i" -o "../obj/${i%.S}.o"
 done
 
 for i in *.c
@@ -22,8 +28,5 @@ done
 
 cd ..
 
-#i686-elf-g++ -c kernel.cpp -o obj/kernel.o -ffreestanding -fno-exceptions -fno-rtti
-
-#nasm -f elf32 entry.asm -o obj/entry.o
-
 i686-elf-ld -m elf_i386 -T linkscript.ld -o bin/kernel.sys obj/*.o 
+
