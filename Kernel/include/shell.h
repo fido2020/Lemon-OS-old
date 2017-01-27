@@ -18,6 +18,5 @@ class Shell{
 		void InitializeCommands();
 		
 		void alias();
-		
-		//void cmd_colour_func(char* args[]);
+		char** parseLine(char* line);
 };

@@ -1,0 +1,75 @@
+[BITS 32]
+
+; Multiboot Header defines
+MBALIGN		equ 1<<0
+MEMINFO 	equ 1<<1
+FLAGS		equ MBALIGN | MEMINFO
+MAGIC		equ 0x1BADB002
+CHECKSUM 	equ -(MAGIC + FLAGS)
+
+KERNEL_VIRTUAL_BASE equ 0xC0000000
+KERNEL_PAGE_NUMBER equ (KERNEL_VIRTUAL_BASE >> 22)
+
+section .data
+align 4096
+BootPageDirectory:
+	dd 0x00000083
+	times (KERNEL_PAGE_NUMBER - 1) dd 0
+	
+	dd 0x00000083
+	times(1024 - KERNEL_PAGE_NUMBER - 1) dd 0
+
+section .text
+align 4
+
+; Multiboot Header
+dd MAGIC
+dd FLAGS
+dd CHECKSUM
+
+STACKSIZE equ 0x4000
+
+global entry
+entry equ (_entry - 0xC0000000)
+
+; Start of code
+
+extern kload
+
+_entry:
+	mov ecx, (BootPageDirectory - KERNEL_VIRTUAL_BASE)
+	mov cr3, ecx
+	
+	mov ecx, cr4
+	or ecx, 0x00000010
+	mov cr4, ecx
+	
+	mov ecx, cr0
+	or ecx, 0x80000000
+	mov cr0, ecx
+	
+	lea ecx, [main]
+	jmp ecx
+
+main:
+	
+	mov dword[BootPageDirectory], 0
+	invlpg[0]
+	
+	mov esp, stack+STACKSIZE
+	push eax
+	
+	push ebx
+	
+	call kload
+
+	cli
+	hlt
+
+	hang:
+		jmp hang
+		
+section .bss
+align 32
+stack:
+	resb STACKSIZE

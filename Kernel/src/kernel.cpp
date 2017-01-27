@@ -1,22 +1,29 @@
-#include <system.h>
-#include <memory.h>
-// int32 test
+#include <conio.h>
+#include <lemon.h>
+#include <shell.h>
+#include <common.h>
+#include <vesadrv.h>
 
-/*void VbeSetMode (int mode) {
-   /* call BIOS * /
-   regs16_t regs;
-   regs.ax = 0x12;
-   regs.bx = mode;
-   int32 (0x10, &regs);
-}*/
+using namespace console;
+
 
 extern "C"
-void kmain()
-{
-	regs16_t regs;
-	regs.ax = 0x13;
-	int32(0x10,&regs);
+void kload()
+{	
+	/*InitPaging();
+	InitMultitasking();
 	
-	while(1){}
+	clear();
+	print(Lemon::splash);
+	panic("ERR_TASKING_FAIL","Tasking has failed and was not setup. System will now halt.", false);
+	*/
+	
+	vesa_mode_info_t *GfxInfo = EnterGraphicsMode();
+	
+	putpixel((unsigned char*)GfxInfo->physbase,0,0,0x7800);
 }
 
+void kmain(){
+	//PrintProcessList();
+	while(1);
+}

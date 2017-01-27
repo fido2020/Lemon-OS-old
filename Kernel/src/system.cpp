@@ -3,6 +3,14 @@
 
 #include <system.h>
 
+void cli(){
+	asm("cli");
+}
+
+void hlt(){
+	asm("hlt");
+}
+
 uint8_t inportb (uint16_t _port)
 {
     	uint8_t rv;

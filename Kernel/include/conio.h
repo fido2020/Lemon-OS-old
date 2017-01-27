@@ -8,4 +8,6 @@ namespace console{
 	char* read();
 	
 	void clear();
+	
+	void panic(char* error, char* msg, bool hang);
 }

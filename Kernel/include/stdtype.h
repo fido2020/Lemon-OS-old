@@ -1,5 +1,9 @@
 #pragma once
 
+#ifndef NULL
+    #define NULL nullptr
+#endif
+
 typedef unsigned size_t;
 
 typedef signed char int8_t;

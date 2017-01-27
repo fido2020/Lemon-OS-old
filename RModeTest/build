@@ -1,0 +1,5 @@
+#export CPATH=../include/
+
+cd src
+
+nasm -f bin entry.asm -o ../bin/kernel.sys

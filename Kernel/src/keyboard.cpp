@@ -7,6 +7,7 @@ using namespace console;
 namespace console{
 	char* read()
 	{
+		bool upperCase = false;
 		char buff;
 		char* buffstr;
 		int i = 0;
@@ -85,7 +86,7 @@ namespace console{
 					break;
 			case 14:
 					if(i > 0){
-						print('\b');
+						print('\b'); // Backspace
 						i--;
 						buffstr[i] = 0;
 					}
@@ -217,13 +218,19 @@ namespace console{
 					i++;
 					break;
 			case 40:
-					print((char)44);               //   Single quote (')
-					buffstr[i] = (char)44;
-					i++;
+					if(upperCase){
+						print('"');               //   Single quote (')
+						buffstr[i] = '"';
+						i++;
+					} else {
+						print('\'');               //   Single quote (')
+						buffstr[i] = '\'';
+						i++;
+					}
 					break;
 			case 41:
-					print((char)44);               // Back tick (`)
-					buffstr[i] = (char)44;
+					print((char)'`');               // Back tick (`)
+					buffstr[i] = (char)'`';
 					i++;
 					break;
 		 /* case 42:                                 Left shift 
@@ -305,6 +312,9 @@ namespace console{
 					print(' ');
 					buffstr[i] = ' ';
 					i++;
+					break;
+			case 58:
+					upperCase = !upperCase; // Caps Lock
 					break;
 				}
 			}

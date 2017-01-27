@@ -1,34 +1,27 @@
 #include <shell.h>
-#include <conio.h>
+
+#include <common.h>
 
 using namespace console;
 
 Shell::Shell(){
 	
-	clear();
+	//clear();
 	
 	InitializeCommands();
 	
 	char* input;
+	char* temp;
 	
 	bool exit = false;
 	while(!exit){
 		
+		int i = 0;
+		char* p;
+		
 		print("\n\n$ Lemon> ");
 		
-		input = "";
 		input = read();
-		
-		print(input);
-		
-		for(int i = 0; i < MAX_CMDS-1; i++){
-			if(input == commands[i].cmd){
-				print(commands[i].cmd);
-				char* temp[] = {"10","edededed"};
-				commands[i].func(temp);
-				break;
-			}
-		}
 	}
 }
 

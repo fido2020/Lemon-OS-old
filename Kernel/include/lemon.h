@@ -1,4 +1,7 @@
 #pragma once
 
-// Version Syntax: Major.Minor.Patch
-char* lemon_version = "0.0.0";
+namespace Lemon{
+	extern char* version;
+	extern char* splash;
+	
+}
