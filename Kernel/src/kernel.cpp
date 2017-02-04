@@ -3,9 +3,11 @@
 #include <shell.h>
 #include <common.h>
 #include <vesadrv.h>
+#include <graphics.h>
+#include <wmanager.h>
 
 using namespace console;
-
+using namespace graphics;
 
 extern "C"
 void kload()
@@ -18,9 +20,17 @@ void kload()
 	panic("ERR_TASKING_FAIL","Tasking has failed and was not setup. System will now halt.", false);
 	*/
 	
-	vesa_mode_info_t *GfxInfo = EnterGraphicsMode();
+	//vesa_mode_info_t *modeInfo = init();
 	
-	putpixel((unsigned char*)GfxInfo->physbase,0,0,0x7800);
+	//fillrect(128,240,50,40,255,255,0);
+	
+	Desktop desktop;
+	
+	desktop.CreateWindow(10,20,500,250);
+	desktop.CreateWindow(300,200,100,200);
+	desktop.CreateWindow(200,500,50,50);
+	
+	desktop.Paint();
 }
 
 void kmain(){

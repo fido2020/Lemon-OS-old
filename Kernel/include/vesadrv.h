@@ -23,7 +23,7 @@ struct vesa_mode_info_t {
 
     uint16_t pitch;
 
-    uint16_t Xres, Yres;
+    uint16_t width, height;
 	uint8_t Wchar, Ychar, planes, bpp, banks;
 	uint8_t memory_model, bank_size, image_pages;
 	uint8_t reserved0;

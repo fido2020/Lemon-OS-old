@@ -1,41 +1,55 @@
 #include <vesadrv.h>
-#include <conio.h>
+#include <common.h>
+#include <vesadrv.h>
 
-namespace Graphics{
+#include <graphics.h>
+
+namespace graphics{
 	vesa_mode_info_t *modeInfo;
 	uint32_t vram = 0;
 	unsigned char* screen;
+	bool initialized = false;
 	
-	void init(){
-		modeInfo = EnterGraphicsMode();
-		vram = (unsigned char*)modeInfo->physbase;
-		if(vram == 0)
-			panic("ERR_GFX_MODE_FAILED", "Error whilst setting graphics mode.",true);
+	vesa_mode_info_t * initGfx(){
+		if(!initialized){
+			modeInfo = EnterGraphicsMode();
+			vram = modeInfo->physbase;
+			//if(vram == 0)
+			//	panic("ERR_GFX_MODE_FAILED", "Error whilst setting graphics mode.",true);
+			
+			screen = (unsigned char*)vram;
+			
+			initialized = true;
+		}
+		return modeInfo;
 	}
 	
-	static void putpixel(int x,int y, unsigned char r, unsigned char g, unsigned char b) {
+	void putpixel(int x,int y, uint8_t r, uint8_t g, uint8_t b) {
 		putpixel(x,y,(r << 16) + (g << 8) + b);
 	}
 	
-	static void putpixel(int x,int y, int color) {
-		unsigned where = x*4 + y*3200;
-		screen[where] = color & 255;              // BLUE
-		screen[where + 1] = (color >> 8) & 255;   // GREEN
-		screen[where + 2] = (color >> 16) & 255;  // RED
+	void putpixel(int x,int y, uint32_t colour) {
+		unsigned where = y * modeInfo->pitch + (x * (modeInfo->bpp/8));
+		screen[where] = colour & 255;              // BLUE
+		screen[where + 1] = (colour >> 8) & 255;   // GREEN
+		screen[where + 2] = (colour >> 16) & 255;  // RED
 	}
 	
-	static void fillrect(unsigned char* loc,unsigned char w, unsigned char h,unsigned char r, unsigned char g, unsigned char b) {
-		unsigned char *where = screen + loc;
-		int i, j;
-	 
-		for (i = 0; i < w; i++) {
-			for (j = 0; j < h; j++) {
-				//putpixel(vram, 64 + j, 64 + i, (r << 16) + (g << 8) + b);
-				where[j*4] = r;
-				where[j*4 + 1] = g;
-				where[j*4 + 2] = b;
+	void fillrect(int x, int y, int w, int h, unsigned char r, unsigned char g, unsigned char b){
+		fillrect(x,y,w,h,(r << 16) + (g << 8) + b);
+	}
+	
+	void fillrect(int x, int y, int w, int h, uint32_t colour) {
+		int bpp = modeInfo->bpp; 
+		int pitch = modeInfo->pitch;
+		uint32_t where;
+		for(int i=0;i<h;i++){
+			for(int j=0;j<w;j++){
+				where = (y+i) * pitch + ((x+j) * (bpp/8));
+				screen[where] = colour & 255;              // BLUE
+				screen[where + 1] = (colour >> 8) & 255;   // GREEN
+				screen[where + 2] = (colour >> 16) & 255; // RED
 			}
-			where+=3200;
 		}
 	}
 }

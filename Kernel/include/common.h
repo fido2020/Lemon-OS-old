@@ -1,5 +1,7 @@
 //Just a bunch of includes that add some core functionally to the os
 
+#include <runtime.h>
+
 #include <stdtype.h>
 #include <string.h>
 
