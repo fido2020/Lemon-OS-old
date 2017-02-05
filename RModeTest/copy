@@ -1,4 +1,0 @@
-
-../mount.bat
-cp bin/kernel.sys X:/Lemon/kernel.sys
-../unmount.bat

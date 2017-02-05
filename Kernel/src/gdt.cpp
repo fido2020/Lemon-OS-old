@@ -1,4 +1,4 @@
-#include "gdt.h"
+#include <gdt.h>
 
 /* Setup a descriptor in the Global Descriptor Table */
 void gdt_set_gate(gdt_desc_t gdt[], const int num, const uint32_t base,
