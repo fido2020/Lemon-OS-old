@@ -43,6 +43,7 @@ entry:
 	hlt
 hang:
 	jmp hang
+
 	
 section .bss
 align 32

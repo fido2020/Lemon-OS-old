@@ -2,11 +2,16 @@
 
 #include <stdtype.h>
 
-extern "C"
-void *memset(void *s, int c, size_t count);
-extern "C"
-void *memcpy(void *dest, const void *src, size_t count);
-extern "C"
-void *malloc(uint32_t len);
+#ifdef __cplusplus
+	unsigned char *memset(unsigned char *src, int c, size_t count);
+	#define CLINK extern "C"
+#else
+	#define CLINK 
+#endif
 
-unsigned char *memset(unsigned char *src, int c, size_t count);
+CLINK
+void *memset(void *s, int c, size_t count);
+CLINK
+void *memcpy(void *dest, const void *src, size_t count);
+CLINK
+void *malloc(uint32_t len);

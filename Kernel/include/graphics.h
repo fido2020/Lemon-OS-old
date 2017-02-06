@@ -1,4 +1,12 @@
+#pragma once
+
 #include <vesadrv.h>
+
+#include <common.h>
+
+typedef struct{
+	int32_t x,y;
+}Vector2;
 
 namespace graphics{
 	vesa_mode_info_t *initGfx();
