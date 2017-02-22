@@ -2,11 +2,14 @@
 
 #include <graphics.h>
 
-namespace mouse{
-	
+/*namespace mouse{
+
 	void Update();
-	
+
 	void Init();
-	
+
 	Vector2 GetPos();
-}
+}*/
+
+void mouse_install();
+Vector2 mouse_getpos();

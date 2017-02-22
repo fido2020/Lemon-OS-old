@@ -1,10 +1,3 @@
-; Interrupt Descriptor Table (IDT) Functions
-global LoadIDT
-extern idtPtr
-LoadIDT:
-    lidt [idtPtr]
-    ret
-
 ; Interrupt Service Routine (ISR)'s
 
 global _isr0
@@ -165,7 +158,8 @@ irq_common_stub:
 	popa
 	add esp,8
 	iret
-	
+
+IRQ 0
 IRQ 1
 IRQ 2
 IRQ 3
@@ -181,4 +175,3 @@ IRQ 12
 IRQ 13
 IRQ 14
 IRQ 15
-IRQ 0

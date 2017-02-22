@@ -1,38 +1,62 @@
 #include <common.h>
+#include <idt.h>
 
 #include <interrupt.h>
 
-struct IDTEntry idt[256];
-struct IDTPtr idtPtr;
-
-void LoadIDT(){
-	__asm__("lidt idtPtr");
-}
-
-void IDT_SetGate(uint8_t num, uint64_t offset, uint16_t sel, uint8_t flags){
-	idt[num].offset_low = (offset & 0xFFFF);
-	idt[num].offset_high = (offset >> 16) & 0xFFFF;
-	idt[num].selector = sel;
-	idt[num].zero = 0;
-	idt[num].flags = flags;
-}
-
-void InitIDT(){
-	idtPtr.limit = (sizeof(struct IDTEntry)*256)-1;
-	idtPtr.offset = (uint32_t)&idt;
-	memset(&idt,0,sizeof(struct IDTEntry)*256);
-	
-	LoadIDT();
-}
+void* IRQHandlers[16]{
+	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+};
 
 extern "C"
 void FaultHandler(regs32 *r){
 	if(r->int_num < 32){
-		if(r->int_num < 2){
-			console::print("Div by 0");
-			while(1);
+		switch(r->int_num){
+			case 0:
+				console::print("Div by 0");
+				while(1);
+				break;
+			default:
+				console::print("Unknown Exception!");
+				while(1);
+				break;
 		}
 	}
+}
+
+extern "C"
+void IRQHandler(struct regs32 *r){
+	void(*handler)(struct regs32 *r);
+	handler = reinterpret_cast<void(*)(struct regs32 *r)>(IRQHandlers[r->int_num-32]);
+	if(handler){
+		handler(r);
+	}
+
+	if(r->int_num >= 40){
+		outportb(0xA0, 0x20);
+	}
+
+	outportb(0x20, 0x20);
+}
+
+void InstallIRQHandler(int irq, void (*handler)(regs32 *r)){
+	IRQHandlers[irq] = (void*)handler;
+}
+
+void UninstallIRQHandler(int irq){
+	IRQHandlers[irq] = 0;
+}
+
+void IRQRemap(){
+	outportb(0x20, 0x11);
+    outportb(0xA0, 0x11);
+    outportb(0x21, 0x20);
+    outportb(0xA1, 0x28);
+    outportb(0x21, 0x04);
+    outportb(0xA1, 0x02);
+    outportb(0x21, 0x01);
+    outportb(0xA1, 0x01);
+    outportb(0x21, 0x0);
+    outportb(0xA1, 0x0);
 }
 
 void InstallISRs(){
@@ -68,4 +92,24 @@ void InstallISRs(){
 	IDT_SetGate(29, (unsigned)_isr29,0x08,0x8E);
 	IDT_SetGate(30, (unsigned)_isr30,0x08,0x8E);
 	IDT_SetGate(31, (unsigned)_isr31,0x08,0x8E);
+}
+
+void InstallIRQs(){
+	IRQRemap();
+	IDT_SetGate(32, (unsigned)_irq0, 0x08, 0x8E);
+	IDT_SetGate(33, (unsigned)_irq1, 0x08, 0x8E);
+	IDT_SetGate(34, (unsigned)_irq2, 0x08, 0x8E);
+	IDT_SetGate(35, (unsigned)_irq3, 0x08, 0x8E);
+	IDT_SetGate(36, (unsigned)_irq4, 0x08, 0x8E);
+	IDT_SetGate(37, (unsigned)_irq5, 0x08, 0x8E);
+	IDT_SetGate(38, (unsigned)_irq6, 0x08, 0x8E);
+	IDT_SetGate(39, (unsigned)_irq7, 0x08, 0x8E);
+	IDT_SetGate(40, (unsigned)_irq8, 0x08, 0x8E);
+	IDT_SetGate(41, (unsigned)_irq9, 0x08, 0x8E);
+	IDT_SetGate(42, (unsigned)_irq10, 0x08, 0x8E);
+	IDT_SetGate(43, (unsigned)_irq11, 0x08, 0x8E);
+	IDT_SetGate(44, (unsigned)_irq12, 0x08, 0x8E);
+	IDT_SetGate(45, (unsigned)_irq13, 0x08, 0x8E);
+	IDT_SetGate(46, (unsigned)_irq14, 0x08, 0x8E);
+	IDT_SetGate(47, (unsigned)_irq15, 0x08, 0x8E);
 }

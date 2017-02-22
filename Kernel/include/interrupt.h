@@ -1,5 +1,10 @@
 #pragma once
 
+#include <idt.h>
+
+void InstallISRs();
+void InstallIRQs();
+
 extern "C"
 void _isr0();
 extern "C"
@@ -64,3 +69,36 @@ extern "C"
 void _isr30();
 extern "C"
 void _isr31();
+
+extern "C"
+void _irq0();
+extern "C"
+void _irq1();
+extern "C"
+void _irq2();
+extern "C"
+void _irq3();
+extern "C"
+void _irq4();
+extern "C"
+void _irq5();
+extern "C"
+void _irq6();
+extern "C"
+void _irq7();
+extern "C"
+void _irq8();
+extern "C"
+void _irq9();
+extern "C"
+void _irq10();
+extern "C"
+void _irq11();
+extern "C"
+void _irq12();
+extern "C"
+void _irq13();
+extern "C"
+void _irq14();
+extern "C"
+void _irq15();

@@ -19,11 +19,6 @@ extern void *__realmode_lma_start;
 extern void *__realmode_lma_end;
 extern void *__realmode_vma_start;
 
-/* Pointer to graphics memory.Mark as volatile since
- * video memory is memory mapped IO. Certain optimization
- * should not be performed. */
-volatile void * const video_gfx_ptr = (uint32_t *)0xa0000;
-
 /* GDT descriptor table */
 gdt_desc_t gdt[NUM_GDT_ENTRIES];
 
@@ -59,9 +54,9 @@ void gdt_setup (gdt_desc_t gdt[], const int numdesc)
 }
 
 vesa_mode_info_t * EnterGraphicsMode(){
-	
+
 	struct vesa_mode_info_t *pMI;
-	
+
 	(void) pMI;
 
     /* Setup the GDT */
@@ -71,6 +66,6 @@ vesa_mode_info_t * EnterGraphicsMode(){
     realmode_setup();
 
 	pMI = do_vbe(0);
-	
+
 	return pMI;
 }
