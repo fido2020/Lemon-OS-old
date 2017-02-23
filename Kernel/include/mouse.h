@@ -11,5 +11,5 @@
 	Vector2 GetPos();
 }*/
 
-void mouse_install();
-Vector2 mouse_getpos();
+void InstallMouseHandler();
+Vector2 GetMouseSpeed();

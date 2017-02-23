@@ -1,4 +1,4 @@
-#include <conio.h>
+ #include <conio.h>
 #include <lemon.h>
 #include <shell.h>
 #include <common.h>
@@ -49,20 +49,26 @@ void kload()
 
 
 
-	mouse_install();
+	InstallMouseHandler();
 
 	int32_t mouseX;
 	int32_t mouseY;
 
     Vector2 mouseSpd;
 
-	while(1){
+    desktop.Paint();
+
+    UpdateScreen();
+
+    fillrect(0,0,200,200,255,0,0);
+
+	/*while(1){
         desktop.Paint();
 	    fillrect(mouseX,mouseY,10,10,0);
-        mouseSpd = mouse_getpos();
+        mouseSpd = GetMouseSpeed();
         mouseX += mouseSpd.x;
         mouseY += mouseSpd.y;
-	}
+	}*/
 	while(1);
 }
 
