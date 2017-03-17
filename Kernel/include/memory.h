@@ -6,7 +6,7 @@
 	unsigned char *memset(unsigned char *src, int c, size_t count);
 	#define CLINK extern "C"
 #else
-	#define CLINK 
+	#define CLINK
 #endif
 
 CLINK
@@ -15,3 +15,5 @@ CLINK
 void *memcpy(void *dest, const void *src, size_t count);
 CLINK
 void *malloc(uint32_t len);
+CLINK
+void InitMemMgr(size_t _memSize, uint32_t bitmap);

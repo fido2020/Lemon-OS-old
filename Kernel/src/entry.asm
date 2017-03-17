@@ -22,6 +22,9 @@ STACKSIZE equ 0x4000
 
 global entry
 
+global kernelSize
+kernelSize dw 0
+
 entry:
 
 	invlpg[0]
@@ -30,12 +33,12 @@ entry:
     cld
     mov esp, stack_top
 	push eax
-	
+
 	push ebx
-	
+
 	;cli
 	;call do_vbe
-	
+
 	cli
 	call kload
 
@@ -44,7 +47,7 @@ entry:
 hang:
 	jmp hang
 
-	
+
 section .bss
 align 32
 stack:

@@ -1,3 +1,5 @@
+@echo off
+
 cd "%~dp0%"
 
 del mount.cfg

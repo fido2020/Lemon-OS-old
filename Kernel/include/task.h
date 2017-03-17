@@ -8,19 +8,20 @@
 
 void InitMultitasking();
 
-typedef struct {
-	uint32_t eax, ebx, ecx, edx, esi, edi, esp, ebp, eip, eflags, cr3;
-} Registers;
-
-typedef struct Process {
-	char* name;
-	uint32_t pid;
-	uint8_t state;
-	Registers regs;
-	struct Process *next,*prev;
-} Process;
+typedef struct process_t{
+	char *name;
+	uint64_t pid;
+	uint32_t esp;
+	uint32_t stack;
+	uint32_t eip;
+	uint32_t cr3;
+	uint32_t state;
+	void (*notify)(uint32_t);
+	bool executed;
+	struct process_t *next, *prev;
+} process_t;
 
 void InitMultitasking();
-Process* CreateProc(char* name, uint32_t loc);
+process_t* CreateProcess(char* name, uint32_t entry);
 void PrintProcessList();
-uint32_t AddProc(Process *p);
+uint64_t AddProcess(process_t *proc);

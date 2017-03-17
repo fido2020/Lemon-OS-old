@@ -1,70 +1,87 @@
-#include <common.h>
+#include <memory.h>
+#include <stdtype.h>
 
 #include <task.h>
 
-using namespace console;
+uint64_t currentPID = 0;
 
-void kmain();
-void init();
+process_t* currentProc;
+process_t* kernelProc;
 
-static Process* currentProcess;
-static Process* kernelProcess;
+extern void kmain();
 
-uint32_t currentPID = 0;
+void InitProcess(){
+	currentProc->executed = true;
+	asm volatile("mov %%eax, %%esp": :"a"(currentProc->esp));
+	asm volatile("pop %gs");
+	asm volatile("pop %fs");
+	asm volatile("pop %es");
+	asm volatile("pop %ds");
+	asm volatile("pop %ebp");
+	asm volatile("pop %edi");
+	asm volatile("pop %esi");
+	asm volatile("pop %edx");
+	asm volatile("pop %ecx");
+	asm volatile("pop %ebx");
+	asm volatile("pop %eax");
+	asm volatile("iret");
+}
+
+void KillProcess(){
+
+}
 
 void InitMultitasking(){
-	kernelProcess = CreateProc("kernel.sys", (uint32_t)kmain);
-	kernelProcess->next = kernelProcess;
-	kernelProcess->prev = kernelProcess;
-	currentProcess = kernelProcess;
+	kernelProc = CreateProcess("Lemon Kernel", (uint32_t)kmain);
+	kernelProc->next = kernelProc;
+	kernelProc->prev = kernelProc;
+	InitProcess();
 }
 
-Process* CreateProc(char* name, uint32_t loc){
-	Process *proc = (Process*)malloc(sizeof(Process));
-	memset(proc,0,sizeof(Process));
-	
+process_t* CreateProcess(char* name, uint32_t entry){
+	process_t* proc = (process_t*)malloc(sizeof(process_t));
+	proc->pid = currentPID;
 	proc->name = name;
-	proc->pid = currentPID++;
+	proc->eip = entry;
+	proc->esp = (uint32_t)malloc(0x1000);
 	proc->state = PROCESS_AWAKE;
-	proc->regs.eax = 0;
-	proc->regs.ebx = 0;
-	proc->regs.ecx = 0;
-	proc->regs.esi = 0;
-	proc->regs.edi = 0;
-	proc->regs.eflags = 0x202;
-	proc->regs.eip = loc;
-	proc->regs.esp = (uint32_t)malloc(4096);
-	asm volatile("mov %%cr3, %%eax":"=a"(proc->regs.cr3));
+	proc->executed = false;
+	asm volatile("mov %%cr3, %%eax":"=a"(proc->cr3));
+	uint32_t *stack = (uint32_t*)(proc->esp + 4096);
+	proc->stack = proc->esp;
+
+	*--stack = 0x202; // eflags
+	*--stack = 0x8; // cs
+	*--stack = entry; // eip
+	*--stack = 0; // eax
+	*--stack = 0; // ebx
+	*--stack = 0; // ecx;
+	*--stack = 0; //edx
+	*--stack = 0; //esi
+	*--stack = 0; //edi
+	*--stack = proc->esp + 4096; //ebp
+	*--stack = 0x10; // ds
+	*--stack = 0x10; // fs
+	*--stack = 0x10; // es
+	*--stack = 0x10; // gs
+
+	proc->esp = (uint32_t)stack;
+	return proc;
 }
 
-void PrintProcessList(){
-	Process *current = kernelProcess;
-	print("Running processes:\n");
+process_t* GetProcess(uint64_t pid){
+	process_t* proc = kernelProc;
 	do{
-		print('[');print(current == currentProcess ? '*' : ' ');print(']');print(' ');
-		print(itoa(current->pid,nullptr,10));
-		print(' ');
-		print(current->name);
-		print(' ');
-		switch(current->state){
-			case PROCESS_AWAKE:
-				print("Awake");
-			case PROCESS_IDLE:
-				print("Idle");
-			case PROCESS_DEAD:
-				print("Dead");
-			default:
-				print("Unknown");
-		}
-		print('\n');
-		current = current->next;
-	}while(current != kernelProcess);
+			if(proc->pid == pid) return proc;
+	}while(proc != kernelProc);
+
+	return nullptr;
 }
 
-uint32_t AddProc(Process *proc){
-	proc->next = currentProcess->next;
+uint64_t AddProcess(process_t *proc){
+	proc->next = currentProc->next;
 	proc->next->prev = proc;
-	proc->prev = currentProcess;
-	currentProcess->next = proc;
+	proc->prev = currentProc;
+	currentProc->next = proc;
 	return proc->pid;
 }

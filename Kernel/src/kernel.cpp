@@ -1,4 +1,4 @@
- #include <conio.h>
+#include <conio.h>
 #include <lemon.h>
 #include <shell.h>
 #include <common.h>
@@ -8,6 +8,7 @@
 #include <mouse.h>
 #include <textscreen.h>
 #include <gdt.h>
+#include <task.h>
 
 using namespace console;
 using namespace graphics;
@@ -17,9 +18,40 @@ using namespace graphics;
 
 extern gdt_desc_t gdt[5];
 
+struct multiboot_info {
+
+	uint32_t	flags;
+	uint32_t	memoryLo;
+    uint32_t    memoryHi;
+	uint32_t	bootDevice;
+	uint32_t	cmdLine;
+	uint32_t	modsCount;
+	uint32_t	modsAddr;
+	uint32_t	syms0;
+	uint32_t	syms1;
+	uint32_t	syms2;
+	uint32_t	mmapLen;
+	uint32_t	mmapAddr;
+	uint32_t	drivesLen;
+	uint32_t	drivesAddr;
+	uint32_t	configTable;
+	uint32_t	bootloaderName;
+	uint32_t	apmTable;
+	uint32_t	vbeControlInfo;
+	uint32_t	vbeModeInfo;
+	uint16_t	vbeMode;
+	uint32_t	vbeInterfaceAddr;
+	uint16_t	vbeInterfaceLen;
+};
+
+extern int32_t kernel_end;
+
+extern int32_t phys_base;
+
 extern "C"
-void kload()
+void kload(multiboot_info* mbInfo)
 {
+
     console::clear();
     console::print("Initializing Lemon...");
 
@@ -39,40 +71,27 @@ void kload()
 	InstallISRs();
     InstallIRQs();
 
-    __asm__ __volatile__ ("sti");
+    uint32_t memSize = 1024 + mbInfo->memoryLo + mbInfo->memoryHi;
 
-	Desktop desktop;
-
-	desktop.CreateWindow(10,20,500,250);
-	desktop.CreateWindow(300,200,100,200);
-	desktop.CreateWindow(200,500,50,50);
+    InitMemMgr(memSize,(phys_base - kernel_end)*512 + 0x100000);
 
 
+    print("\nMemory: ");
+    print(itoa(memSize,nullptr,10));
+    print(" (");
+    print(itoa(memSize/1024,nullptr,10));
+    print(" MB)\n");
 
-	InstallMouseHandler();
+	//InitMultitasking();
+	initGfx();
 
-	int32_t mouseX;
-	int32_t mouseY;
-
-    Vector2 mouseSpd;
-
-    desktop.Paint();
-
-    UpdateScreen();
-
-    fillrect(0,0,200,200,255,0,0);
-
-	/*while(1){
-        desktop.Paint();
-	    fillrect(mouseX,mouseY,10,10,0);
-        mouseSpd = GetMouseSpeed();
-        mouseX += mouseSpd.x;
-        mouseY += mouseSpd.y;
-	}*/
-	while(1);
+    while(1);
 }
 
 void kmain(){
 	//PrintProcessList();
+	print("Yay it worked! Loading test task\n");
+	//process_t* p = CreateProcess("TestTask",(uint32_t)test);
+	//AddProcess(p);
 	while(1);
 }

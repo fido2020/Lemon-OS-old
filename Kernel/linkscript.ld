@@ -54,19 +54,6 @@ SECTIONS
     }
     __multiboot_secsize = SIZEOF(.multiboot);
 
-    /* This is the tricky part. The LMA (load memory address) is the
-     * memory location the code/data is read into memory by the
-     * multiboot loader. The LMA is after the colon. We want to tell
-     * the linker that the code/data in this section was loaded into
-     * RAM in the memory area above 0x100000. On the other hand the
-     * VMA (virtual memory address) specified before the colon acts
-     * like an ORG directive. The VMA tells the linker to resolve all 
-     * subsequent code starting relative to the specified VMA. The
-     * VMA in this case is real_base which we defined as 0x1000.
-     * 0x1000 is 4KB page aligned (useful if you ever use paging) and
-     * resides above the end of the interrupt table and the
-     * BIOS Data Area (BDA)
-     */
     .realmode real_base : AT(__multiboot_secsize + phys_base) {
         /* The __realmode* values can be used by code to copy
          * the code/data from where it was placed in RAM by the 
@@ -110,13 +97,9 @@ SECTIONS
         *(.COMMON);
         *(.bss)
     }
+	
+	kernel_end = .;
 
-    /* The .note.gnu.build-id section will usually be placed at the beginning
-     * of the ELF object. We discard it (if it is present) so that the
-     * multiboot header is placed as early as possible in the file. The
-     * multiboot header must appear in the first 8K and be on a 4 byte
-     * aligned offset per the multiboot spec.
-     */
     /DISCARD/ : { 
         *(.note.gnu.build-id);
         *(.comment);

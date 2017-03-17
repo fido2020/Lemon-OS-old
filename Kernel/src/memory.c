@@ -1,98 +1,76 @@
 #include <stdbool.h>
 #include <conioc.h>
 #include <stdtype.h>
+
+#include <memory.h>
+
 #define panic cpanic
 
-typedef struct MemoryFrame{
-	uint32_t num;
-	uint32_t set;
-	uint32_t pos;
-} MemoryFrame;
+uint32_t memSize = 0;
+uint32_t usedBlocks = 0;
+uint32_t maxBlocks = 0;
+uint32_t* memMap = 0;
 
-typedef struct FrameSet{
-	MemoryFrame start;
-	uint32_t len;
-} FrameSet;
-
-uint8_t heap_space[0x100000]; //1MiB of heap space
-uint8_t frames[8192];       //16byte Frames, 1 bit each. 1 = used, 0 = free
-MemoryFrame frbuf;
-FrameSet frsbuf;
-
-void InitMemoryHeap(){
-	for(int i = 0; i < 8192; i++){
-		frames[i] = 0;
-	}
+void InitMemMgr(size_t _memSize, uint32_t bitmap){
+	memSize = _memSize;
+	memMap = (uint32_t*) bitmap;
+	maxBlocks = (memSize*1024)/4096;
+	usedBlocks = maxBlocks;
+	memset(memMap,0xf,maxBlocks/8);
 }
 
-MemoryFrame GetFirstAvailableFrame(){
-	for(uint16_t i = 0; i < 8192; i++){
-		for(uint16_t j = 0; j < 8; j++){
-			if(!(frames[i] >> j & 1)){
-				frbuf.num = i*8+j;
-				frbuf.set = i;
-				frbuf.pos = j;
-				return frbuf;
+/*inline */void SetBit(int bit){
+	memMap[bit/32] |= (1<<(bit%32));
+}
+
+inline void UnsetBit(int bit){
+	memMap[bit/32] &= ~ (1<<(bit%32));
+}
+
+inline bool TestBit(int bit) {
+	return memMap[bit/32] & (1<<(bit%32));
+}
+
+int FindFirstAvailableFrame(){
+	for(uint32_t i=0;i<maxBlocks/32;i++){
+		if(memMap[i]!=0xffffffff){
+			for(int j=0;j>32;j++){
+				int bit = 1 << j;
+				if(!(memMap[i] & bit))
+					return i*4*8+j;
 			}
 		}
 	}
-	panic("NO_HEAP_SPACE","The heap ran out of space in memory.",true);
+
+	return -1;
 }
 
-FrameSet GetFirstAvailableFrameSet(uint32_t len){ //len is the amount of 16byte frames, not bytes.
-	uint32_t numFrames = 0;
-	for(int i = 0; i < 0x2000; i++){
-		for(int j = 0; j < 8; j++){
-			if(!(frames[i] >> j & 1)){
-				if(numFrames == 0){
-					frbuf.num = i*8+j;
-					frbuf.set = i;
-					frbuf.pos = j;
-				}
-				numFrames++;
-			}else{
-				numFrames = 0;
-			}
-			if(numFrames == len){
-				frsbuf.start = frbuf;
-				frsbuf.len = numFrames;
-				return frsbuf;
-			}
-		}
+void* malloc(size_t len){
+	if(maxBlocks-usedBlocks<= 0){
+		//panic("ERR_NOT_ENOUGH_MEM","Out of memory");
+		return 0;
 	}
-	panic("NO_VAR_SPACE","The memory heap has no frames to fit a variable.",true);
+
+	int frame = FindFirstAvailableFrame();
+
+	if(frame == -1)
+		return 0;
+
+	SetBit(frame);
+
+	uint32_t addr = frame*4096;
+	usedBlocks++;
+	return (void*)addr;
 }
 
-MemoryFrame GetFrame(uint32_t i){
-	MemoryFrame f;
-	f.set = i/8;
-	f.pos = i%8;
-	f.num = i;
-	return f;
-}
+void free(void* block){
 
-FrameSet fsalloc(uint32_t len){
-	GetFirstAvailableFrameSet(len);
-	MemoryFrame buf;
-	for(int i = 0; i < frsbuf.len; i++){
-		buf = GetFrame(i+frsbuf.start.num);
-		frames[buf.set] |= 1 << buf.pos;
-	}
-	FrameSet fs;
-	fs.start = GetFrame(frsbuf.start.num);
-	fs.len = len;
-	return fs;
-}
-
-void *malloc(uint32_t len){
-	frsbuf = fsalloc(len/0x10+1);
-	return &heap_space[frsbuf.start.num*0x10];
 }
 
 void *memset(void *s, int c, size_t count)
 {
     char *xs = s;
-	
+
     while (count--)
         *xs++ = c;
     return s;
@@ -101,6 +79,6 @@ void *memset(void *s, int c, size_t count)
 void *memcpy(void *dest, const void *src, size_t count){
     const char *sp = (const char *)src;
     char *dp = (char *)dest;
-    for(; count != 0; count--) *dp++ = *sp++;
+    for(int i=0; i<count;i++) dp[i] = sp[i];
     return dest;
 }

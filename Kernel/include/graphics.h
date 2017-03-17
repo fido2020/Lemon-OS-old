@@ -16,7 +16,6 @@ namespace graphics{
 	void fillrect(int x, int y, int w, int h, unsigned char r, unsigned char g, unsigned char b);
 	void fillrect(int x, int y, int w, int h, uint32_t colour);
 
-	void drawchar(char c);
 	void drawstring(char* str);
 
 	void UpdateScreen();
@@ -27,4 +26,6 @@ namespace graphics{
 		//private:
 
 	};
+
+	void drawchar(char character, int x, int y, uint8_t r, uint8_t g, uint8_t b);
 }
