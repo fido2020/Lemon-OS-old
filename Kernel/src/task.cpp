@@ -10,7 +10,7 @@ process_t* kernelProc;
 
 extern void kmain();
 
-void InitProcess(){
+void initProcess(){
 	currentProc->executed = true;
 	asm volatile("mov %%eax, %%esp": :"a"(currentProc->esp));
 	asm volatile("pop %gs");
@@ -27,18 +27,18 @@ void InitProcess(){
 	asm volatile("iret");
 }
 
-void KillProcess(){
+void killProcess(){
 
 }
 
-void InitMultitasking(){
-	kernelProc = CreateProcess("Lemon Kernel", (uint32_t)kmain);
+void initMultitasking(){
+	kernelProc = createProcess("Lemon Kernel", (uint32_t)kmain);
 	kernelProc->next = kernelProc;
 	kernelProc->prev = kernelProc;
-	InitProcess();
+	initProcess();
 }
 
-process_t* CreateProcess(char* name, uint32_t entry){
+process_t* createProcess(char* name, uint32_t entry){
 	process_t* proc = (process_t*)malloc(sizeof(process_t));
 	proc->pid = currentPID;
 	proc->name = name;
@@ -69,7 +69,7 @@ process_t* CreateProcess(char* name, uint32_t entry){
 	return proc;
 }
 
-process_t* GetProcess(uint64_t pid){
+process_t* getProcess(uint64_t pid){
 	process_t* proc = kernelProc;
 	do{
 			if(proc->pid == pid) return proc;
@@ -78,10 +78,12 @@ process_t* GetProcess(uint64_t pid){
 	return nullptr;
 }
 
-uint64_t AddProcess(process_t *proc){
+uint64_t addProcess(process_t *proc){
 	proc->next = currentProc->next;
 	proc->next->prev = proc;
 	proc->prev = currentProc;
 	currentProc->next = proc;
+	currentProc = proc;
+	initProcess();
 	return proc->pid;
 }

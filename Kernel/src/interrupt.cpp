@@ -8,7 +8,7 @@ void* IRQHandlers[16]{
 };
 
 extern "C"
-void FaultHandler(regs32 *r){
+void faultHandler(regs32 *r){
 	if(r->int_num < 32){
 		switch(r->int_num){
 			case 0:
@@ -38,11 +38,11 @@ void IRQHandler(struct regs32 *r){
 	outportb(0x20, 0x20);
 }
 
-void InstallIRQHandler(int irq, void (*handler)(regs32 *r)){
+void installIRQHandler(int irq, void (*handler)(regs32 *r)){
 	IRQHandlers[irq] = (void*)handler;
 }
 
-void UninstallIRQHandler(int irq){
+void uninstallIRQHandler(int irq){
 	IRQHandlers[irq] = 0;
 }
 
@@ -59,7 +59,7 @@ void IRQRemap(){
     outportb(0xA1, 0x0);
 }
 
-void InstallISRs(){
+void installISRs(){
 	IDT_SetGate(0, (unsigned)_isr0,0x08,0x8E);
 	IDT_SetGate(1, (unsigned)_isr1,0x08,0x8E);
 	IDT_SetGate(2, (unsigned)_isr2,0x08,0x8E);
@@ -94,7 +94,7 @@ void InstallISRs(){
 	IDT_SetGate(31, (unsigned)_isr31,0x08,0x8E);
 }
 
-void InstallIRQs(){
+void installIRQs(){
 	IRQRemap();
 	IDT_SetGate(32, (unsigned)_irq0, 0x08, 0x8E);
 	IDT_SetGate(33, (unsigned)_irq1, 0x08, 0x8E);

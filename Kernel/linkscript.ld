@@ -9,7 +9,7 @@ SECTIONS
    .bss  : { *(.bss)  }
  }
  /**/
- 
+
 /*Old Kernel with paging* /
 ENTRY(entry)
 OUTPUT_FORMAT(elf32-i386)
@@ -56,13 +56,13 @@ SECTIONS
 
     .realmode real_base : AT(__multiboot_secsize + phys_base) {
         /* The __realmode* values can be used by code to copy
-         * the code/data from where it was placed in RAM by the 
+         * the code/data from where it was placed in RAM by the
          * multiboot loader into lower memory at real_base
          *
          * . (period) is the current VMA */
         __realmode_vma_start = .;
 
-        /* LOADADDR is the LMA of the specified section */ 
+        /* LOADADDR is the LMA of the specified section */
         __realmode_lma_start = LOADADDR(.realmode);
         *(.text.realmode);
         *(.data.realmode);
@@ -97,11 +97,83 @@ SECTIONS
         *(.COMMON);
         *(.bss)
     }
-	
+
 	kernel_end = .;
 
-    /DISCARD/ : { 
+    /DISCARD/ : {
         *(.note.gnu.build-id);
         *(.comment);
     }
 }
+
+/*
+OUTPUT_FORMAT("elf32-i386");
+ENTRY(entry);
+
+/* Multiboot spec uses 0x00100000 as a base * /
+phys_base = 0x00100000;
+/* Offset from bottom of segment, segment set to 0x00 in realmode code * /
+real_base = 0x00001000;
+
+SECTIONS
+{
+    . = 0xC0100000;
+
+    /* Place the multiboot record first * /
+    .multiboot ALIGN(4K): AT(ADDR(.multiboot) - 0xC0000000){
+        *(.multiboot);
+    }
+    __multiboot_secsize = SIZEOF(.multiboot);
+
+    .realmode real_base : AT(__multiboot_secsize + phys_base) {
+        /* The __realmode* values can be used by code to copy
+         * the code/data from where it was placed in RAM by the
+         * multiboot loader into lower memory at real_base
+         *
+         * . (period) is the current VMA * /
+        __realmode_vma_start = .;
+
+        /* LOADADDR is the LMA of the specified section * /
+        __realmode_lma_start = LOADADDR(.realmode);
+        *(.text.realmode);
+        *(.data.realmode);
+        . = ALIGN(4);
+        __realmode_vma_end = .;
+    }
+    __realmode_secsize   = . - ADDR(.realmode);
+    __realmode_secsize_l = __realmode_secsize >> 2;
+    __realmode_lma_end   = __realmode_lma_start + __realmode_secsize;
+
+    /* . (period) is the current VMA. We set it to the value that would
+     * have been generated had we not changed the VMA in the previous
+     * section. The .text section also specified the LMA = VMA with
+     * AT(ADDR(.text))
+     * /
+    . = phys_base + __realmode_secsize + __multiboot_secsize + 0xC0000000;
+    .text ALIGN(4K): AT(ADDR(.text) - 0xC0000000) {
+        *(.text);
+    }
+
+    /* From this point the linker script is typical * /
+    .data ALIGN(4K) : AT(ADDR(.data) - 0xC0000000){
+        *(.data);
+        *(.rodata);
+    }
+
+    .eh_frame : AT(ADDR(.eh_frame) - 0xC0000000){
+        *(.eh_frame*);
+    }
+
+    .bss ALIGN(4K): AT(ADDR(.bss) - 0xC0000000){
+        *(.COMMON);
+        *(.bss)
+    }
+
+	kernel_end = . - 0xC0000000;
+
+    /DISCARD/ : {
+        *(.note.gnu.build-id);
+        *(.comment);
+    }
+}
+*/

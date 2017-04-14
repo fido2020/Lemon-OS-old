@@ -9,7 +9,7 @@ signed char mouse_x=0;
 signed char mouse_y=0;
 
 //Mouse functions
-void MouseHandler(struct regs32 *r)
+void mouseHandler(struct regs32 *r)
 {
   switch(mouse_cycle)
   {
@@ -30,7 +30,7 @@ void MouseHandler(struct regs32 *r)
   }
 }
 
-inline void MouseWait(unsigned char a_type)
+inline void mouseWait(unsigned char a_type)
 {
   unsigned int _time_out=100000;
   if(a_type==0)
@@ -57,52 +57,52 @@ inline void MouseWait(unsigned char a_type)
   }
 }
 
-inline void MouseWrite(unsigned char a_write) //unsigned char
+inline void mouseWrite(unsigned char a_write) //unsigned char
 {
-  MouseWait(1);
+  mouseWait(1);
   outportb(0x64, 0xD4);
-  MouseWait(1);
+  mouseWait(1);
   outportb(0x60, a_write);
 }
 
-unsigned char MouseRead()
+unsigned char mouseRead()
 {
-  MouseWait(0);
+  mouseWait(0);
   return inportb(0x60);
 }
 
-void InstallMouseHandler()
+void installMouseHandler()
 {
   unsigned char _status;
 
   //Enable the auxiliary mouse device
-  MouseWait(1);
+  mouseWait(1);
   outportb(0x64, 0xA8);
 
   //Enable the interrupts
-  MouseWait(1);
+  mouseWait(1);
   outportb(0x64, 0x20);
-  MouseWait(0);
+  mouseWait(0);
   _status=(inportb(0x60) | 2);
-  MouseWait(1);
+  mouseWait(1);
   outportb(0x64, 0x60);
-  MouseWait(1);
+  mouseWait(1);
   outportb(0x60, _status);
 
   //Tell the mouse to use default settings
-  MouseWrite(0xF6);
-  MouseRead();
+  mouseWrite(0xF6);
+  mouseRead();
 
   //Enable the mouse
-  MouseWrite(0xF4);
-  MouseRead();
+  mouseWrite(0xF4);
+  mouseRead();
 
   //Setup the mouse handler
-  InstallIRQHandler(12, MouseHandler);
+  installIRQHandler(12, mouseHandler);
 }
 
 
-Vector2 GetMouseSpeed(){
+Vector2 getMouseSpeed(){
 	Vector2 a;
 	a.x = mouse_x;
 	a.y = mouse_y;

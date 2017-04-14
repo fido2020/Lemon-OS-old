@@ -3,7 +3,7 @@
 struct IDTEntry idt[256];
 struct IDTPtr idtPtr;
 
-void LoadIDT(){
+void loadIDT(){
 	__asm__("lidt idtPtr");
 }
 
@@ -15,10 +15,10 @@ void IDT_SetGate(uint8_t num, uint64_t offset, uint16_t sel, uint8_t flags){
 	idt[num].flags = flags;
 }
 
-void InitIDT(){
+void initIDT(){
 	idtPtr.limit = (sizeof(struct IDTEntry)*256)-1;
 	idtPtr.offset = (uint32_t)&idt;
 	memset(&idt,0,sizeof(struct IDTEntry)*256);
 
-	LoadIDT();
+	loadIDT();
 }

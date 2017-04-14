@@ -53,7 +53,7 @@ void gdt_setup (gdt_desc_t gdt[], const int numdesc)
     gdt_load(&gdtr, CODE32SEL, DATA32SEL, true);
 }
 
-vesa_mode_info_t * EnterGraphicsMode(){
+vesa_mode_info_t * enterGraphicsMode(){
 
 	struct vesa_mode_info_t *pMI;
 

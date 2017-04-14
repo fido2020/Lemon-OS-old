@@ -23,23 +23,23 @@ char* strncat(char *dest, int len, const char *src)
 }
 
 // reverse - Reverses a string
-void reverse(char *str, int length) 
+void reverse(char *str, int length)
 {
    int c;
    char *begin, *end, temp;
 
    begin  = str;
    end    = str;
- 
+
    for (c = 0; c < length - 1; c++)
       end++;
- 
+
    for (c = 0; c < length/2; c++)
-   {        
+   {
       temp   = *end;
       *end   = *begin;
       *begin = temp;
- 
+
       begin++;
       end--;
    }
@@ -49,10 +49,10 @@ void reverse(char *str, int length)
 int strlen(char *str)
 {
    int c = 0;
- 
+
    while( *(str + c) != '\0' )
       c++;
- 
+
    return c;
 }
 
@@ -105,10 +105,10 @@ char* itoa(int num, char* str, int base)
 
     if (isNegative)
         str[i++] = '-';
- 
+
     str[i] = '\0';
 
     reverse(str, i);
- 
+
     return str;
 }

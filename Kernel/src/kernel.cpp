@@ -1,4 +1,5 @@
 #include <conio.h>
+#include <console.h>
 #include <lemon.h>
 #include <shell.h>
 #include <common.h>
@@ -11,7 +12,7 @@
 #include <task.h>
 
 using namespace console;
-using namespace graphics;
+using namespace Graphics;
 
 #define CODE32SEL 0x08
 #define DATA32SEL 0x10
@@ -48,6 +49,8 @@ extern int32_t kernel_end;
 
 extern int32_t phys_base;
 
+uint32_t physMemSize;
+
 extern "C"
 void kload(multiboot_info* mbInfo)
 {
@@ -66,32 +69,50 @@ void kload(multiboot_info* mbInfo)
 
     gdt_load(&gdtr, CODE32SEL, DATA32SEL, true);
 
-    InitIDT();
+    initIDT();
 
-	InstallISRs();
-    InstallIRQs();
+	installISRs();
+    installIRQs();
 
-    uint32_t memSize = 1024 + mbInfo->memoryLo + mbInfo->memoryHi;
+    physMemSize = 1024 + mbInfo->memoryLo + mbInfo->memoryHi;
 
-    InitMemMgr(memSize,(phys_base - kernel_end)*512 + 0x100000);
+    initMemMgr(physMemSize,(phys_base - kernel_end)*512 + 0x100000);
 
 
     print("\nMemory: ");
-    print(itoa(memSize,nullptr,10));
+    print(itoa(physMemSize,nullptr,10));
     print(" (");
-    print(itoa(memSize/1024,nullptr,10));
+    print(itoa(physMemSize/1024,nullptr,10));
     print(" MB)\n");
 
-	//InitMultitasking();
-	initGfx();
+	initMultitasking();
 
     while(1);
 }
 
 void kmain(){
-	//PrintProcessList();
-	print("Yay it worked! Loading test task\n");
-	//process_t* p = CreateProcess("TestTask",(uint32_t)test);
-	//AddProcess(p);
+	vesa_mode_info_t* gfxModeInfo = initGfx();
+
+	drawstring("Lemon v",10,10,220,220,40,2);
+	drawstring(Lemon::version,122,10,220,220,40,2);
+
+	Console shell(20,36,gfxModeInfo->width-40,gfxModeInfo->height-56,1);
+	shell.print("Lemon Kernel Mode\n");
+	shell.print("RAM: ");
+	shell.printNum(physMemSize/1024);
+	shell.print("MB\n");
+	shell.print("Current Video Mode: ");
+	shell.printNum(gfxModeInfo->width);
+	shell.print('x');
+	shell.printNum(gfxModeInfo->height);
+	shell.print(' ');
+	shell.printNum(gfxModeInfo->bpp);
+	shell.print("bpp\n");
+
+	for(int i=0;i<177;i++)
+		shell.print("a\n");
+
+	//shell.clear();
+
 	while(1);
 }

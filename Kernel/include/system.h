@@ -25,8 +25,8 @@ struct regs32
 
 void InstallISRs();
 
-extern "C" void InstallIRQHandler(int irq, void (*handler)(regs32 *r));
-extern "C" void UninstallIRQHandler(int irq);
+extern "C" void installIRQHandler(int irq, void (*handler)(regs32 *r));
+extern "C" void uninstallIRQHandler(int irq);
 void IRQRemap();
-void InstallIRQs();
+void installIRQs();
 extern "C" void IRQHandler(struct regs32 *r);

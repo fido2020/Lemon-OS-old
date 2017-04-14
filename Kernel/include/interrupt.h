@@ -2,8 +2,8 @@
 
 #include <idt.h>
 
-void InstallISRs();
-void InstallIRQs();
+void installISRs();
+void installIRQs();
 
 extern "C"
 void _isr0();

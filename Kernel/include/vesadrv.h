@@ -7,7 +7,7 @@
 
 #include <stdtype.h>
 
-struct vesa_mode_info_t * EnterGraphicsMode();
+struct vesa_mode_info_t * enterGraphicsMode();
 
 extern "C"
 struct vesa_mode_info_t * do_vbe (const uint8_t video_mode);
@@ -27,13 +27,13 @@ struct vesa_mode_info_t {
 	uint8_t Wchar, Ychar, planes, bpp, banks;
 	uint8_t memory_model, bank_size, image_pages;
 	uint8_t reserved0;
-	
+
 	uint8_t red_mask, red_position;
 	uint8_t green_mask, green_position;
 	uint8_t blue_mask, blue_position;
 	uint8_t rsv_mask, rsv_position;
 	uint8_t directcolor_attributes;
-	 
+
 	uint32_t physbase;  // your LFB (Linear Framebuffer) address ;)
 	uint32_t reserved1;
 	uint16_t reserved2;

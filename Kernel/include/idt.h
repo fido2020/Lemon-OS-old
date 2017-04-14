@@ -16,6 +16,6 @@ struct IDTPtr{
 	uint32_t offset;
 }__attribute__((packed));
 
-void LoadIDT(IDTPtr idtPtr);
+void loadIDT(IDTPtr idtPtr);
 void IDT_SetGate(uint8_t num, uint64_t offset, uint16_t sel, uint8_t flags);
-void InitIDT();
+void initIDT();

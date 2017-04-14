@@ -1,6 +1,8 @@
-
-
 extern kload
+global _entry
+
+KERNEL_VIRTUAL_BASE equ 0xC0000000
+KERNEL_PAGE_NUMBER equ (KERNEL_VIRTUAL_BASE >> 22)
 
 section .multiboot
 
@@ -18,15 +20,15 @@ dd MAGIC
 dd FLAGS
 dd CHECKSUM
 
+section .text
+
 STACKSIZE equ 0x4000
 
 global entry
 
-global kernelSize
-kernelSize dw 0
-
 entry:
 
+	;mov dword[BootPageDirectory], 0
 	invlpg[0]
 
 	cli
@@ -34,10 +36,8 @@ entry:
     mov esp, stack_top
 	push eax
 
+	;add ebx, KERNEL_VIRTUAL_BASE
 	push ebx
-
-	;cli
-	;call do_vbe
 
 	cli
 	call kload
@@ -46,6 +46,14 @@ entry:
 	hlt
 hang:
 	jmp hang
+
+section .data
+	align 0x1000
+	BootPageDirectory:
+	   dd 0x00000083
+	   times (KERNEL_PAGE_NUMBER - 1) dd 0
+	   dd 0x00000083
+	   times (1024 - KERNEL_PAGE_NUMBER - 1) dd 0
 
 
 section .bss

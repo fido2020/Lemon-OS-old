@@ -6,28 +6,28 @@
 using namespace textscreen;
 
 namespace console{
-	
+
 	uint8_t barFg = 0x0;
 	uint8_t barBg = 0x7;
-	
+
 	uint8_t consoleFg = 0xF;
 	uint8_t consoleBg = 0x0;
 
 	void print(char data){
 		putc(data, (consoleBg << 4) + consoleFg);
 	}
-	
+
 	void print(char* data){
 		puts(data, (consoleBg << 4) + consoleFg);
 	}
-	
+
 	void clear(){
 		textscreen::clear(consoleBg);
 		/*clearLine(0, barBg << 4);
-		
+
 		puts("Lemon ", (barBg << 4) + barFg);
 		puts(Lemon::version, (barBg << 4) + barFg);
-		
+
 		setCurPos(0,1);*/
 	}
 
@@ -38,7 +38,7 @@ namespace console{
 		print('\n');
 		print(msg);
 		print("\n\n");
-		
+
 		print("Version: ");
 		print(Lemon::version);
 

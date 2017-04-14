@@ -33,7 +33,7 @@ global _isr29
 global _isr30
 global _isr31
 
-extern FaultHandler
+extern faultHandler
 
 isr_common_stub:
 	pusha
@@ -48,7 +48,7 @@ isr_common_stub:
 	mov gs,ax
 	mov eax, esp
 	push eax
-	mov eax, FaultHandler
+	mov eax, faultHandler
 	call eax
 	pop eax
 	pop gs

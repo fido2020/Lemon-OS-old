@@ -2,7 +2,7 @@
 
 #include <wmanager.h>
 
-using namespace graphics;
+using namespace Graphics;
 
 vesa_mode_info_t* modeInfo;
 

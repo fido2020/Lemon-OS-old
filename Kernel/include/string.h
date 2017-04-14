@@ -14,4 +14,4 @@ int indexOf(char c, char *str);
 void substr(int i, char *src, char *dest);
 void substr(int s, int e, char *src, char *dest);
 
-char* itoa(int num, char* str, int base);
+char* itoa(int num, char* str = nullptr, int base = 10);

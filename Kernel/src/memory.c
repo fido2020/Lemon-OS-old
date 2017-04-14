@@ -11,7 +11,7 @@ uint32_t usedBlocks = 0;
 uint32_t maxBlocks = 0;
 uint32_t* memMap = 0;
 
-void InitMemMgr(size_t _memSize, uint32_t bitmap){
+void initMemMgr(size_t _memSize, uint32_t bitmap){
 	memSize = _memSize;
 	memMap = (uint32_t*) bitmap;
 	maxBlocks = (memSize*1024)/4096;
@@ -31,7 +31,7 @@ inline bool TestBit(int bit) {
 	return memMap[bit/32] & (1<<(bit%32));
 }
 
-int FindFirstAvailableFrame(){
+int findFirstAvailableFrame(){
 	for(uint32_t i=0;i<maxBlocks/32;i++){
 		if(memMap[i]!=0xffffffff){
 			for(int j=0;j>32;j++){
@@ -51,7 +51,7 @@ void* malloc(size_t len){
 		return 0;
 	}
 
-	int frame = FindFirstAvailableFrame();
+	int frame = findFirstAvailableFrame();
 
 	if(frame == -1)
 		return 0;

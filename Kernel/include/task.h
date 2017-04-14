@@ -21,7 +21,7 @@ typedef struct process_t{
 	struct process_t *next, *prev;
 } process_t;
 
-void InitMultitasking();
-process_t* CreateProcess(char* name, uint32_t entry);
-void PrintProcessList();
-uint64_t AddProcess(process_t *proc);
+void initMultitasking();
+process_t* createProcess(char* name, uint32_t entry);
+void printProcessList();
+uint64_t addProcess(process_t *proc);
