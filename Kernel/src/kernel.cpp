@@ -48,8 +48,19 @@ struct multiboot_info {
 extern int32_t kernel_end;
 
 extern int32_t phys_base;
+extern int32_t real_base;
 
 uint32_t physMemSize;
+
+struct memory_region {
+
+	uint32_t	startLo;	//base address
+	uint32_t	startHi;
+	uint32_t	sizeLo;		//length (in bytes)
+	uint32_t	sizeHi;
+	uint32_t	type;
+	uint32_t	acpi_3_0;
+};
 
 extern "C"
 void kload(multiboot_info* mbInfo)
@@ -58,13 +69,13 @@ void kload(multiboot_info* mbInfo)
     console::clear();
     console::print("Initializing Lemon...");
 
-    gdtr_t gdtr = { sizeof(gdt_desc_t)*5-1, gdt };
+    /*gdtr_t gdtr = { sizeof(gdt_desc_t)*5-1, gdt };
 
-    /* Null descriptor */
+    /* Null descriptor * /
     gdt_set_gate(gdt, 0, 0x00000000, 0x00000000, 0x00, 0x00);
-    /* 32-bit Code descriptor, flat 4gb */
+    /* 32-bit Code descriptor, flat 4gb * /
     gdt_set_gate(gdt, 1, 0x00000000, 0xffffffff, 0x9A, 0xC0);
-    /* 32-bit Data descriptor, flat 4gb */
+    /* 32-bit Data descriptor, flat 4gb * /
     gdt_set_gate(gdt, 2, 0x00000000, 0xffffffff, 0x92, 0xC0);
 
     gdt_load(&gdtr, CODE32SEL, DATA32SEL, true);
@@ -78,6 +89,19 @@ void kload(multiboot_info* mbInfo)
 
     initMemMgr(physMemSize,(phys_base - kernel_end)*512 + 0x100000);
 
+	memory_region*	region = (memory_region*)0x1000;
+
+	for (int i=0; i<10; ++i) {
+
+		if (region[i].type>4)
+			break;
+
+		if (i>0 && region[i].startLo==0)
+			break;
+
+		initMemRegion(region[i].startLo, region[i].sizeLo);
+	}
+	deinitMemRegion(0x100000, (phys_base - kernel_end)*512);
 
     print("\nMemory: ");
     print(itoa(physMemSize,nullptr,10));
@@ -85,7 +109,7 @@ void kload(multiboot_info* mbInfo)
     print(itoa(physMemSize/1024,nullptr,10));
     print(" MB)\n");
 
-	initMultitasking();
+	initMultitasking();*/
 
     while(1);
 }
@@ -93,10 +117,18 @@ void kload(multiboot_info* mbInfo)
 void kmain(){
 	vesa_mode_info_t* gfxModeInfo = initGfx();
 
+	//fillrect(0,0,gfxModeInfo->width-50,gfxModeInfo->height-50,80,80,255);
+
+	for(int i=0;i<gfxModeInfo->height-50;i++){
+		for(int j=0;j<gfxModeInfo->width-50;j++){
+			putpixel(j,i,255,255,255);
+		}
+	}
+
 	drawstring("Lemon v",10,10,220,220,40,2);
 	drawstring(Lemon::version,122,10,220,220,40,2);
 
-	Console shell(20,36,gfxModeInfo->width-40,gfxModeInfo->height-56,1);
+	/*Console shell(20,36,gfxModeInfo->width-40,gfxModeInfo->height-56,1);
 	shell.print("Lemon Kernel Mode\n");
 	shell.print("RAM: ");
 	shell.printNum(physMemSize/1024);
@@ -107,10 +139,11 @@ void kmain(){
 	shell.printNum(gfxModeInfo->height);
 	shell.print(' ');
 	shell.printNum(gfxModeInfo->bpp);
-	shell.print("bpp\n");
+	shell.print("bpp\n");*/
+	updateScreen();
 
-	for(int i=0;i<177;i++)
-		shell.print("a\n");
+	/*for(int i=0;i<177;i++)
+		shell.print("a\n");*/
 
 	//shell.clear();
 

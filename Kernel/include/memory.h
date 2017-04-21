@@ -17,3 +17,7 @@ CLINK
 void *malloc(uint32_t len);
 CLINK
 void initMemMgr(size_t _memSize, uint32_t bitmap);
+CLINK
+void initMemRegion(uint32_t base, size_t size);
+CLINK
+void deinitMemRegion(uint32_t base, size_t size);

@@ -6,6 +6,8 @@
 
 #define panic cpanic
 
+#define MEM_BLOCK_SIZE 4096
+
 uint32_t memSize = 0;
 uint32_t usedBlocks = 0;
 uint32_t maxBlocks = 0;
@@ -14,21 +16,47 @@ uint32_t* memMap = 0;
 void initMemMgr(size_t _memSize, uint32_t bitmap){
 	memSize = _memSize;
 	memMap = (uint32_t*) bitmap;
-	maxBlocks = (memSize*1024)/4096;
+	maxBlocks = (memSize*1024)/MEM_BLOCK_SIZE;
 	usedBlocks = maxBlocks;
 	memset(memMap,0xf,maxBlocks/8);
 }
 
-/*inline */void SetBit(int bit){
+/*inline */void setBit(int bit){
 	memMap[bit/32] |= (1<<(bit%32));
 }
 
-inline void UnsetBit(int bit){
+/*inline */void unsetBit(int bit){
 	memMap[bit/32] &= ~ (1<<(bit%32));
 }
 
-inline bool TestBit(int bit) {
+inline bool testBit(int bit) {
 	return memMap[bit/32] & (1<<(bit%32));
+}
+
+void initMemRegion(uint32_t base, size_t size) {
+
+	int align = base / MEM_BLOCK_SIZE;
+	int blocks = size / MEM_BLOCK_SIZE;
+
+	for (; blocks>0; blocks--) {
+		unsetBit(align++);
+		usedBlocks--;
+	}
+
+	setBit(0);	//first block is always set. This insures allocs cant be 0
+}
+
+void deinitMemRegion(uint32_t base, size_t size) {
+
+	int align = base / MEM_BLOCK_SIZE;
+	int blocks = size / MEM_BLOCK_SIZE;
+
+	for (; blocks>0; blocks--) {
+		setBit(align++);
+		usedBlocks++;
+	}
+
+	setBit(0);	//first block is always set. This insures allocs cant be 0
 }
 
 int findFirstAvailableFrame(){
@@ -56,7 +84,7 @@ void* malloc(size_t len){
 	if(frame == -1)
 		return 0;
 
-	SetBit(frame);
+	setBit(frame);
 
 	uint32_t addr = frame*4096;
 	usedBlocks++;

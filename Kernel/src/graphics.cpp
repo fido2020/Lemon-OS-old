@@ -43,8 +43,8 @@ namespace Graphics{
 		putpixel(x,y,(r << 16) + (g << 8) + b);
 	}
 
-	/*void putpixel(int x,int y, uint32_t colour) {
-		unsigned where = y * modeInfo->pitch + (x * (modeInfo->bpp/8));
+	/**/void putpixel(int x,int y, uint32_t colour) {
+		unsigned where = y /** modeInfo->pitch*/ + (x * (modeInfo->bpp/8));
 		dblBuffer[where] = colour & 255;              // BLUE
 		dblBuffer[where + 1] = (colour >> 8) & 255;   // GREEN
 		dblBuffer[where + 2] = (colour >> 16) & 255;  // RED
@@ -62,9 +62,9 @@ namespace Graphics{
 				dblBuffer[where + 2] = (colour >> 16) & 255; // RED
 			}
 		}
-	}*/
+	}/**/
 
-	/**/void putpixel(int x,int y, uint32_t colour) {
+	/** /void putpixel(int x,int y, uint32_t colour) {
 		unsigned where = y * modeInfo->pitch + (x * (modeInfo->bpp/8));
 		screen[where] = colour & 255;              // BLUE
 		screen[where + 1] = (colour >> 8) & 255;   // GREEN
