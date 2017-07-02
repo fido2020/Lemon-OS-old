@@ -19,7 +19,7 @@ done
 for i in *.cpp
 do
 	echo Compiling $i
-    i686-elf-g++ -c "$i" -o "../../../obj/ia32/${i%.cpp}.cpp.o" -I ../include --freestanding -fno-exceptions -fno-rtti -std=c++14 -Wno-write-strings -D ARCH_IA32
+    i686-elf-g++ -c "$i" -o "../../../obj/ia32/${i%.cpp}.cpp.o" -I include -I ../../include --freestanding -fno-exceptions -fno-rtti -std=c++14 -Wno-write-strings -D ARCH_IA32
 done
 
 cd ../../..

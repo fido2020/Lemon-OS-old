@@ -19,7 +19,9 @@ extern kmain_early
 section .text
 entry:
 	mov esp, stack_top
+	push eax
 
+	push ebx
 	call kmain_early
 
 	cli
