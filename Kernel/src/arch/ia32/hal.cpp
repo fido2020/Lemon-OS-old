@@ -1,0 +1,3 @@
+void initalize_hardware(){
+    
+}
