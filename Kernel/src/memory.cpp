@@ -9,6 +9,13 @@ void* memset(void* dest, int src, size_t count){
     return dest;
 }
 
+void *memcpy(void *dest, const void *src, size_t count){
+    const char *sp = (const char *)src;
+    char *dp = (char *)dest;
+    for(int i=0; i<count;i++) dp[i] = sp[i];
+    return dest;
+}
+
 #define BLKS_PER_BYTE 8
 
 #define BLK_SIZE 4096

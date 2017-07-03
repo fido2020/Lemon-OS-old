@@ -1,100 +1,46 @@
 #include <stdint.h>
 #include <hal.h>
 #include <memory.h>
+#include <misc.h>
 
 int curX = 0;
 int curY = 0;
 
-void putc(char ch, uint8_t colour){
-	char* mem = (char*)0xB8000;
-	mem [((curY * 80 + curX))*2] = ch;
-    mem [((curY * 80 + curX))*2+1] = colour;
-	curX++; 
-
-	if(curX >= 80)
-	{
-		curX = 0;
-		curY++;
-	}
-}
-
-void puts(char* str, uint8_t colour = 0x0F){
-	while(*str != 0){
-		putc(*str, colour);
-		str++;
-	}
-}
-
-struct memory_map {
-	uint32_t	size;
-	uint32_t	baseLo;
-	uint32_t	baseHi;
-	uint32_t	lengthLow,lengthHigh;
-	uint32_t	type;
-};
-
-struct multiboot_info {
-	uint32_t flags;
-	uint32_t memoryLo;
-	uint32_t memoryHi;
-	uint32_t bootDevice;
-	uint32_t cmdline;
-	uint32_t modsCount;
-	uint32_t modsAddr;
-	uint32_t num;
-	uint32_t size;
-	uint32_t addr;
-	uint32_t shndx;
-	uint32_t mmapLength;
-	uint32_t mmapAddr;
-	uint32_t drivesLength;
-	uint32_t drivesAddr;
-	uint32_t configTable;
-	uint32_t bootloaderName;
-	uint32_t apmTable;
-
-	uint32_t vbeControlInfo;
-	uint32_t vbeModeInfo;
-	uint16_t vbeMode;
-	uint16_t vbeInterfaceSeg;
-	uint16_t vbeInterfaceOff;
-	uint16_t vbeInterfaceLen;
-
-	uint64_t framebufferAddr;
-	uint32_t framebufferPitch;
-	uint32_t framebufferWidth;
-	uint32_t framebufferHeight;
-	uint8_t framebufferBpp;
-	uint8_t framebufferType;
-}__attribute__ ((packed));
-
-char* strMemoryTypes[] = {
-
-	"Available",			//memory_region.type==0
-	"Reserved",			//memory_region.type==1
-	"ACPI Reclaim",		//memory_region.type==2
-	"ACPI NVS Memory"		//memory_region.type==3
-};
-
-void memmgr_init (size_t memSize, uint32_t bitmap);
-void memmgr_init_region (uint32_t base, size_t size);
-void memmgr_deinit_region (uint32_t base, size_t size);
-
+extern int kernel_base;
 extern int kernel_end;
 
-void* malloc (size_t size);
+void gfx_init(video_mode_info* videoModeInfo);
+void putpixel(int x, int y, uint8_t r, uint8_t g, uint8_t b);
+void gfx_updatebuffer();
 
 extern "C"
 void kmain_early(multiboot_info* mbInfo){
 	initialize_hardware();
 
 	uint32_t memSize = 1024 + mbInfo->memoryLo + mbInfo->memoryHi*64;
-	memmgr_init (memSize, 0x100000 + (kernel_end-0x100000)*512);
+	memmgr_init (memSize, kernel_base + (kernel_end-kernel_base)*512);
 
-	memory_map* mmap = (memory_map*)mbInfo->mmapAddr;
+	memory_region* mmap = (memory_region*)mbInfo->mmapAddr;
 	while((uint32_t)mmap < mbInfo->mmapAddr + mbInfo->mmapLength) {
-		mmap = (memory_map*) ((unsigned int)mmap + mmap->size + sizeof(mmap->size) );
+		mmap = (memory_region*) ((unsigned int)mmap + mmap->size + sizeof(mmap->size) );
+		if(mmap->type == 1 || mmap->type == 0)
+			memmgr_init_region(mmap->baseLo,mmap->size);
+		//else
+		//	memmgr_deinit_region(mmap->baseLo,mmap->size);
 	}
 
-	memmgr_deinit_region();
+	memmgr_deinit_region (0x100000, (kernel_end-kernel_base)*512);
+
+	video_mode_info* vidModeInfo = (video_mode_info*)malloc(sizeof(video_mode_info));
+	vidModeInfo->addr = mbInfo->framebufferAddr;
+	vidModeInfo->width = mbInfo->framebufferWidth;
+	vidModeInfo->height = mbInfo->framebufferHeight;
+	vidModeInfo->bpp = mbInfo->framebufferBpp;
+	vidModeInfo->pitch = mbInfo->framebufferPitch;
+
+	gfx_init(vidModeInfo);
+	for(int i=0;i<100;i++)
+		for(int j=0;j<200;j++)
+			putpixel(i,j,255,255,0);
+	gfx_updatebuffer();
 }

@@ -4,6 +4,7 @@ ENTRY(entry)
 SECTIONS
  {
    . = 100000;
+   kernel_base = .;
    .multiboot : {*(.multiboot)}
    .text : { *(.text) }
    .data : { *(.data) }
