@@ -1,12 +1,9 @@
 #include <paging.h>
 #include <idt.h>
 #include <memory.h>
-#include <heap.h>
 #include <fatal.h>
 #include <string.h>
 #include <serial.h>
-
-int ixasdsadadwdwr;
 
 extern uint32_t kernel_end;
 
@@ -119,12 +116,9 @@ void enable_paging() {
 
 void page_fault_handler(regs32_t* regs)
 {
-	// A page fault has occurred.
-	// The faulting address is stored in the CR2 register.
 	uint32_t fault_addr;
 	asm volatile("mov %%cr2, %0" : "=r" (fault_addr));
 
-	// The error code gives us details of what happened.
 	int present = !(regs->err_code & 0x1); // Page not present
 	int rw = regs->err_code & 0x2;           // Write operation?
 	int us = regs->err_code & 0x4;           // Processor was in user-mode?

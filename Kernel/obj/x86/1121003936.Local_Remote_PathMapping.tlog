@@ -1,6 +1,5 @@
 D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\gdt.cpp|/home/computerfido/projects/Kernel/src/arch/x86/gdt.cpp
 D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86|/home/computerfido/projects/Kernel/src/arch/x86
-D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\heap.cpp|/home/computerfido/projects/Kernel/src/arch/x86/heap.cpp
 D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\idt.cpp|/home/computerfido/projects/Kernel/src/arch/x86/idt.cpp
 D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\keyboard.cpp|/home/computerfido/projects/Kernel/src/arch/x86/keyboard.cpp
 D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\paging.cpp|/home/computerfido/projects/Kernel/src/arch/x86/paging.cpp
@@ -20,7 +19,6 @@ D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\include\serial.h|/home/computerf
 D:\OneDrive\Documents\Lemon\Kernel\src\include\graphicsresources.h|/home/computerfido/projects/Kernel/src/include/graphicsresources.h
 D:\OneDrive\Documents\Lemon\Kernel\src\include|/home/computerfido/projects/Kernel/src/include
 D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\include\fatal.h|/home/computerfido/projects/Kernel/src/arch/x86/include/fatal.h
-D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\include\heap.h|/home/computerfido/projects/Kernel/src/arch/x86/include/heap.h
 D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\include\paging.h|/home/computerfido/projects/Kernel/src/arch/x86/include/paging.h
 D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\include\gdt.h|/home/computerfido/projects/Kernel/src/arch/x86/include/gdt.h
 D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\include\idt.h|/home/computerfido/projects/Kernel/src/arch/x86/include/idt.h

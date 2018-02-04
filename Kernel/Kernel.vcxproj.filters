@@ -43,9 +43,6 @@
     <ClCompile Include="src\memory.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\arch\x86\heap.cpp">
-      <Filter>src\arch\x86</Filter>
-    </ClCompile>
     <ClCompile Include="src\fatal.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -101,9 +98,6 @@
       <Filter>src\include</Filter>
     </ClInclude>
     <ClInclude Include="src\arch\x86\include\paging.h">
-      <Filter>src\arch\x86\include</Filter>
-    </ClInclude>
-    <ClInclude Include="src\arch\x86\include\heap.h">
       <Filter>src\arch\x86\include</Filter>
     </ClInclude>
     <ClInclude Include="src\arch\x86\include\fatal.h">

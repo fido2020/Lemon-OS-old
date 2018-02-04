@@ -2,10 +2,13 @@
   Copying sources remotely to 'localhost'
   Starting remote build
   Compiling sources:
+  paging.cpp
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\paging.cpp(126,6): warning : unused variable ‘id’ [-Wunused-variable]
   Invoking '/bin/bash ~/projects/Kernel/buildasmx86.sh', working directory: '/home/computerfido/projects/Kernel'
   Assembling entry.asm
   Assembling gdt.asm
   Assembling idt.asm
   
   Linking objects
+  Kernel.vcxproj -> D:\OneDrive\Documents\Lemon\Kernel\bin\x86\kernel.sys
           1 file(s) copied.

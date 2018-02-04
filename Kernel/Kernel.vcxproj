@@ -91,7 +91,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\arch\x86\gdt.cpp" />
-    <ClCompile Include="src\arch\x86\heap.cpp" />
     <ClCompile Include="src\arch\x86\idt.cpp" />
     <ClCompile Include="src\arch\x86\keyboard.cpp" />
     <ClCompile Include="src\arch\x86\paging.cpp" />
@@ -110,7 +109,6 @@
     <ClInclude Include="src\arch\x86\include\serial.h" />
     <ClInclude Include="src\include\graphicsresources.h" />
     <ClInclude Include="src\arch\x86\include\fatal.h" />
-    <ClInclude Include="src\arch\x86\include\heap.h" />
     <ClInclude Include="src\arch\x86\include\paging.h" />
     <ClInclude Include="src\arch\x86\include\gdt.h" />
     <ClInclude Include="src\arch\x86\include\idt.h" />
