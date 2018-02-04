@@ -1,0 +1,219 @@
+
+kernel.sys:     file format elf32-i386
+
+SYMBOL TABLE:
+00000000 l    d  .note.gnu.build-id	00000000 .note.gnu.build-id
+00100000 l    d  .multiboot.hdr	00000000 .multiboot.hdr
+00101000 l    d  .mutliboot.data	00000000 .mutliboot.data
+00102000 l    d  .multiboot.text	00000000 .multiboot.text
+c0103000 l    d  .text	00000000 .text
+c0106000 l    d  .data	00000000 .data
+c0107000 l    d  .bss	00000000 .bss
+00000000 l    d  .debug_aranges	00000000 .debug_aranges
+00000000 l    d  .debug_pubnames	00000000 .debug_pubnames
+00000000 l    d  .debug_info	00000000 .debug_info
+00000000 l    d  .debug_abbrev	00000000 .debug_abbrev
+00000000 l    d  .debug_line	00000000 .debug_line
+00000000 l    d  .debug_frame	00000000 .debug_frame
+00000000 l    d  .debug_loc	00000000 .debug_loc
+00000000 l    df *ABS*	00000000 entry.asm
+00000001 l       *ABS*	00000000 MBALIGN
+00000002 l       *ABS*	00000000 MEMINFO
+1badb002 l       *ABS*	00000000 MAGIC
+00000003 l       *ABS*	00000000 FLAGS
+e4524ffb l       *ABS*	00000000 CHECKSUM
+c0000000 l       *ABS*	00000000 KERNEL_VIRTUAL_BASE
+00000300 l       *ABS*	00000000 KERNEL_PAGE_NUMBER
+00101000 l     O .mutliboot.data	00000004 KernelPageDirectory
+00100000 l     O .multiboot.hdr	00000004 multiboot_header
+c0103000 l       .text	00000000 entry_higher_half
+c0107000 l     O .bss	00000001 stack_bottom
+c010b000 l       .bss	00000000 stack_top
+00000000 l    df *ABS*	00000000 gdt.asm
+c010303c l       .text	00000000 gdt_flush.return
+00000000 l    df *ABS*	00000000 idt.asm
+c0103048 l       .text	00000000 isr_common_stub
+c0103071 l       .text	00000000 irq_common_stub
+00000000 l    df *ABS*	00000000 gdt.cpp
+c0103266 l     F .text	0000009e _ZL12gdt_set_gateijjhh
+00000000 l    df *ABS*	00000000 heap.cpp
+00000000 l    df *ABS*	00000000 idt.cpp
+c01034db l     F .text	00000068 _ZL12idt_set_gatehjth
+00000000 l    df *ABS*	00000000 keyboard.cpp
+00000000 l    df *ABS*	00000000 paging.cpp
+c0103ba3 l     F .text	00000015 _ZL9set_flagsPjj
+c0103bb8 l     F .text	00000017 _ZL11clear_flagsPjj
+c0103bcf l     F .text	0000001a _ZL14page_set_framePjj
+c0103be9 l     F .text	0000000d _ZL14page_get_framej
+c0103bf6 l     F .text	0000001a _ZL13pde_set_framePjj
+c0103c10 l     F .text	0000000d _ZL13pde_get_framej
+c0103c1d l     F .text	0000000c _ZL16flush_tlb_singlej
+c0103c29 l     F .text	00000049 _ZL8get_pagej
+00000000 l    df *ABS*	00000000 serial.cpp
+00000000 l    df *ABS*	00000000 system.cpp
+00000000 l    df *ABS*	00000000 vga.cpp
+00000000 l    df *ABS*	00000000 console.cpp
+00000000 l    df *ABS*	00000000 fatal.cpp
+00000000 l    df *ABS*	00000000 kernel.cpp
+00000000 l    df *ABS*	00000000 memory.cpp
+00000000 l    df *ABS*	00000000 string.cpp
+00000000 l    df *ABS*	00000000 video.cpp
+c01060c0 l     O .data	00000400 _ZL12font_default
+00102000 g       .multiboot.text	00000000 entry
+c010417a g     F .text	0000001d _Z7inportbt
+c01034a1 g     F .text	00000015 kmalloc_p
+c010b840 g     O .bss	00000006 idt_ptr
+c0103b58 g     F .text	00000030 _Z16keyboard_handlerP8regs32_t
+c010445e g     F .text	00000068 _ZN7console4putsEPchhh
+c010348d g     F .text	00000014 kmalloc_a
+c01030b6 g       .text	00000000 isr4
+c010318a g       .text	00000000 isr27
+c0103102 g       .text	00000000 isr13
+c01046be g     F .text	00000020 _ZN6stringixEj
+c01047bd g     F .text	00000049 _ZplRK6stringS1_
+c0103b88 g     F .text	0000001b _Z16keyboard_installv
+c010323e g       .text	00000000 irq12
+c0104b17 g     F .text	00000011 _Z6substriPcS_
+c0103158 g       .text	00000000 isr22
+c0103112 g       .text	00000000 isr15
+c010322a g       .text	00000000 irq10
+c0107000 g       .bss	00000000 _sbss
+c0103252 g       .text	00000000 irq14
+c01046de g     F .text	00000063 _ZN6stringaSERKS_
+c01040f4 g     F .text	00000037 _Z12write_serialc
+c0104c4d g     F .text	0000005b _Z12screen_clearv
+c01045ba g     F .text	0000006e _ZN6stringC1EPKc
+c01030e0 g       .text	00000000 isr9
+c01045ba g     F .text	0000006e _ZN6stringC2EPKc
+c0103216 g       .text	00000000 irq8
+c0103162 g       .text	00000000 isr23
+c050cc84 g     O .bss	00000002 _ZN7console16width_charactersE
+c010319e g       .text	00000000 isr29
+c0104682 g     F .text	00000008 _ZN6string5c_strEv
+c010b000 g     O .bss	00000028 gdt
+c01031b2 g       .text	00000000 isr31
+c0104b3e g     F .text	000000c9 itoa
+c010314e g       .text	00000000 isr21
+c0103c72 g     F .text	000000dd _Z14pages_allocatej
+c0103234 g       .text	00000000 irq11
+c0103194 g       .text	00000000 isr28
+c01049d3 g     F .text	0000005f _Z7strncatPciPKc
+c0104280 g     F .text	0000004b _ZN3VGA4putsEPch
+c01030d8 g       .text	00000000 isr8
+c010bc60 g     O .bss	00000004 ixasdsadadwdwr
+c01031f8 g       .text	00000000 irq5
+c0104628 g     F .text	0000005a _ZN6stringC1ERKS_
+c0103144 g       .text	00000000 isr20
+c01034b6 g     F .text	00000015 kmalloc_ap
+c010310a g       .text	00000000 isr14
+c0106020 g     O .data	00000080 keymap_us
+c050ccc4 g       .bss	00000000 _ebss
+c01030bd g       .text	00000000 isr5
+c0103e05 g     F .text	0000013b _Z17paging_initializev
+c0104698 g     F .text	00000025 _ZNK6stringixEj
+c050ccc0 g     O .bss	00000004 video_memory
+c01031bc g       .text	00000000 isr32
+c01060aa g     O .data	00000002 _ZN3VGA13screen_heightE
+c0104966 g     F .text	0000006d strcat
+c01060a8 g     O .data	00000002 _ZN3VGA12screen_widthE
+c0103202 g       .text	00000000 irq6
+c01031d0 g       .text	00000000 irq1
+c0104fab g     F .text	00000063 _Z10drawstringPPciihhhi
+c0104c07 g     F .text	00000046 _Z16video_initialize12video_mode_t
+c0106000 g     O .data	00000004 next_free_addr
+c010459e g     F .text	0000001c _ZN6stringC2Ec
+c0103543 g     F .text	0000054f _Z14idt_initializev
+c0104daf g     F .text	000000ba _Z15screen_fillrectiiiihhh
+c01042cb g     F .text	0000006b _ZN3VGA11clearscreenEh
+c050cc82 g     O .bss	00000002 _ZN3VGA4curYE
+c01060a0 g     O .data	00000004 max_pages
+c0104a32 g     F .text	00000074 _Z7reversePci
+0050ccc4 g       .bss	00000000 kernel_end
+c0104aa6 g     F .text	00000027 _Z6strlenPc
+c01030a1 g       .text	00000000 isr1
+c0103220 g       .text	00000000 irq9
+c0104873 g     F .text	0000005f _ZplRK6stringPKc
+c010438a g     F .text	000000d4 _ZN7console4putcEchhh
+c0103180 g       .text	00000000 isr26
+c050cc88 g     O .bss	00000002 _ZN7console1xE
+c01030f2 g       .text	00000000 isr11
+c0104e69 g     F .text	000000d0 _Z8drawcharciihhhi
+c0104049 g     F .text	0000008d _Z11init_serialv
+c010415b g     F .text	0000001f _Z8outportbth
+c050cca8 g     O .bss	00000018 video_mode
+c0103f4c g     F .text	0000001c _Z13enable_pagingv
+c0104acd g     F .text	0000004a _Z8strindexcPc
+c0104923 g     F .text	00000043 _ZplPKcRK6string
+c0104742 g     F .text	0000007b _ZN6stringpLERKS_
+c010458a g     F .text	00000013 _ZN6stringC2Ev
+c0000000 g       *ABS*	00000000 KERNEL_VIRTUAL_BASE
+c01033d2 g     F .text	00000055 _Z16kmalloc_internalji
+c0103248 g       .text	00000000 irq13
+c01030fa g       .text	00000000 isr12
+c0104806 g     F .text	0000006d _ZplRK6stringc
+c0104d2e g     F .text	00000081 _Z15screen_putpixeliihhh
+c0104b28 g     F .text	00000016 _Z6substriiPcS_
+c0104557 g     F .text	00000033 memset
+c010309a g       .text	00000000 isr0
+c050cc80 g     O .bss	00000002 _ZN3VGA4curXE
+c01031da g       .text	00000000 irq2
+c050cca5 g     O .bss	00000001 key
+c01040d6 g     F .text	0000001e _Z17is_transmit_emptyv
+c01048d2 g     F .text	00000051 _ZplcRK6string
+c010458a g     F .text	00000013 _ZN6stringC1Ev
+c010b028 g     O .bss	00000006 gdt_ptr
+c0103a92 g     F .text	00000045 isr_handler
+c010316c g       .text	00000000 isr24
+c010311c g       .text	00000000 isr16
+c010b040 g     O .bss	00000800 idt
+c01030af g       .text	00000000 isr3
+c0103f68 g     F .text	000000e1 _Z18page_fault_handlerP8regs32_t
+c050cc8c g     O .bss	00000018 _ZN7console10video_modeE
+c050cc8a g     O .bss	00000002 _ZN7console1yE
+c0104197 g     F .text	0000001f _Z7inportwt
+c0104f39 g     F .text	00000072 _Z10drawstringPciihhhi
+c010468a g     F .text	0000000e _ZNK6string3lenEv
+c010b860 g     O .bss	00000400 interrupt_handlers
+c01030c4 g       .text	00000000 isr6
+c010320c g       .text	00000000 irq7
+c0103ad7 g     F .text	00000064 irq_handler
+c0104336 g     F .text	00000054 _ZN7console10initializeE12video_mode_t
+c01033af g     F .text	00000023 _Z16kmalloc_internalj
+c0103130 g       .text	00000000 isr18
+c050cc86 g     O .bss	00000002 _ZN7console17height_charactersE
+c01031c6 g       .text	00000000 irq0
+c0103d4f g     F .text	0000003e _Z9page_freePj
+c0103427 g     F .text	00000066 _Z16kmalloc_internaljiPj
+c0103020 g       .text	00000000 gdt_flush
+c010459e g     F .text	0000001c _ZN6stringC1Ec
+c0104628 g     F .text	0000005a _ZN6stringC2ERKS_
+c010cc80 g     O .bss	00400000 page_tables
+c01030ea g       .text	00000000 isr10
+c01034cb g     F .text	00000010 kmalloc
+c010412b g     F .text	00000030 _Z19write_serial_stringPc
+c0103304 g     F .text	000000ab _Z14gdt_initializev
+c0103126 g       .text	00000000 isr17
+c01030a8 g       .text	00000000 isr2
+c0103d8d g     F .text	00000078 _Z8map_pagePvS_
+c010313a g       .text	00000000 isr19
+c0104511 g     F .text	00000046 kmain
+c0104d04 g     F .text	0000002a _Z12screen_clearh
+c0103040 g       .text	00000000 idt_flush
+c01031a8 g       .text	00000000 isr30
+c01044fb g     F .text	00000016 fatal_error
+c0103b3b g     F .text	0000001d interrupt_register_handler
+c010bc80 g     O .bss	00001000 page_directory
+c01060a4 g     O .data	00000004 _ZN3VGA12video_memoryE
+c01044c6 g     F .text	00000035 _ZN7console5clearEhhh
+c010325c g       .text	00000000 irq15
+c01030ce g       .text	00000000 isr7
+c0103176 g       .text	00000000 isr25
+c01060ac g     O .data	00000002 _ZN3VGA12screen_depthE
+c0103f40 g     F .text	0000000c _Z21switch_page_directoryPj
+c01041b6 g     F .text	000000ca _ZN3VGA4putcEch
+c01031ee g       .text	00000000 irq4
+c01031e4 g       .text	00000000 irq3
+c0104ca8 g     F .text	0000005c _Z12screen_clearhhh
+c050cca4 g     O .bss	00000001 keypending
+
+

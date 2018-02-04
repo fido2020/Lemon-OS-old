@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{5b3f2d92-5898-4fb7-ade7-039f7904d156}</UniqueIdentifier>
+      <Extensions>*.cpp;*.asm</Extensions>
+    </Filter>
+    <Filter Include="src\arch">
+      <UniqueIdentifier>{2de8915e-7e82-4a7b-9f5e-dad3a5312245}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\arch\x86">
+      <UniqueIdentifier>{7e604bbb-3f3f-4b59-9995-b9a4d7041f8f}</UniqueIdentifier>
+      <Extensions>*.cpp;*.asm</Extensions>
+    </Filter>
+    <Filter Include="src\arch\x86\include">
+      <UniqueIdentifier>{1c4d2dea-198f-4a87-ab47-16044da3c43e}</UniqueIdentifier>
+      <Extensions>*.h</Extensions>
+    </Filter>
+    <Filter Include="src\include">
+      <UniqueIdentifier>{2f97d162-6658-4e07-8be1-c4ede9d44de1}</UniqueIdentifier>
+      <Extensions>*.h</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\kernel.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\string.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\arch\x86\system.cpp">
+      <Filter>src\arch\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="src\arch\x86\vga.cpp">
+      <Filter>src\arch\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="src\arch\x86\gdt.cpp">
+      <Filter>src\arch\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="src\arch\x86\idt.cpp">
+      <Filter>src\arch\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="src\memory.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\arch\x86\heap.cpp">
+      <Filter>src\arch\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="src\fatal.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\video.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\console.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\arch\x86\keyboard.cpp">
+      <Filter>src\arch\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="src\arch\x86\paging.cpp">
+      <Filter>src\arch\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="src\arch\x86\serial.cpp">
+      <Filter>src\arch\x86</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="linkscript.ld" />
+    <None Include="buildasmx86.sh" />
+    <None Include="src\arch\x86\gdt.asm">
+      <Filter>src\arch\x86</Filter>
+    </None>
+    <None Include="src\arch\x86\idt.asm">
+      <Filter>src\arch\x86</Filter>
+    </None>
+    <None Include="src\arch\x86\entry.asm">
+      <Filter>src\arch\x86</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\arch\x86\include\system.h">
+      <Filter>src\arch\x86\include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\arch\x86\include\vga.h">
+      <Filter>src\arch\x86\include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\mischdr.h">
+      <Filter>src\include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\string.h">
+      <Filter>src\include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\arch\x86\include\gdt.h">
+      <Filter>src\arch\x86\include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\arch\x86\include\idt.h">
+      <Filter>src\arch\x86\include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\memory.h">
+      <Filter>src\include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\arch\x86\include\paging.h">
+      <Filter>src\arch\x86\include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\arch\x86\include\heap.h">
+      <Filter>src\arch\x86\include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\arch\x86\include\fatal.h">
+      <Filter>src\include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\video.h">
+      <Filter>src\include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\console.h">
+      <Filter>src\include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\graphicsresources.h">
+      <Filter>src\include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\arch\x86\include\keyboard.h">
+      <Filter>src\arch\x86\include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\arch\x86\include\serial.h">
+      <Filter>src\arch\x86\include</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

@@ -1,46 +1,88 @@
-#include <stdint.h>
-#include <hal.h>
-#include <memory.h>
-#include <misc.h>
+#include <gdt.h>
+#include <idt.h>
+#include <fatal.h>
+#include <paging.h>
+#include <video.h>
+#include <mischdr.h>
+#include <string.h>
+#include <console.h>
+#include <keyboard.h>
+#include <serial.h>
+#include <vga.h>
 
-int curX = 0;
-int curY = 0;
-
-extern int kernel_base;
-extern int kernel_end;
-
-void gfx_init(video_mode_info* videoModeInfo);
-void putpixel(int x, int y, uint8_t r, uint8_t g, uint8_t b);
-void gfx_updatebuffer();
+bool keypending = false;
+char key;
 
 extern "C"
-void kmain_early(multiboot_info* mbInfo){
-	initialize_hardware();
+void kmain(multiboot_info_t* mb_info){
+	init_serial();
 
-	uint32_t memSize = 1024 + mbInfo->memoryLo + mbInfo->memoryHi*64;
-	memmgr_init (memSize, kernel_base + (kernel_end-kernel_base)*512);
+	write_serial_string("Initializing Lemon...\n");
 
-	memory_region* mmap = (memory_region*)mbInfo->mmapAddr;
-	while((uint32_t)mmap < mbInfo->mmapAddr + mbInfo->mmapLength) {
-		mmap = (memory_region*) ((unsigned int)mmap + mmap->size + sizeof(mmap->size) );
-		if(mmap->type == 1 || mmap->type == 0)
-			memmgr_init_region(mmap->baseLo,mmap->size);
-		//else
-		//	memmgr_deinit_region(mmap->baseLo,mmap->size);
-	}
+	VGA::clearscreen();
+	VGA::puts("Initializing Lemon...\n");
 
-	memmgr_deinit_region (0x100000, (kernel_end-kernel_base)*512);
+	/*video_mode_t video_mode;
+	video_mode.address = mb_info->framebufferAddr;
+	
+	video_mode.width = mb_info->framebufferWidth;
+	video_mode.height = mb_info->framebufferHeight;
 
-	video_mode_info* vidModeInfo = (video_mode_info*)malloc(sizeof(video_mode_info));
-	vidModeInfo->addr = mbInfo->framebufferAddr;
-	vidModeInfo->width = mbInfo->framebufferWidth;
-	vidModeInfo->height = mbInfo->framebufferHeight;
-	vidModeInfo->bpp = mbInfo->framebufferBpp;
-	vidModeInfo->pitch = mbInfo->framebufferPitch;
+	video_mode.bpp = mb_info->framebufferBpp;
+	video_mode.pitch = mb_info->framebufferPitch;
 
-	gfx_init(vidModeInfo);
-	for(int i=0;i<100;i++)
-		for(int j=0;j<200;j++)
-			putpixel(i,j,255,255,0);
-	gfx_updatebuffer();
+	video_mode.type = Graphical;
+
+	video_initialize(video_mode);
+
+	console::initialize(video_mode);
+	 console::puts("Initializing Lemon...\n\n");*/
+
+	gdt_initialize();
+	idt_initialize();
+
+	//paging_initialize();
+
+	//VGA::puts("YAY!\n");
+
+	//page_map(mb_info->framebufferAddr, 0xE0000000, 0);
+	//video_mode.address = 0xE000000;
+
+	//video_initialize(video_mode);
+
+	//console::initialize(video_mode);
+
+	//console::puts("Bootloader: ");
+
+	//drawstring("yay!", 0, 50);
+	/*console::puts((char*)mb_info->bootloaderName);
+
+	console::puts("\n\nVideo Mode");
+	console::puts("\n\tWidth: ");
+	console::puts(itoa(video_mode.width));
+	console::puts("\n\tHeight: ");
+	console::puts(itoa(video_mode.height));
+	console::puts("\n\tColour Depth: ");
+	console::puts(itoa(video_mode.bpp));
+	console::puts("bpp");
+
+	keyboard_install();
+
+	for (;;) {
+		if (keypending) {
+			if (key != 0) {
+				console::putc(key);
+			}
+			keypending = false;
+		}
+		
+	}*/
+
+	//puts("Hello, world!");
+
+
+	//uint32_t *ptr = (uint32_t*)0xA0000000;
+	//uint32_t do_page_fault = *ptr;
+
+	for (;;);
 }

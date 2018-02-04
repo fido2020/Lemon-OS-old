@@ -1,0 +1,11 @@
+﻿  Validating sources
+  Copying sources remotely to 'localhost'
+  Starting remote build
+  Compiling sources:
+  Invoking '/bin/bash ~/projects/Kernel/buildasmx86.sh', working directory: '/home/computerfido/projects/Kernel'
+  Assembling entry.asm
+  Assembling gdt.asm
+  Assembling idt.asm
+  
+  Linking objects
+          1 file(s) copied.

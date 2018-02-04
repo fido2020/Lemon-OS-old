@@ -1,0 +1,31 @@
+﻿  Validating architecture
+  Validating sources
+  Copying sources remotely to 'localhost'
+  Starting remote build
+  Compiling sources:
+  system.cpp
+  /home/computerfido/projects/Kernel/Lemon/Kernel/src/arch/x86/system.cpp:1:20: fatal error: system.h: No such file or directory
+   #include <system.h>
+                      ^
+  compilation terminated.
+  
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\system.cpp(1,20): error : system.h: No such file or directory
+  vga.cpp
+  /home/computerfido/projects/Kernel/Lemon/Kernel/src/arch/x86/vga.cpp:1:17: fatal error: vga.h: No such file or directory
+   #include <vga.h>
+                   ^
+  compilation terminated.
+  
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\vga.cpp(1,17): error : vga.h: No such file or directory
+  kernel.cpp
+  /home/computerfido/projects/Kernel/Lemon/Kernel/src/kernel.cpp:2:17: fatal error: vga.h: No such file or directory
+   #include <vga.h>
+                   ^
+  compilation terminated.
+  
+D:\OneDrive\Documents\Lemon\Kernel\src\kernel.cpp(2,17): error : vga.h: No such file or directory
+  string.cpp
+D:\OneDrive\Documents\Lemon\Kernel\src\string.cpp(18,19): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\OneDrive\Documents\Lemon\Kernel\src\string.cpp(19,19): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\OneDrive\Documents\Lemon\Kernel\src\string.cpp(102,18): warning : conversion to ‘char’ from ‘int’ may alter its value [-Wconversion]
+D:\OneDrive\Documents\Lemon\Kernel\src\string.cpp(102,18): warning : conversion to ‘char’ from ‘int’ may alter its value [-Wconversion]
