@@ -4,6 +4,9 @@
 #include <fatal.h>
 #include <string.h>
 #include <serial.h>
+#include <system.h>
+
+int z;
 
 extern uint32_t kernel_end;
 
@@ -59,11 +62,11 @@ void page_free(page_t* p) {
 	}
 }
 
-void map_page(void* phys, void* virt) {
+void map_page(uint32_t phys, uint32_t virt) {
 	page_directory_t* page_dir = &page_directory;
 
-	uint32_t pdindex = (uint32_t) virt >> 22;
-	uint32_t ptindex = (uint32_t)virt >> 12 & 0x03FF;
+	uint32_t pdindex = virt >> 22;
+	uint32_t ptindex = virt >> 12 & 0x03FF;
 
 	page_table_t* pt = (page_table_t*)pde_get_frame(*page_dir[pdindex]);
 	page_t* page_entry = &(*pt)[ptindex];

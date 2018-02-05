@@ -1,7 +1,8 @@
 #include <vga.h>
+#include <system.h>
 
 namespace VGA {
-	uint8_t* video_memory = (uint8_t*)0xB8000;
+	uint8_t* video_memory = (uint8_t*)0xB8000 + KERNEL_VIRTUAL_BASE;
 
 	uint16_t screen_width = 80;
 	uint16_t screen_height = 25;

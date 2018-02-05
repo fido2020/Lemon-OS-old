@@ -4,29 +4,18 @@ OUTPUT_FORMAT(elf32-i386)
 KERNEL_VIRTUAL_BASE = 0xC0000000;
 
 SECTIONS {
-   /* The multiboot data and code will exist in low memory
-      starting at 0x100000 */
-
    . = 0x00100000;
-   .multiboot.hdr : {
-		*(.multiboot.hdr)
-   }
 
    .multiboot.text : {
-		*(.multiboot.text)
+       *(.multiboot.text)
    }
 
    .multiboot.data : {
        *(.multiboot.data)
    }
 
-   
-
-   /* The kernel will live at 3GB + 1MB in the virtual
-      address space, which will be mapped to 1MB in the
-      physical address space. */
-
    . += KERNEL_VIRTUAL_BASE;
+
    .text ALIGN(4096) : AT(ADDR(.text) - KERNEL_VIRTUAL_BASE) {
        *(.text)
    }

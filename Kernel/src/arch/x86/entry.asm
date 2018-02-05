@@ -5,36 +5,49 @@ extern kmain
 
 MBALIGN     equ 1<<0
 MEMINFO     equ 1<<1
+VIDINFO		equ 1<<2
 MAGIC       equ 0x1BADB002
-FLAGS       equ MBALIGN | MEMINFO
+FLAGS       equ MBALIGN | MEMINFO | VIDINFO
 CHECKSUM    equ -(MAGIC + FLAGS)
 
 KERNEL_VIRTUAL_BASE equ 0xC0000000
 KERNEL_PAGE_NUMBER equ KERNEL_VIRTUAL_BASE >> 22
+KERNEL_NUM_PAGES equ 2
 
-section .mutliboot.data
+section .multiboot.data
 align 4096
 KernelPageDirectory:
 	dd 0x00000083
     times (KERNEL_PAGE_NUMBER - 1) dd 0			; Pages before kernel space
-    dd 0x00000083
-    times (1024 - KERNEL_PAGE_NUMBER - 1) dd 0	; Pages after kernel space
+    dd 0x00000083 | 0<<22                       ; Map 0xc0000000-0xc03fffff to 0x00000000-0x003fffff
+    dd 0x00000083 | 1<<22                       ; Map 0xc0400000-0xc07fffff to 0x00400000-0x007fffff
+    times (1024 - KERNEL_PAGE_NUMBER - KERNEL_NUM_PAGES) dd 0	; Pages after kernel space
 
-section .multiboot.hdr
+
+section .multiboot.text
 align 4 ; Multiboot Header
 multiboot_header:
 dd MAGIC
 dd FLAGS
 dd CHECKSUM
+dd 0
+dd 0
+dd 0
+dd 0
+dd 0
 
-section .multiboot.text progbits alloc exec nowrite align=16
+dd 0
+dd 0
+dd 0
+dd 32
+
 entry:
-	mov ecx, (KernelPageDirectory - KERNEL_VIRTUAL_BASE)
+	mov ecx, (KernelPageDirectory)
 	mov cr3, ecx
 
 	mov ecx, cr4
 	or ecx, 0x00000010
-	mov cr0, ecx
+	mov cr4, ecx
 
 	mov ecx, cr0
     or ecx, 0x80000000                 ; Set PG bit to enable paging.
@@ -44,16 +57,17 @@ entry:
 	jmp ecx ; Jump to higher half
 
 section .text
+
 entry_higher_half:
-	mov dword [KernelPageDirectory],0
-	invlpg [0]
+	;mov dword [KernelPageDirectory],0
+	;invlpg [0]
 
     mov esp, stack_top
     push eax
 
 	;add ebx, KERNEL_VIRTUAL_BASE
-    ;push ebx
-    ;call kmain ; Load C++ part of kernel
+    push ebx
+    call kmain ; Load C++ part of kernel
     
     cli
     hlt

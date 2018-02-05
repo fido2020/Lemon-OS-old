@@ -30,8 +30,6 @@
 #define PAGE_TABLE_INDEX(x) (((x) >> 12) & 0x3ff)
 #define PAGE_GET_PHYSICAL_ADDRESS(x) (*x & ~0xfff)
 
-#define KERNEL_VIRTUAL_BASE 0xC0000000
-
 typedef uint32_t pd_entry_t;
 typedef uint32_t page_t;
 
@@ -73,9 +71,8 @@ void paging_initialize();
 void enable_paging();
 void switch_page_directory(uint32_t* dir);
 
-//void page_map(uint32_t physical_addr, uint32_t virtual_addr, uint32_t flags);
-
 void page_fault_handler(regs32_t* regs);
+void map_page(uint32_t phys, uint32_t virt);
 
 static inline void set_flags(uint32_t* target, uint32_t flags) {
 	*target |= flags;

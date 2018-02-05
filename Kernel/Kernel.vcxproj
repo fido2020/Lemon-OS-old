@@ -130,7 +130,7 @@
       <AdditionalDependencies />
       <UnresolvedSymbolReferences>false</UnresolvedSymbolReferences>
       <AdditionalLibraryDirectories />
-      <AdditionalOptions>-m32 -T $(RemoteProjectDir)/linkscript.ld -ffreestanding -O2 -nostdlib $(RemoteProjectDir)/obj/x86/*.asm.o</AdditionalOptions>
+      <AdditionalOptions>-m32 -T $(RemoteProjectDir)/linkscript.ld -Wl,--build-id=none -fno-pic -ffreestanding -O2 -nostdlib $(RemoteProjectDir)/obj/x86/*.asm.o</AdditionalOptions>
       <SharedLibrarySearchPath />
       <IgnoreDefaultLibraries>
       </IgnoreDefaultLibraries>
@@ -148,7 +148,7 @@
       <Optimization />
       <StrictAliasing />
       <OmitFramePointers />
-      <AdditionalOptions>-m32 --freestanding -Wno-write-strings -I $(RemoteProjectDir)/src/arch/x86/include -I $(RemoteProjectDir)/src/include</AdditionalOptions>
+      <AdditionalOptions>-m32 -ffreestanding -Wno-write-strings -I $(RemoteProjectDir)/src/arch/x86/include -I $(RemoteProjectDir)/src/include</AdditionalOptions>
       <CLanguageStandard />
     </ClCompile>
     <RemotePreBuildEvent>

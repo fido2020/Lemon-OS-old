@@ -1,5 +1,7 @@
 #pragma once
 
+#define KERNEL_VIRTUAL_BASE 0xC0000000
+
 #include <stdint.h>
 
 void outportb(uint16_t port, uint8_t value);

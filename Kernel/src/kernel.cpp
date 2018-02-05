@@ -15,47 +15,42 @@ char key;
 
 extern "C"
 void kmain(multiboot_info_t* mb_info){
+
 	init_serial();
 
 	write_serial_string("Initializing Lemon...\n");
+	write_serial(mb_info->framebufferAddr >> 24);
+	write_serial(mb_info->framebufferAddr >> 16 & 255);
+	write_serial(mb_info->framebufferAddr >> 8 & 255);
 
-	VGA::clearscreen();
-	VGA::puts("Initializing Lemon...\n");
+	gdt_initialize();
+	idt_initialize();
 
-	/*video_mode_t video_mode;
-	video_mode.address = mb_info->framebufferAddr;
+	paging_initialize();
+
+	//VGA::puts("YAY!\n");
+
+	map_page(mb_info->framebufferAddr, 0xCC000000);
 	
+	video_mode_t video_mode;
+
 	video_mode.width = mb_info->framebufferWidth;
 	video_mode.height = mb_info->framebufferHeight;
 
 	video_mode.bpp = mb_info->framebufferBpp;
 	video_mode.pitch = mb_info->framebufferPitch;
-
+	video_mode.address = 0xCC000000;
 	video_mode.type = Graphical;
 
 	video_initialize(video_mode);
 
-	console::initialize(video_mode);
-	 console::puts("Initializing Lemon...\n\n");*/
-
-	gdt_initialize();
-	idt_initialize();
-
-	//paging_initialize();
-
-	//VGA::puts("YAY!\n");
-
-	//page_map(mb_info->framebufferAddr, 0xE0000000, 0);
-	//video_mode.address = 0xE000000;
-
-	//video_initialize(video_mode);
+	screen_clear(255, 255, 255);
 
 	//console::initialize(video_mode);
+	//console::puts("Initializing Lemon...\n\n");
 
-	//console::puts("Bootloader: ");
-
-	//drawstring("yay!", 0, 50);
-	/*console::puts((char*)mb_info->bootloaderName);
+	/*console::puts("Bootloader: ");
+	console::puts((char*)mb_info->bootloaderName);
 
 	console::puts("\n\nVideo Mode");
 	console::puts("\n\tWidth: ");
