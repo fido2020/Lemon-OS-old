@@ -14,32 +14,37 @@ bool keypending = false;
 char key;
 
 extern "C"
-void kmain(multiboot_info_t* mb_info){
+void kmain(uint32_t mb_info_addr){
+
+	multiboot_info_t mb_info;
 
 	init_serial();
 
 	write_serial_string("Initializing Lemon...\n");
-	write_serial(mb_info->framebufferAddr >> 24);
-	write_serial(mb_info->framebufferAddr >> 16 & 255);
-	write_serial(mb_info->framebufferAddr >> 8 & 255);
 
 	gdt_initialize();
 	idt_initialize();
-
+	
 	paging_initialize();
+
+	map_page(mb_info_addr, 0xA0000000);
+
+	mb_info = *((multiboot_info_t*)0xA0000000);
+
+	unmap_page(0xA0000000);
 
 	//VGA::puts("YAY!\n");
 
-	map_page(mb_info->framebufferAddr, 0xCC000000);
+	map_page(mb_info.framebufferAddr, 0xE0000000);
 	
 	video_mode_t video_mode;
 
-	video_mode.width = mb_info->framebufferWidth;
-	video_mode.height = mb_info->framebufferHeight;
+	video_mode.width = mb_info.framebufferWidth;
+	video_mode.height = mb_info.framebufferHeight;
 
-	video_mode.bpp = mb_info->framebufferBpp;
-	video_mode.pitch = mb_info->framebufferPitch;
-	video_mode.address = 0xCC000000;
+	video_mode.bpp = mb_info.framebufferBpp;
+	video_mode.pitch = mb_info.framebufferPitch;
+	video_mode.address = 0xE0000000; 
 	video_mode.type = Graphical;
 
 	video_initialize(video_mode);
@@ -72,12 +77,6 @@ void kmain(multiboot_info_t* mb_info){
 		}
 		
 	}*/
-
-	//puts("Hello, world!");
-
-
-	//uint32_t *ptr = (uint32_t*)0xA0000000;
-	//uint32_t do_page_fault = *ptr;
 
 	for (;;);
 }

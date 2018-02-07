@@ -63,17 +63,15 @@ void page_free(page_t* p) {
 }
 
 void map_page(uint32_t phys, uint32_t virt) {
-	page_directory_t* page_dir = &page_directory;
-
-	uint32_t pdindex = virt >> 22;
-	uint32_t ptindex = virt >> 12 & 0x03FF;
-
-	page_table_t* pt = (page_table_t*)pde_get_frame(*page_dir[pdindex]);
-	page_t* page_entry = &(*pt)[ptindex];
+	page_t* page_entry = get_page(virt);
 
 	uint32_t flags = PAGE_PRESENT | PAGE_WRITABLE;
 	set_flags(page_entry, flags);
-	page_set_frame(page_entry, (uint32_t)phys);
+	page_set_frame(page_entry, (uint32_t)phys >> 12);
+}
+
+void unmap_page(uint32_t addr) {
+	page_free(get_page(addr));
 }
 
 void paging_initialize()

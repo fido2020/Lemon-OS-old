@@ -59,8 +59,8 @@ entry:
 section .text
 
 entry_higher_half:
-	;mov dword [KernelPageDirectory],0
-	;invlpg [0]
+	mov dword [KernelPageDirectory],0
+	invlpg [0]
 
     mov esp, stack_top
     push eax

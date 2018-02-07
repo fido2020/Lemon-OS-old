@@ -74,6 +74,8 @@ void switch_page_directory(uint32_t* dir);
 void page_fault_handler(regs32_t* regs);
 void map_page(uint32_t phys, uint32_t virt);
 
+void unmap_page(uint32_t addr);
+
 static inline void set_flags(uint32_t* target, uint32_t flags) {
 	*target |= flags;
 }

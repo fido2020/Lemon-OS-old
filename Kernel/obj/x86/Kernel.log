@@ -2,7 +2,25 @@
   Copying sources remotely to 'localhost'
   Starting remote build
   Compiling sources:
+  gdt.cpp
+  idt.cpp
+  keyboard.cpp
+  paging.cpp
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\paging.cpp(127,6): warning : unused variable ‘id’ [-Wunused-variable]
+  serial.cpp
+  system.cpp
+  vga.cpp
+  console.cpp
+  fatal.cpp
   kernel.cpp
+  memory.cpp
+  string.cpp
+D:\OneDrive\Documents\Lemon\Kernel\src\string.cpp(64,26): warning : converting to non-pointer type ‘char’ from NULL [-Wconversion-null]
+D:\OneDrive\Documents\Lemon\Kernel\src\string.cpp(144,19): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\OneDrive\Documents\Lemon\Kernel\src\string.cpp(145,19): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+  video.cpp
+D:\OneDrive\Documents\Lemon\Kernel\src\video.cpp(21,21): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\OneDrive\Documents\Lemon\Kernel\src\video.cpp(61,27): warning : array subscript has type ‘char’ [-Wchar-subscripts]
   Invoking '/bin/bash ~/projects/Kernel/buildasmx86.sh', working directory: '/home/computerfido/projects/Kernel'
   Assembling entry.asm
   Assembling gdt.asm
