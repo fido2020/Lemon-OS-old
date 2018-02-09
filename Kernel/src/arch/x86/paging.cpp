@@ -24,11 +24,11 @@ static page_t* get_page(uint32_t addr)
 	return &(*pt)[ptindex];
 }
 
-uint32_t pages_allocate(size_t amount) {
+uint32_t pages_allocate(uint32_t amount) {
 	page_t* entries = get_page(0);
 
 	uint32_t addr = 0;
-	size_t counter = 0;
+	uint32_t counter = 0;
 
 	amount += 2;
 
@@ -54,12 +54,24 @@ uint32_t pages_allocate(size_t amount) {
 	return 0;
 }
 
-void page_free(page_t* p) {
+void pages_free(page_t* p) {
 	uint32_t frame;
 	if ((frame = page_get_frame(*p))) {
 		clear_flags(p, PAGE_PRESENT);
 		flush_tlb_single((uint32_t)p);
 	}
+}
+
+bool pages_free(uint32_t virt, uint32_t amount)
+{
+	page_t* page_entry = get_page(virt);
+	for (size_t i{ 0 }; i < amount; ++i)
+	{
+		clear_flags(page_entry, PAGE_PRESENT);
+		flush_tlb_single(virt + i * PAGE_SIZE);
+	}
+
+	return true;
 }
 
 void map_page(uint32_t phys, uint32_t virt) {
@@ -71,7 +83,7 @@ void map_page(uint32_t phys, uint32_t virt) {
 }
 
 void unmap_page(uint32_t addr) {
-	page_free(get_page(addr));
+	pages_free(get_page(addr));
 }
 
 void paging_initialize()
@@ -100,6 +112,7 @@ void paging_initialize()
 	switch_page_directory(page_directory-KERNEL_VIRTUAL_BASE);
 
 	// Enable paging
+	write_serial_string("!");
 	enable_paging();
 }
 
@@ -117,6 +130,8 @@ void enable_paging() {
 
 void page_fault_handler(regs32_t* regs)
 {
+	write_serial_string("Page Fault!");
+
 	uint32_t fault_addr;
 	asm volatile("mov %%cr2, %0" : "=r" (fault_addr));
 

@@ -12,7 +12,7 @@ CHECKSUM    equ -(MAGIC + FLAGS)
 
 KERNEL_VIRTUAL_BASE equ 0xC0000000
 KERNEL_PAGE_NUMBER equ KERNEL_VIRTUAL_BASE >> 22
-KERNEL_NUM_PAGES equ 2
+KERNEL_NUM_PAGES equ 3
 
 section .multiboot.data
 align 4096
@@ -21,6 +21,7 @@ KernelPageDirectory:
     times (KERNEL_PAGE_NUMBER - 1) dd 0			; Pages before kernel space
     dd 0x00000083 | 0<<22                       ; Map 0xc0000000-0xc03fffff to 0x00000000-0x003fffff
     dd 0x00000083 | 1<<22                       ; Map 0xc0400000-0xc07fffff to 0x00400000-0x007fffff
+	dd 0x00000083 | 2<<22
     times (1024 - KERNEL_PAGE_NUMBER - KERNEL_NUM_PAGES) dd 0	; Pages after kernel space
 
 

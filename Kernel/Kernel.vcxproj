@@ -100,6 +100,8 @@
     <ClCompile Include="src\console.cpp" />
     <ClCompile Include="src\fatal.cpp" />
     <ClCompile Include="src\kernel.cpp" />
+    <ClCompile Include="src\liballoc\liballoc.c" />
+    <ClCompile Include="src\liballoc\_liballoc.cpp" />
     <ClCompile Include="src\memory.cpp" />
     <ClCompile Include="src\string.cpp" />
     <ClCompile Include="src\video.cpp" />
@@ -119,6 +121,7 @@
     <ClInclude Include="src\include\mischdr.h" />
     <ClInclude Include="src\include\string.h" />
     <ClInclude Include="src\include\video.h" />
+    <ClInclude Include="src\liballoc\liballoc.h" />
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
     <Link>

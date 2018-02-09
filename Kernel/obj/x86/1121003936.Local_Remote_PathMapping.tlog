@@ -10,6 +10,9 @@ D:\OneDrive\Documents\Lemon\Kernel\src\console.cpp|/home/computerfido/projects/K
 D:\OneDrive\Documents\Lemon\Kernel\src|/home/computerfido/projects/Kernel/src
 D:\OneDrive\Documents\Lemon\Kernel\src\fatal.cpp|/home/computerfido/projects/Kernel/src/fatal.cpp
 D:\OneDrive\Documents\Lemon\Kernel\src\kernel.cpp|/home/computerfido/projects/Kernel/src/kernel.cpp
+D:\OneDrive\Documents\Lemon\Kernel\src\liballoc\liballoc.c|/home/computerfido/projects/Kernel/src/liballoc/liballoc.c
+D:\OneDrive\Documents\Lemon\Kernel\src\liballoc|/home/computerfido/projects/Kernel/src/liballoc
+D:\OneDrive\Documents\Lemon\Kernel\src\liballoc\_liballoc.cpp|/home/computerfido/projects/Kernel/src/liballoc/_liballoc.cpp
 D:\OneDrive\Documents\Lemon\Kernel\src\memory.cpp|/home/computerfido/projects/Kernel/src/memory.cpp
 D:\OneDrive\Documents\Lemon\Kernel\src\string.cpp|/home/computerfido/projects/Kernel/src/string.cpp
 D:\OneDrive\Documents\Lemon\Kernel\src\video.cpp|/home/computerfido/projects/Kernel/src/video.cpp
@@ -29,6 +32,7 @@ D:\OneDrive\Documents\Lemon\Kernel\src\include\memory.h|/home/computerfido/proje
 D:\OneDrive\Documents\Lemon\Kernel\src\include\mischdr.h|/home/computerfido/projects/Kernel/src/include/mischdr.h
 D:\OneDrive\Documents\Lemon\Kernel\src\include\string.h|/home/computerfido/projects/Kernel/src/include/string.h
 D:\OneDrive\Documents\Lemon\Kernel\src\include\video.h|/home/computerfido/projects/Kernel/src/include/video.h
+D:\OneDrive\Documents\Lemon\Kernel\src\liballoc\liballoc.h|/home/computerfido/projects/Kernel/src/liballoc/liballoc.h
 D:\OneDrive\Documents\Lemon\Kernel\buildasmx86.sh|/home/computerfido/projects/Kernel/buildasmx86.sh
 D:\OneDrive\Documents\Lemon\Kernel|/home/computerfido/projects/Kernel
 D:\OneDrive\Documents\Lemon\Kernel\linkscript.ld|/home/computerfido/projects/Kernel/linkscript.ld

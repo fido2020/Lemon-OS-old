@@ -20,6 +20,9 @@
       <UniqueIdentifier>{2f97d162-6658-4e07-8be1-c4ede9d44de1}</UniqueIdentifier>
       <Extensions>*.h</Extensions>
     </Filter>
+    <Filter Include="src\liballoc">
+      <UniqueIdentifier>{bc5bc401-58fc-4a40-82c3-97deb2a76340}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\kernel.cpp">
@@ -60,6 +63,12 @@
     </ClCompile>
     <ClCompile Include="src\arch\x86\serial.cpp">
       <Filter>src\arch\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="src\liballoc\liballoc.c">
+      <Filter>src\liballoc</Filter>
+    </ClCompile>
+    <ClCompile Include="src\liballoc\_liballoc.cpp">
+      <Filter>src\liballoc</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -117,6 +126,9 @@
     </ClInclude>
     <ClInclude Include="src\arch\x86\include\serial.h">
       <Filter>src\arch\x86\include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\liballoc\liballoc.h">
+      <Filter>src\liballoc</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

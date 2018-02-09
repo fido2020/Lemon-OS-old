@@ -76,6 +76,9 @@ void map_page(uint32_t phys, uint32_t virt);
 
 void unmap_page(uint32_t addr);
 
+uint32_t pages_allocate(uint32_t amount);
+bool pages_free(uint32_t virt, uint32_t amount);
+
 static inline void set_flags(uint32_t* target, uint32_t flags) {
 	*target |= flags;
 }

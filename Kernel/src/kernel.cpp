@@ -9,6 +9,7 @@
 #include <keyboard.h>
 #include <serial.h>
 #include <vga.h>
+#include <memory.h>
 
 bool keypending = false;
 char key;
@@ -17,6 +18,8 @@ extern "C"
 void kmain(uint32_t mb_info_addr){
 
 	multiboot_info_t mb_info;
+
+	//VGA::clearscreen();
 
 	init_serial();
 
@@ -27,13 +30,23 @@ void kmain(uint32_t mb_info_addr){
 	
 	paging_initialize();
 
+	//VGA::puts("AA");
+
+	uint32_t addr1 = *(uint32_t*)malloc(sizeof(uint32_t));
+	uint32_t addr2 = (uint32_t)malloc(sizeof(uint32_t));
+
+	addr1 = 10;
+
+	//VGA::puts("AA");
+	//VGA::puts(itoa(addr1,nullptr,16));
+	//VGA::puts("\n");
+	//VGA::puts(itoa(addr2, nullptr, 16));
+
 	map_page(mb_info_addr, 0xA0000000);
 
 	mb_info = *((multiboot_info_t*)0xA0000000);
 
 	unmap_page(0xA0000000);
-
-	//VGA::puts("YAY!\n");
 
 	map_page(mb_info.framebufferAddr, 0xE0000000);
 	
