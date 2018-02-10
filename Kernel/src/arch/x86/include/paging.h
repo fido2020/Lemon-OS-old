@@ -69,6 +69,8 @@ using page_table_t = page_t[PAGES_PER_TABLE];
 void paging_initialize();
 
 void enable_paging();
+void disable_pse();
+
 void switch_page_directory(uint32_t* dir);
 
 void page_fault_handler(regs32_t* regs);
@@ -103,7 +105,7 @@ static inline uint32_t pde_get_frame(uint32_t p) {
 	return p & PDE_FRAME;
 }
 
-static inline void flush_tlb_single(uint32_t addr)
+static inline void flush_tlb_entry(uint32_t addr)
 {
 	asm volatile("invlpg (%0)" ::"r" (addr) : "memory");
 }

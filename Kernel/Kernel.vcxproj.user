@@ -6,8 +6,9 @@
     <DebuggerFlavor>LinuxDebugger</DebuggerFlavor>
     <RemoteDebuggerCommandArguments>
     </RemoteDebuggerCommandArguments>
-    <PreLaunchCommand>cmd.exe /c "$(SolutionDir)run.bat"</PreLaunchCommand>
-    <RemoteDebuggingMode>gdbserver</RemoteDebuggingMode>
+    <PreLaunchCommand>
+    </PreLaunchCommand>
+    <RemoteDebuggingMode>gdb</RemoteDebuggingMode>
     <RemoteDebuggerWorkingDirectory>$(RemoteOutDir)</RemoteDebuggerWorkingDirectory>
   </PropertyGroup>
 </Project>

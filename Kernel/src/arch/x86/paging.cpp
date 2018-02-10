@@ -58,7 +58,7 @@ void pages_free(page_t* p) {
 	uint32_t frame;
 	if ((frame = page_get_frame(*p))) {
 		clear_flags(p, PAGE_PRESENT);
-		flush_tlb_single((uint32_t)p);
+		flush_tlb_entry((uint32_t)p);
 	}
 }
 
@@ -68,7 +68,7 @@ bool pages_free(uint32_t virt, uint32_t amount)
 	for (size_t i{ 0 }; i < amount; ++i)
 	{
 		clear_flags(page_entry, PAGE_PRESENT);
-		flush_tlb_single(virt + i * PAGE_SIZE);
+		flush_tlb_entry(virt + i * PAGE_SIZE);
 	}
 
 	return true;
@@ -88,18 +88,19 @@ void unmap_page(uint32_t addr) {
 
 void paging_initialize()
 {
+	asm("cli");
 	memset((uint8_t*)page_directory, 0, sizeof(page_directory_t));
 
-	for (int i = 0; i < TABLES_PER_DIR; ++i)
+	for (uint32_t i = 0; i < TABLES_PER_DIR; ++i)
 	{
 		memset((uint8_t*)(&page_tables[i]), 0, PAGES_PER_TABLE * sizeof(page_t));
-		pde_set_frame(&page_directory[i], ((uint32_t)&page_tables[i] - KERNEL_VIRTUAL_BASE) >> 12);
+		pde_set_frame(&page_directory[i], ((uint32_t)(&page_tables[i]) - KERNEL_VIRTUAL_BASE) >> 12);
 		set_flags(&page_directory[i], PDE_PRESENT | PDE_WRITABLE);
 	}
 
 	page_t* page = get_page(KERNEL_VIRTUAL_BASE);
 
-	for (uint32_t addr{ 0 }; addr <= (uint32_t)(&kernel_end) + PAGE_SIZE; addr += PAGE_SIZE, ++page)
+	for (uint32_t addr = 0; addr <= (uint32_t)(&kernel_end-KERNEL_VIRTUAL_BASE) + PAGE_SIZE; addr += PAGE_SIZE, ++page)
 	{
 		page_set_frame(page, addr >> 12);
 		set_flags(page, PAGE_PRESENT | PAGE_WRITABLE);
@@ -107,13 +108,14 @@ void paging_initialize()
 
 	// Map last page directory entry to itself
 	pde_set_frame(&page_directory[1023], ((uint32_t)page_directory - KERNEL_VIRTUAL_BASE) >> 12);
-	set_flags(&page_directory[1023], PAGE_PRESENT | PAGE_WRITABLE);
+	set_flags(&page_directory[1023], PDE_PRESENT | PDE_WRITABLE);
 
-	switch_page_directory(page_directory-KERNEL_VIRTUAL_BASE);
-
-	// Enable paging
 	write_serial_string("!");
-	enable_paging();
+	
+	switch_page_directory(page_directory - KERNEL_VIRTUAL_BASE);
+	disable_pse();
+	// Enable paging	
+	//enable_paging();
 }
 
 void switch_page_directory(uint32_t* dir)
@@ -126,6 +128,13 @@ void enable_paging() {
 	asm volatile("mov %%cr0, %0": "=r"(cr0));
 	cr0 |= 0x80000000; // Enable paging!
 	asm volatile("mov %0, %%cr0":: "r"(cr0));
+}
+
+void disable_pse() {
+	uint32_t cr4;
+	asm volatile("mov %%cr4, %0": "=r"(cr4));
+	cr4 &= ~(1 << 4);
+	asm volatile("mov %0, %%cr4":: "r"(cr4));
 }
 
 void page_fault_handler(regs32_t* regs)

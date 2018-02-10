@@ -37,7 +37,7 @@ SECTIONS {
        *(.comment*);
    }
 
-   kernel_end = . - KERNEL_VIRTUAL_BASE;
+   kernel_end = .;
 }
 
 

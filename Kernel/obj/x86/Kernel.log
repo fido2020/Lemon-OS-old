@@ -2,9 +2,8 @@
   Copying sources remotely to 'localhost'
   Starting remote build
   Compiling sources:
-  kernel.cpp
-D:\OneDrive\Documents\Lemon\Kernel\src\kernel.cpp(35,11): warning : variable ‘addr1’ set but not used [-Wunused-but-set-variable]
-D:\OneDrive\Documents\Lemon\Kernel\src\kernel.cpp(36,11): warning : unused variable ‘addr2’ [-Wunused-variable]
+  paging.cpp
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\paging.cpp(151,6): warning : unused variable ‘id’ [-Wunused-variable]
   Invoking '/bin/bash ~/projects/Kernel/buildasmx86.sh', working directory: '/home/computerfido/projects/Kernel'
   Assembling entry.asm
   Assembling gdt.asm
