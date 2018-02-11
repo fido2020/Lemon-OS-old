@@ -3,6 +3,8 @@
 #include <stdint.h>
 #include <system.h>
 
+#define IRQ0 32
+
 typedef struct {
 	uint16_t base_low;
 	uint16_t sel;

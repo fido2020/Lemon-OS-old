@@ -71,7 +71,7 @@ void paging_initialize();
 void enable_paging();
 void disable_pse();
 
-void switch_page_directory(uint32_t* dir);
+void switch_page_directory(uint32_t dir);
 
 void page_fault_handler(regs32_t* regs);
 void map_page(uint32_t phys, uint32_t virt);

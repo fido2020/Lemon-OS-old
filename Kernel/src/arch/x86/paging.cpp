@@ -112,13 +112,13 @@ void paging_initialize()
 
 	write_serial_string("!");
 	
-	switch_page_directory(page_directory - KERNEL_VIRTUAL_BASE);
+	switch_page_directory((uint32_t)page_directory - KERNEL_VIRTUAL_BASE);
 	disable_pse();
-	// Enable paging	
-	//enable_paging();
+	enable_paging();
+	
 }
 
-void switch_page_directory(uint32_t* dir)
+void switch_page_directory(uint32_t dir)
 {
 	asm volatile("mov %0, %%cr3":: "r"(dir));
 }
@@ -160,6 +160,8 @@ void page_fault_handler(regs32_t* regs)
 		reason = "user-mode ";
 	if (reserved)
 		reason = "reserved ";
+	if (id)
+		reason = "instruction fetch";
 
 	strcat(msg, itoa(fault_addr, NULL, 16));
 	strcat(msg, " \nPage ");

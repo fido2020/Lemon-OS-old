@@ -37,20 +37,20 @@ void screen_clear(uint8_t colour) {
 
 void screen_putpixel(int x, int y, uint8_t r, uint8_t g, uint8_t b) {
 	if (video_mode.type != Graphical) return; // Text Mode uses characters not pixels
-	unsigned pos = y * video_mode.pitch + (x * (video_mode.bpp / 8));
+	uint32_t pos = y * video_mode.pitch + (x * (video_mode.bpp / 8));
 	video_memory[pos + 2] = r;
 	video_memory[pos + 1] = g;
 	video_memory[pos + 0] = b;
 }
 
 void screen_fillrect(int x, int y, int w, int h, uint8_t r, uint8_t g, uint8_t b) {
-	uint32_t where = 0;
+	uint32_t pos = 0;
 	for (int i = 0; i<h; i++) {
 		for (int j = 0; j<w; j++) {
-			where = (y + i) * video_mode.pitch + ((x + j) * (video_mode.bpp / 8));
-			video_memory[where] = b & 255; // BLUE
-			video_memory[where + 1] = g;  // GREEN
-			video_memory[where + 2] = r; // RED
+			pos = (y + i) * video_mode.pitch + ((x + j) * (video_mode.bpp / 8));
+			video_memory[pos] = b & 255; // BLUE
+			video_memory[pos + 1] = g;  // GREEN
+			video_memory[pos + 2] = r; // RED
 		}
 	}
 }
@@ -80,6 +80,21 @@ void drawstring(char** str, int x, int y, uint8_t r, uint8_t g, uint8_t b, int s
 	for (int i = 0; str[i] != '\0'; i++) {
 		drawstring(str, x, y, r, g, b, scale);
 	}
+}
+
+void drawgrayscalebitmap(int x, int y, int w, int h, uint8_t* data) {
+	uint32_t pos = 0;
+	for (int i = 0; i < h; i++)
+		for (int j = 0; j < w; j++) {
+			pos = (y + i) * video_mode.pitch + ((x + j) * (video_mode.bpp / 8));
+			uint8_t col = data[(i*w) + j];
+
+			if (col != 1) { // A bit of a hack - a value of 1 = transparent
+				video_memory[pos] = col;
+				video_memory[pos + 1] = col;
+				video_memory[pos + 2] = col;
+			}
+		}
 }
 
 /*void drawbitmap(bitmap_t *bmp, int x, int y, int w, int h)

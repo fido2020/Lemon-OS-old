@@ -10,9 +10,15 @@
 #include <serial.h>
 #include <vga.h>
 #include <memory.h>
+#include <GUI.h>
 
 bool keypending = false;
 char key;
+
+extern "C"
+void brk() {
+	write_serial_string("Breakpoint!");
+}
 
 extern "C"
 void kmain(uint32_t mb_info_addr){
@@ -25,30 +31,35 @@ void kmain(uint32_t mb_info_addr){
 
 	gdt_initialize();
 	idt_initialize();
-	
+
 	paging_initialize();
 
-	map_page(mb_info_addr, 0xA0000000);
+	mb_info = *((multiboot_info_t*)mb_info_addr);
 
-	mb_info = *((multiboot_info_t*)0xA0000000);
+	VGA::puts("yay!");
 
-	unmap_page(0xA0000000);
-
-	map_page(mb_info.framebufferAddr, 0xE0000000);
+	/*//map_page(mb_info.framebufferAddr, 0xE0000000);
 	
 	video_mode_t video_mode;
+	uint32_t videoMemoryAddress = /*0xE0000000* / mb_info.framebufferAddr;
 
 	video_mode.width = mb_info.framebufferWidth;
 	video_mode.height = mb_info.framebufferHeight;
 
 	video_mode.bpp = mb_info.framebufferBpp;
 	video_mode.pitch = mb_info.framebufferPitch;
-	video_mode.address = 0xE0000000; 
+	video_mode.address = videoMemoryAddress;
 	video_mode.type = Graphical;
 
 	video_initialize(video_mode);
 
-	//screen_clear(255, 255, 255);
+	screen_clear(255,0,0);
+
+	GUI gui(&video_mode);
+
+	for (;;) {
+		gui.Update();
+	}
 
 	//console::initialize(video_mode);
 	//console::puts("Initializing Lemon...\n\n");

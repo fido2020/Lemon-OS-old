@@ -23,6 +23,9 @@
     <Filter Include="src\liballoc">
       <UniqueIdentifier>{bc5bc401-58fc-4a40-82c3-97deb2a76340}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\gui">
+      <UniqueIdentifier>{ca6dc2d5-6102-4a71-b626-17051c3a34bf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\kernel.cpp">
@@ -70,6 +73,15 @@
     <ClCompile Include="src\liballoc\_liballoc.cpp">
       <Filter>src\liballoc</Filter>
     </ClCompile>
+    <ClCompile Include="src\arch\x86\mouse.cpp">
+      <Filter>src\arch\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\GUI.cpp">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphicsresources.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="linkscript.ld" />
@@ -85,9 +97,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\arch\x86\include\system.h">
-      <Filter>src\arch\x86\include</Filter>
-    </ClInclude>
     <ClInclude Include="src\arch\x86\include\vga.h">
       <Filter>src\arch\x86\include</Filter>
     </ClInclude>
@@ -118,9 +127,6 @@
     <ClInclude Include="src\include\console.h">
       <Filter>src\include</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\graphicsresources.h">
-      <Filter>src\include</Filter>
-    </ClInclude>
     <ClInclude Include="src\arch\x86\include\keyboard.h">
       <Filter>src\arch\x86\include</Filter>
     </ClInclude>
@@ -129,6 +135,18 @@
     </ClInclude>
     <ClInclude Include="src\liballoc\liballoc.h">
       <Filter>src\liballoc</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\GUI.h">
+      <Filter>src\include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\arch\x86\include\mouse.h">
+      <Filter>src\arch\x86\include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\arch\x86\include\system.h">
+      <Filter>src\arch\x86\include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\graphicsresources.h">
+      <Filter>src\include</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

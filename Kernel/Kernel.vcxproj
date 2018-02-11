@@ -90,6 +90,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\graphicsresources.cpp" />
+    <ClCompile Include="src\arch\x86\mouse.cpp" />
     <ClCompile Include="src\arch\x86\gdt.cpp" />
     <ClCompile Include="src\arch\x86\idt.cpp" />
     <ClCompile Include="src\arch\x86\keyboard.cpp" />
@@ -99,6 +101,7 @@
     <ClCompile Include="src\arch\x86\vga.cpp" />
     <ClCompile Include="src\console.cpp" />
     <ClCompile Include="src\fatal.cpp" />
+    <ClCompile Include="src\gui\GUI.cpp" />
     <ClCompile Include="src\kernel.cpp" />
     <ClCompile Include="src\liballoc\liballoc.c" />
     <ClCompile Include="src\liballoc\_liballoc.cpp" />
@@ -107,6 +110,9 @@
     <ClCompile Include="src\video.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\arch\x86\include\mouse.h" />
+    <ClInclude Include="src\arch\x86\include\system.h" />
+    <ClInclude Include="src\include\GUI.h" />
     <ClInclude Include="src\arch\x86\include\keyboard.h" />
     <ClInclude Include="src\arch\x86\include\serial.h" />
     <ClInclude Include="src\include\graphicsresources.h" />
@@ -114,7 +120,6 @@
     <ClInclude Include="src\arch\x86\include\paging.h" />
     <ClInclude Include="src\arch\x86\include\gdt.h" />
     <ClInclude Include="src\arch\x86\include\idt.h" />
-    <ClInclude Include="src\arch\x86\include\system.h" />
     <ClInclude Include="src\arch\x86\include\vga.h" />
     <ClInclude Include="src\include\console.h" />
     <ClInclude Include="src\include\memory.h" />
