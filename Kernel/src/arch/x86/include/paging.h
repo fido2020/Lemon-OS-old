@@ -98,11 +98,11 @@ static inline uint32_t page_get_frame(uint32_t p) {
 }
 
 static inline void pde_set_frame(uint32_t* p, uint32_t addr) {
-	*p = (*p & PDE_FRAME) | addr;
+	*p = (*p & ~PDE_FRAME) | addr;
 }
 
 static inline uint32_t pde_get_frame(uint32_t p) {
-	return p & PDE_FRAME;
+	return (p & PDE_FRAME) ;
 }
 
 static inline void flush_tlb_entry(uint32_t addr)

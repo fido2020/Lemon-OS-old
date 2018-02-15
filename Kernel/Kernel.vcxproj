@@ -105,6 +105,7 @@
     <ClCompile Include="src\kernel.cpp" />
     <ClCompile Include="src\liballoc\liballoc.c" />
     <ClCompile Include="src\liballoc\_liballoc.cpp" />
+    <ClCompile Include="src\list.cpp" />
     <ClCompile Include="src\memory.cpp" />
     <ClCompile Include="src\string.cpp" />
     <ClCompile Include="src\video.cpp" />
@@ -122,6 +123,7 @@
     <ClInclude Include="src\arch\x86\include\idt.h" />
     <ClInclude Include="src\arch\x86\include\vga.h" />
     <ClInclude Include="src\include\console.h" />
+    <ClInclude Include="src\include\list.h" />
     <ClInclude Include="src\include\memory.h" />
     <ClInclude Include="src\include\mischdr.h" />
     <ClInclude Include="src\include\string.h" />

@@ -16,15 +16,15 @@
       <UniqueIdentifier>{1c4d2dea-198f-4a87-ab47-16044da3c43e}</UniqueIdentifier>
       <Extensions>*.h</Extensions>
     </Filter>
-    <Filter Include="src\include">
-      <UniqueIdentifier>{2f97d162-6658-4e07-8be1-c4ede9d44de1}</UniqueIdentifier>
-      <Extensions>*.h</Extensions>
-    </Filter>
     <Filter Include="src\liballoc">
       <UniqueIdentifier>{bc5bc401-58fc-4a40-82c3-97deb2a76340}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\gui">
       <UniqueIdentifier>{ca6dc2d5-6102-4a71-b626-17051c3a34bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\include">
+      <UniqueIdentifier>{2f97d162-6658-4e07-8be1-c4ede9d44de1}</UniqueIdentifier>
+      <Extensions>*.h</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -80,6 +80,9 @@
       <Filter>src\gui</Filter>
     </ClCompile>
     <ClCompile Include="src\graphicsresources.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\list.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -146,6 +149,9 @@
       <Filter>src\arch\x86\include</Filter>
     </ClInclude>
     <ClInclude Include="src\include\graphicsresources.h">
+      <Filter>src\include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\list.h">
       <Filter>src\include</Filter>
     </ClInclude>
   </ItemGroup>

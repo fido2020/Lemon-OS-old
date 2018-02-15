@@ -16,11 +16,6 @@ bool keypending = false;
 char key;
 
 extern "C"
-void brk() {
-	write_serial_string("Breakpoint!");
-}
-
-extern "C"
 void kmain(uint32_t mb_info_addr){
 
 	multiboot_info_t mb_info;
@@ -34,14 +29,14 @@ void kmain(uint32_t mb_info_addr){
 
 	paging_initialize();
 
-	mb_info = *((multiboot_info_t*)mb_info_addr);
+	/*mb_info = *((multiboot_info_t*)mb_info_addr);
 
-	VGA::puts("yay!");
+	//VGA::puts("yay!");
 
-	/*//map_page(mb_info.framebufferAddr, 0xE0000000);
+	map_page(mb_info.framebufferAddr, 0xE0000000);
 	
 	video_mode_t video_mode;
-	uint32_t videoMemoryAddress = /*0xE0000000* / mb_info.framebufferAddr;
+	uint32_t videoMemoryAddress = 0xE0000000;// mb_info.framebufferAddr;
 
 	video_mode.width = mb_info.framebufferWidth;
 	video_mode.height = mb_info.framebufferHeight;

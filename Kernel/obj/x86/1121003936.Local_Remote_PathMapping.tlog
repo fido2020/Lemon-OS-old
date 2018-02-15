@@ -17,6 +17,7 @@ D:\OneDrive\Documents\Lemon\Kernel\src\kernel.cpp|/home/computerfido/projects/Ke
 D:\OneDrive\Documents\Lemon\Kernel\src\liballoc\liballoc.c|/home/computerfido/projects/Kernel/src/liballoc/liballoc.c
 D:\OneDrive\Documents\Lemon\Kernel\src\liballoc|/home/computerfido/projects/Kernel/src/liballoc
 D:\OneDrive\Documents\Lemon\Kernel\src\liballoc\_liballoc.cpp|/home/computerfido/projects/Kernel/src/liballoc/_liballoc.cpp
+D:\OneDrive\Documents\Lemon\Kernel\src\list.cpp|/home/computerfido/projects/Kernel/src/list.cpp
 D:\OneDrive\Documents\Lemon\Kernel\src\memory.cpp|/home/computerfido/projects/Kernel/src/memory.cpp
 D:\OneDrive\Documents\Lemon\Kernel\src\string.cpp|/home/computerfido/projects/Kernel/src/string.cpp
 D:\OneDrive\Documents\Lemon\Kernel\src\video.cpp|/home/computerfido/projects/Kernel/src/video.cpp
@@ -34,6 +35,7 @@ D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\include\gdt.h|/home/computerfido
 D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\include\idt.h|/home/computerfido/projects/Kernel/src/arch/x86/include/idt.h
 D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\include\vga.h|/home/computerfido/projects/Kernel/src/arch/x86/include/vga.h
 D:\OneDrive\Documents\Lemon\Kernel\src\include\console.h|/home/computerfido/projects/Kernel/src/include/console.h
+D:\OneDrive\Documents\Lemon\Kernel\src\include\list.h|/home/computerfido/projects/Kernel/src/include/list.h
 D:\OneDrive\Documents\Lemon\Kernel\src\include\memory.h|/home/computerfido/projects/Kernel/src/include/memory.h
 D:\OneDrive\Documents\Lemon\Kernel\src\include\mischdr.h|/home/computerfido/projects/Kernel/src/include/mischdr.h
 D:\OneDrive\Documents\Lemon\Kernel\src\include\string.h|/home/computerfido/projects/Kernel/src/include/string.h

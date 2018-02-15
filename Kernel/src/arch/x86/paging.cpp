@@ -20,7 +20,7 @@ static page_t* get_page(uint32_t addr)
 	uint32_t pdindex = addr >> 22;
 	uint32_t ptindex = addr >> 12 & 0x03FF;
 
-	page_table_t* pt = (page_table_t*)(pde_get_frame(page_directory[pdindex]) + KERNEL_VIRTUAL_BASE);
+	page_table_t* pt = (page_table_t*)(((pde_get_frame(page_directory[pdindex]) /* << 12*/) + KERNEL_VIRTUAL_BASE));
 	return &(*pt)[ptindex];
 }
 
@@ -100,7 +100,7 @@ void paging_initialize()
 
 	page_t* page = get_page(KERNEL_VIRTUAL_BASE);
 
-	for (uint32_t addr = 0; addr <= (uint32_t)(&kernel_end-KERNEL_VIRTUAL_BASE) + PAGE_SIZE; addr += PAGE_SIZE, ++page)
+	for (uint32_t addr = 0; addr <= (((uint32_t)&kernel_end)-KERNEL_VIRTUAL_BASE) + PAGE_SIZE; addr += PAGE_SIZE, ++page)
 	{
 		page_set_frame(page, addr >> 12);
 		set_flags(page, PAGE_PRESENT | PAGE_WRITABLE);
@@ -112,10 +112,12 @@ void paging_initialize()
 
 	write_serial_string("!");
 	
+	//interrupt_register_handler(IRQ0 + 14,page_fault_handler);
+
 	switch_page_directory((uint32_t)page_directory - KERNEL_VIRTUAL_BASE);
 	disable_pse();
-	enable_paging();
-	
+
+	asm("sti");
 }
 
 void switch_page_directory(uint32_t dir)

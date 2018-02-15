@@ -16,11 +16,13 @@ GUI::GUI(video_mode_t* video_mode)
 
 	screen_clear(96, 192, 192);
 	//drawstring("Lemon OS", 10, 10, 255, 255, 255, 4);
-	GUIText text;
-	text.text = "Lemon OS";
-	text.scale = 4;
+	//text = List<GUIText>();
+	//GUIText t;
+	//t.text = "Lemon OS";
+	//t.scale = 4;
+	//t.type = Text;
 
-	objs.add_back(text);
+	//text.add_back(t);
 }
 
 void GUI::Update()
@@ -30,7 +32,10 @@ void GUI::Update()
 
 		screen_fillrect(mouse_x, mouse_y, 11, 18, 96, 192, 192);
 
-		drawstring("Lemon OS", 10, 10, 255, 255, 255, 4);
+		/*for (int i = 0; i < text.get_length(); i++) {
+			GUIText t = text[i];
+			drawstring(t.text, t.x, t.y, 255, 255, 255, t.scale);
+		}*/
 
 		mouse_data = mouse_get_data();
 
@@ -55,25 +60,3 @@ void GUI::DrawMouseCursor() {
 	drawgrayscalebitmap(mouse_x, mouse_y, 11, 18, mouse_cursor);
 }
 
-void GUINodeList::add_back(GUIObject obj) {
-	GUINode node;
-	node.obj = obj;
-	node.index = num;
-	node.prev = back;
-	node.next = nullptr;
-	back->next = &node;
-	back = &node;
-	num++;
-}
-
-GUIObject GUINodeList::get_at_index(int index) {
-	GUINode* node = front;
-	while (node->index != index && node->next != nullptr) {
-		node = node->next;
-	}
-	return node->obj;
-}
-
-GUIObject GUINodeList::operator[](unsigned pos) {
-	return get_at_index(pos);
-}
