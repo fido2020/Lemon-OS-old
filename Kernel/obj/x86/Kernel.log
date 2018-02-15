@@ -2,9 +2,7 @@
   Copying sources remotely to 'localhost'
   Starting remote build
   Compiling sources:
-  kernel.cpp
-D:\OneDrive\Documents\Lemon\Kernel\src\kernel.cpp(62,2): warning : "/*" within comment [-Wcomment]
-D:\OneDrive\Documents\Lemon\Kernel\src\kernel.cpp(21,19): warning : unused variable ‘mb_info’ [-Wunused-variable]
+  paging.cpp
   Invoking '/bin/bash ~/projects/Kernel/buildasmx86.sh', working directory: '/home/computerfido/projects/Kernel'
   Assembling entry.asm
   Assembling gdt.asm

@@ -20,7 +20,7 @@ static page_t* get_page(uint32_t addr)
 	uint32_t pdindex = addr >> 22;
 	uint32_t ptindex = addr >> 12 & 0x03FF;
 
-	page_table_t* pt = (page_table_t*)(((pde_get_frame(page_directory[pdindex]) /* << 12*/) + KERNEL_VIRTUAL_BASE));
+	page_table_t* pt = (page_table_t*)(((pde_get_frame(page_directory[pdindex]) << 12) + KERNEL_VIRTUAL_BASE));
 	return &(*pt)[ptindex];
 }
 
