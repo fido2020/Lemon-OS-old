@@ -27,13 +27,19 @@ void kmain(uint32_t mb_info_addr){
 	gdt_initialize();
 	idt_initialize();
 
+	mb_info = *((multiboot_info_t*)mb_info_addr);
+
+	write_serial_string(itoa(mb_info.framebufferAddr));
+
 	paging_initialize();
 
-	/*mb_info = *((multiboot_info_t*)mb_info_addr);
+	write_serial_string("YAY!");
+	
 
 	//VGA::puts("yay!");
 
-	map_page(mb_info.framebufferAddr, 0xE0000000);
+	uint32_t vid_mem_size = mb_info.framebufferHeight*mb_info.framebufferPitch;
+	map_page(mb_info.framebufferAddr, 0xE0000000, vid_mem_size/PAGE_SIZE + 1);
 	
 	video_mode_t video_mode;
 	uint32_t videoMemoryAddress = 0xE0000000;// mb_info.framebufferAddr;
@@ -51,6 +57,12 @@ void kmain(uint32_t mb_info_addr){
 	screen_clear(255,0,0);
 
 	GUI gui(&video_mode);
+
+	int* test = (int*)malloc(sizeof(int));
+	*(test) = 12;
+
+	drawstring(itoa(*test), 10, 10, 255, 255, 255, 2);
+	screen_update();
 
 	for (;;) {
 		gui.Update();

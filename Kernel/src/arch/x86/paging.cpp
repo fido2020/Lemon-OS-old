@@ -6,21 +6,19 @@
 #include <serial.h>
 #include <system.h>
 
-int z;
-
 extern uint32_t kernel_end;
 
 uint32_t max_pages = 1024 * 1023;
 
-page_directory_t page_directory;
-page_table_t page_tables[1024];
+page_directory_t page_directory __attribute__((aligned(4096)));
+page_table_t page_tables[TABLES_PER_DIR] __attribute__((aligned(4096)));
 
 static page_t* get_page(uint32_t addr)
 {
 	uint32_t pdindex = addr >> 22;
 	uint32_t ptindex = addr >> 12 & 0x03FF;
 
-	page_table_t* pt = (page_table_t*)(((pde_get_frame(page_directory[pdindex]) << 12) + KERNEL_VIRTUAL_BASE));
+	page_table_t* pt = &page_tables[pdindex];
 	return &(*pt)[ptindex];
 }
 
@@ -64,22 +62,30 @@ void pages_free(page_t* p) {
 
 bool pages_free(uint32_t virt, uint32_t amount)
 {
-	page_t* page_entry = get_page(virt);
-	for (size_t i{ 0 }; i < amount; ++i)
-	{
-		clear_flags(page_entry, PAGE_PRESENT);
-		flush_tlb_entry(virt + i * PAGE_SIZE);
-	}
-
-	return true;
+	// Stub
 }
 
-void map_page(uint32_t phys, uint32_t virt) {
-	page_t* page_entry = get_page(virt);
+// Map amount pages from phys to virt
+bool map_page(uint32_t phys, uint32_t virt, uint32_t amount) {
+	if (!amount) {
+		write_serial_string("Error Mapping Address: Page Amount is invalid or zero (map_page)");
+		return 0;
+	}
+	
+	for (uint32_t i = 0; i < amount; i++, phys += PAGE_SIZE, virt += PAGE_SIZE) {
+		// Create a new Page
+		page_t page = 0;
+		set_flags(&page, PAGE_PRESENT | PAGE_WRITABLE); // Make it present and writeable
+		page_set_frame(&page, phys);
 
-	uint32_t flags = PAGE_PRESENT | PAGE_WRITABLE;
-	set_flags(page_entry, flags);
-	page_set_frame(page_entry, (uint32_t)phys >> 12);
+		// Add it to the page table and directory
+		uint32_t pdindex = PAGE_DIRECTORY_INDEX(virt);
+		set_flags(&page_directory[pdindex], PDE_PRESENT);
+		set_flags(&page_directory[pdindex], PDE_WRITABLE);
+		pde_set_frame(&page_directory[pdindex], (uint32_t)&page_tables[pdindex]);
+		page_tables[pdindex][PAGE_TABLE_INDEX(virt)] = page;
+		return 1;
+	}
 }
 
 void unmap_page(uint32_t addr) {
@@ -88,36 +94,47 @@ void unmap_page(uint32_t addr) {
 
 void paging_initialize()
 {
-	asm("cli");
-	memset((uint8_t*)page_directory, 0, sizeof(page_directory_t));
-
-	for (uint32_t i = 0; i < TABLES_PER_DIR; ++i)
-	{
-		memset((uint8_t*)(&page_tables[i]), 0, PAGES_PER_TABLE * sizeof(page_t));
-		pde_set_frame(&page_directory[i], ((uint32_t)(&page_tables[i]) - KERNEL_VIRTUAL_BASE) >> 12);
-		set_flags(&page_directory[i], PDE_PRESENT | PDE_WRITABLE);
+	for (uint32_t i = 0; i < TABLES_PER_DIR; i++) {
+		for (uint32_t j = 0; j < PAGES_PER_TABLE; j++) {
+			page_tables[i][j] = 0;
+		}
+		page_directory[i] = 0 | PDE_WRITABLE;
 	}
 
-	page_t* page = get_page(KERNEL_VIRTUAL_BASE);
+	for (int i = 0, frame = 0x0, virt = 0x00000000; i<4096; i++, frame += PAGE_SIZE, virt += PAGE_SIZE) {
 
-	for (uint32_t addr = 0; addr <= (((uint32_t)&kernel_end)-KERNEL_VIRTUAL_BASE) + PAGE_SIZE; addr += PAGE_SIZE, ++page)
-	{
-		page_set_frame(page, addr >> 12);
-		set_flags(page, PAGE_PRESENT | PAGE_WRITABLE);
+		//Create a new page
+		page_t page = 0;
+		set_flags(&page, PAGE_PRESENT | PAGE_WRITABLE); // Make it present and writable
+		page_set_frame(&page, frame);
+
+		// Add it to the page table and directory
+		uint32_t pdindex = PAGE_DIRECTORY_INDEX(virt);
+		set_flags(&page_directory[pdindex], PDE_PRESENT);
+		set_flags(&page_directory[pdindex], PDE_WRITABLE);
+		pde_set_frame(&page_directory[pdindex], (uint32_t)&page_tables[pdindex]);
+		page_tables[pdindex][PAGE_TABLE_INDEX(virt)] = page;
 	}
 
-	// Map last page directory entry to itself
-	pde_set_frame(&page_directory[1023], ((uint32_t)page_directory - KERNEL_VIRTUAL_BASE) >> 12);
-	set_flags(&page_directory[1023], PDE_PRESENT | PDE_WRITABLE);
+	for (int i = 0, frame = 0x100000, virt = 0xc0000000; i<4096; i++, frame += PAGE_SIZE, virt += PAGE_SIZE) {
 
-	write_serial_string("!");
-	
-	//interrupt_register_handler(IRQ0 + 14,page_fault_handler);
+		//Create a new page
+		page_t page = 0;
+		set_flags(&page, PAGE_PRESENT | PAGE_WRITABLE); // Make it present and writable
+		page_set_frame(&page, frame);
+
+		// Add it to the page table and directory
+		uint32_t pdindex = PAGE_DIRECTORY_INDEX(virt);
+		set_flags(&page_directory[pdindex], PDE_PRESENT);
+		set_flags(&page_directory[pdindex], PDE_WRITABLE);
+		pde_set_frame(&page_directory[pdindex], (uint32_t)&page_tables[pdindex]);
+		page_tables[pdindex][PAGE_TABLE_INDEX(virt)] = page;
+	}
+
+	interrupt_register_handler(IRQ0 + 14,page_fault_handler);
 
 	switch_page_directory((uint32_t)page_directory - KERNEL_VIRTUAL_BASE);
-	disable_pse();
-
-	asm("sti");
+	//disable_pse();
 }
 
 void switch_page_directory(uint32_t dir)

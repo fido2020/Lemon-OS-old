@@ -27,16 +27,8 @@ GUI::GUI(video_mode_t* video_mode)
 
 void GUI::Update()
 {
+	screen_clear(96, 192, 192);
 	if (mouse_data_updated()) {
-		//screen_clear(96, 192, 192);
-
-		screen_fillrect(mouse_x, mouse_y, 11, 18, 96, 192, 192);
-
-		/*for (int i = 0; i < text.get_length(); i++) {
-			GUIText t = text[i];
-			drawstring(t.text, t.x, t.y, 255, 255, 255, t.scale);
-		}*/
-
 		mouse_data = mouse_get_data();
 
 		mouse_x += mouse_data[1];
@@ -54,6 +46,8 @@ void GUI::Update()
 	}
 
 	DrawMouseCursor();
+
+	screen_update();
 }
 
 void GUI::DrawMouseCursor() {

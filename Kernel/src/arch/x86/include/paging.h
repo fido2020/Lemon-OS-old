@@ -6,21 +6,25 @@
 
 /*typedef struct {
 	uint32_t present	: 1;	// Page present in memory
-	uint32_t writable			: 1;	// Read-only if clear, readwrite if set
+	uint32_t writable	: 1;	// Read-only if clear, readwrite if set
 	uint32_t user		: 1;	// Supervisor level only if clear
 	uint32_t accessed	: 1;	// Has the page been accessed since last refresh?
 	uint32_t dirty		: 1;	// Has the page been written to since last refresh?
 	uint32_t unused		: 7;	// Combination of unused and reserved bits
 	uint32_t frame		: 20;	// Frame Address (Shifted right by 12 bits)
-} page_t;*/
+} page_t;
 
-/*typedef struct {
-	uint32_t present	: 1;
-	uint32_t writable	: 1;
-	uint32_t user		: 1;
-	uint32_t present	: 1;
-	uint32_t present	: 1;
-} page_directory_entry_t;*/
+typedef struct {
+	uint8_t  present : 1;
+	uint8_t  write : 1;
+	uint8_t  user : 1;
+	uint8_t  wt : 1;
+	uint8_t  cd : 1;
+	uint8_t  accessed : 1;
+	uint8_t  dirty : 1;
+	uint8_t  unused : 7;
+	uint32_t frame : 20;
+} pd_entry_t;*/
 
 #define PAGES_PER_TABLE 1024
 #define TABLES_PER_DIR	1024
@@ -63,6 +67,23 @@ enum PAGE_DIRECTORY_ENTRY_FLAGS {
 	PDE_FRAME = 0x7FFFF000
 };
 
+static inline void page_set_frame(uint32_t* p, uint32_t addr) {
+	*p = (*p & ~PAGE_FRAME) | addr;
+}
+
+static inline uint32_t page_get_frame(uint32_t p) {
+	return (p & PAGE_FRAME) >> 12;
+}
+
+static inline void pde_set_frame(uint32_t* p, uint32_t addr) {
+	*p = (*p & ~PDE_FRAME) | addr;
+}
+
+static inline uint32_t pde_get_frame(uint32_t p) {
+	return (p & PDE_FRAME) >> 12;
+}
+
+
 using page_directory_t = pd_entry_t[TABLES_PER_DIR];
 using page_table_t = page_t[PAGES_PER_TABLE];
 
@@ -74,7 +95,7 @@ void disable_pse();
 void switch_page_directory(uint32_t dir);
 
 void page_fault_handler(regs32_t* regs);
-void map_page(uint32_t phys, uint32_t virt);
+bool map_page(uint32_t phys, uint32_t virt, uint32_t amount);
 
 void unmap_page(uint32_t addr);
 
@@ -89,21 +110,7 @@ static inline void clear_flags(uint32_t* target, uint32_t flags) {
 	*target &= ~flags;
 }
 
-static inline void page_set_frame(uint32_t* p, uint32_t addr) {
-	*p = (*p & ~PAGE_FRAME) | addr;
-}
 
-static inline uint32_t page_get_frame(uint32_t p) {
-	return p & PAGE_FRAME;
-}
-
-static inline void pde_set_frame(uint32_t* p, uint32_t addr) {
-	*p = (*p & ~PDE_FRAME) | addr;
-}
-
-static inline uint32_t pde_get_frame(uint32_t p) {
-	return (p & PDE_FRAME) ;
-}
 
 static inline void flush_tlb_entry(uint32_t addr)
 {

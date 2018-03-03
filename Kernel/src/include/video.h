@@ -18,7 +18,7 @@ typedef struct
 
 void screen_putpixel(int x, int y, uint8_t r, uint8_t g, uint8_t b);
 void video_initialize(video_mode_t v);
-//void screen_update();
+void screen_update();
 void screen_clear();
 void screen_fillrect(int x, int y, int w, int h, uint8_t r, uint8_t g, uint8_t b);
 void drawchar(char c, int x, int y, uint8_t r = 255, uint8_t g = 255, uint8_t b = 255, int scale = 2);
