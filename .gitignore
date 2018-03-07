@@ -1,2 +1,4 @@
 *.db
 *.opendb
+*.o
+*.asm.o
