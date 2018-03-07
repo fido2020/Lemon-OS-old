@@ -2,9 +2,8 @@
   Copying sources remotely to 'localhost'
   Starting remote build
   Compiling sources:
-  GUI.cpp
-D:\OneDrive\Documents\Lemon\Kernel\src\gui\GUI.cpp(42,15): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
-D:\OneDrive\Documents\Lemon\Kernel\src\gui\GUI.cpp(44,15): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+  kernel.cpp
+D:\OneDrive\Documents\Lemon\Kernel\src\kernel.cpp(78,20): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
   Invoking '/bin/bash ~/projects/Kernel/buildasmx86.sh', working directory: '/home/computerfido/projects/Kernel'
   Assembling entry.asm
   Assembling gdt.asm

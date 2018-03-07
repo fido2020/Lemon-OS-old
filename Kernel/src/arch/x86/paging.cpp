@@ -10,15 +10,17 @@ extern uint32_t kernel_end;
 
 uint32_t max_pages = 1024 * 1023;
 
-page_directory_t page_directory __attribute__((aligned(4096)));
-page_table_t page_tables[TABLES_PER_DIR] __attribute__((aligned(4096)));
+page_directory_t kernel_page_directory __attribute__((aligned(4096)));
+page_table_t kernel_page_tables[TABLES_PER_DIR] __attribute__((aligned(4096)));
+
+page_directory_t* current_page_directory;
 
 static page_t* get_page(uint32_t addr)
 {
 	uint32_t pdindex = addr >> 22;
 	uint32_t ptindex = addr >> 12 & 0x03FF;
 
-	page_table_t* pt = &page_tables[pdindex];
+	page_table_t* pt = &kernel_page_tables[pdindex];
 	return &(*pt)[ptindex];
 }
 
@@ -43,7 +45,7 @@ uint32_t pages_allocate(uint32_t amount) {
 		{
 			for (size_t j{ 1 }; j < amount - 1; ++j)
 			{
-				set_flags(&(entries[addr + j]),PAGE_PRESENT);
+				set_flags(&(entries[addr + j]),PAGE_PRESENT | PAGE_WRITABLE);
 			}
 			return addr * PAGE_SIZE + PAGE_SIZE;
 		}
@@ -65,6 +67,10 @@ bool pages_free(uint32_t virt, uint32_t amount)
 	// Stub
 }
 
+bool allocate_map_page() {
+
+}
+
 // Map amount pages from phys to virt
 bool map_page(uint32_t phys, uint32_t virt, uint32_t amount) {
 	if (!amount) {
@@ -80,10 +86,10 @@ bool map_page(uint32_t phys, uint32_t virt, uint32_t amount) {
 
 		// Add it to the page table and directory
 		uint32_t pdindex = PAGE_DIRECTORY_INDEX(virt);
-		set_flags(&page_directory[pdindex], PDE_PRESENT);
-		set_flags(&page_directory[pdindex], PDE_WRITABLE);
-		pde_set_frame(&page_directory[pdindex], (uint32_t)&page_tables[pdindex]);
-		page_tables[pdindex][PAGE_TABLE_INDEX(virt)] = page;
+		set_flags(&(*(current_page_directory)[pdindex]), PDE_PRESENT);
+		set_flags(&(*(current_page_directory)[pdindex]), PDE_WRITABLE);
+		pde_set_frame(&(*(current_page_directory)[pdindex]), (uint32_t)&kernel_page_tables[pdindex]);
+		kernel_page_tables[pdindex][PAGE_TABLE_INDEX(virt)] = page;
 		return 1;
 	}
 }
@@ -96,9 +102,9 @@ void paging_initialize()
 {
 	for (uint32_t i = 0; i < TABLES_PER_DIR; i++) {
 		for (uint32_t j = 0; j < PAGES_PER_TABLE; j++) {
-			page_tables[i][j] = 0;
+			kernel_page_tables[i][j] = 0;
 		}
-		page_directory[i] = 0 | PDE_WRITABLE;
+		kernel_page_directory[i] = 0 | PDE_WRITABLE;
 	}
 
 	for (int i = 0, frame = 0x0, virt = 0x00000000; i<4096; i++, frame += PAGE_SIZE, virt += PAGE_SIZE) {
@@ -110,10 +116,10 @@ void paging_initialize()
 
 		// Add it to the page table and directory
 		uint32_t pdindex = PAGE_DIRECTORY_INDEX(virt);
-		set_flags(&page_directory[pdindex], PDE_PRESENT);
-		set_flags(&page_directory[pdindex], PDE_WRITABLE);
-		pde_set_frame(&page_directory[pdindex], (uint32_t)&page_tables[pdindex]);
-		page_tables[pdindex][PAGE_TABLE_INDEX(virt)] = page;
+		set_flags(&kernel_page_directory[pdindex], PDE_PRESENT);
+		set_flags(&kernel_page_directory[pdindex], PDE_WRITABLE);
+		pde_set_frame(&kernel_page_directory[pdindex], (uint32_t)&kernel_page_tables[pdindex]);
+		kernel_page_tables[pdindex][PAGE_TABLE_INDEX(virt)] = page;
 	}
 
 	for (int i = 0, frame = 0x100000, virt = 0xc0000000; i<4096; i++, frame += PAGE_SIZE, virt += PAGE_SIZE) {
@@ -125,15 +131,15 @@ void paging_initialize()
 
 		// Add it to the page table and directory
 		uint32_t pdindex = PAGE_DIRECTORY_INDEX(virt);
-		set_flags(&page_directory[pdindex], PDE_PRESENT);
-		set_flags(&page_directory[pdindex], PDE_WRITABLE);
-		pde_set_frame(&page_directory[pdindex], (uint32_t)&page_tables[pdindex]);
-		page_tables[pdindex][PAGE_TABLE_INDEX(virt)] = page;
+		set_flags(&kernel_page_directory[pdindex], PDE_PRESENT);
+		set_flags(&kernel_page_directory[pdindex], PDE_WRITABLE);
+		pde_set_frame(&kernel_page_directory[pdindex], (uint32_t)&kernel_page_tables[pdindex]);
+		kernel_page_tables[pdindex][PAGE_TABLE_INDEX(virt)] = page;
 	}
 
 	interrupt_register_handler(IRQ0 + 14,page_fault_handler);
 
-	switch_page_directory((uint32_t)page_directory - KERNEL_VIRTUAL_BASE);
+	switch_page_directory((uint32_t)kernel_page_directory - KERNEL_VIRTUAL_BASE);
 	//disable_pse();
 }
 

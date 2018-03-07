@@ -16,3 +16,5 @@ extern "C" {
 #ifdef __cplusplus
 }
 #endif
+
+void *memcpy(void* dest, void* src, size_t count);

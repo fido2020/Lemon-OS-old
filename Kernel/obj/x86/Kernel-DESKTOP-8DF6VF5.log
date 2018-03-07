@@ -1,0 +1,14 @@
+﻿  Validating sources
+  Copying sources remotely to 'localhost'
+  Starting remote build
+  Compiling sources:
+  kernel.cpp
+  Invoking '/bin/bash ~/projects/Kernel/buildasmx86.sh', working directory: '/home/computerfido/projects/Kernel'
+  Assembling entry.asm
+  
+  Assembling gdt.asm
+  Assembling idt.asm
+  
+  Linking objects
+  Kernel.vcxproj -> C:\Users\fidoj\OneDrive\Documents\Lemon\Kernel\bin\x86\kernel.sys
+          1 file(s) copied.

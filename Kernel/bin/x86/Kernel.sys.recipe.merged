@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project>
-  <LocalLibPath>D:\OneDrive\Documents\Lemon\Kernel\bin\x86\Kernel.sys</LocalLibPath>
-  <ObjPaths>D:\OneDrive\Documents\Lemon\Kernel\obj\x86\</ObjPaths>
+  <LocalLibPath>C:\Users\fidoj\OneDrive\Documents\Lemon\Kernel\bin\x86\Kernel.sys</LocalLibPath>
+  <ObjPaths>C:\Users\fidoj\OneDrive\Documents\Lemon\Kernel\obj\x86\</ObjPaths>
   <Configuration>Debug</Configuration>
   <Platform>x86</Platform>
 </Project>

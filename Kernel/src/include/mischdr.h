@@ -37,6 +37,14 @@ typedef struct {
 	uint8_t framebufferType;
 }__attribute__ ((packed)) multiboot_info_t;
 
+typedef struct
+{
+	uint32_t mod_start;
+	uint32_t mod_end;
+	uint32_t string;
+	uint32_t reserved;
+}__attribute__((packed)) multiboot_module_t;
+
 typedef struct{
     uint32_t width; // Resolution width
     uint32_t height; // Resolution height

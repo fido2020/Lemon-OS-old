@@ -4,30 +4,35 @@
 #include <video.h>
 #include <graphicsresources.h>
 #include <stddef.h>
+#include <window.h>
+#include <memory.h>
+#include <console.h>
 
 static int8_t* mouse_data;
+
+Console console(get_video_mode(), 20, 20, 320, 200);
 
 GUI::GUI(video_mode_t* video_mode)
 {
 	screen_width = video_mode->width;
 	screen_height = video_mode->height;
 
-	mouse_install();
-
 	screen_clear(96, 192, 192);
-	//drawstring("Lemon OS", 10, 10, 255, 255, 255, 4);
-	//text = List<GUIText>();
-	//GUIText t;
-	//t.text = "Lemon OS";
-	//t.scale = 4;
-	//t.type = Text;
 
-	//text.add_back(t);
+	console.clear(0, 0, 0);
+
+	console.puts("Lemon v0.1\n",255,255,255);
+	console.puts("x",255,255,255);
+
+	screen_update();
+
+	mouse_install();
 }
 
 void GUI::Update()
 {
 	screen_clear(96, 192, 192);
+
 	if (mouse_data_updated()) {
 		mouse_data = mouse_get_data();
 
@@ -47,7 +52,7 @@ void GUI::Update()
 
 	DrawMouseCursor();
 
-	screen_update();
+	//screen_update();
 }
 
 void GUI::DrawMouseCursor() {

@@ -1,1 +1,21 @@
-D:\OneDrive\Documents\Lemon\Kernel\src\string.cpp|636399556140000000|/home/computerfido/projects/Kernel||g++ -c -x c++ /home/computerfido/projects/Kernel/Lemon/Kernel/src/string.cpp -g2 -gdwarf-2 -o "/home/computerfido/projects/Kernel/obj/x64/Debug/string.o" -Wall -Wswitch -W"no-deprecated-declarations" -W"empty-body" -Wconversion -W"return-type" -Wparentheses -W"no-format" -Wuninitialized -W"unreachable-code" -W"unused-function" -W"unused-value" -W"unused-variable" -O0 -fno-strict-aliasing -fno-omit-frame-pointer -fthreadsafe-statics -fexceptions -frtti -std=c++11
+C:\Users\fidoj\OneDrive\Documents\Lemon\Kernel\src\liballoc\liballoc.c|636536306990000000|/home/computerfido/projects/Kernel||g++ -c -x c /home/computerfido/projects/Kernel/src/liballoc/liballoc.c -g2 -gdwarf-2 -o "/home/computerfido/projects/Kernel/obj/x64/Debug/liballoc.o" -Wall -Wswitch -W"no-deprecated-declarations" -W"empty-body" -Wconversion -W"return-type" -Wparentheses -W"no-pointer-sign" -W"no-format" -Wuninitialized -W"unreachable-code" -W"unused-function" -W"unused-value" -W"unused-variable" -O0 -fno-strict-aliasing -fno-omit-frame-pointer -fthreadsafe-statics -fexceptions -frtti -std=c11
+C:\Users\fidoj\OneDrive\Documents\Lemon\Kernel\src\arch\x86\include\mouse.h|636538973150000000|/home/computerfido/projects/Kernel|| 
+C:\Users\fidoj\OneDrive\Documents\Lemon\Kernel\src\arch\x86\include\system.h|636534482550000000|/home/computerfido/projects/Kernel|| 
+C:\Users\fidoj\OneDrive\Documents\Lemon\Kernel\src\include\GUI.h|636540526230000000|/home/computerfido/projects/Kernel|| 
+C:\Users\fidoj\OneDrive\Documents\Lemon\Kernel\src\arch\x86\include\keyboard.h|636530127290000000|/home/computerfido/projects/Kernel|| 
+C:\Users\fidoj\OneDrive\Documents\Lemon\Kernel\src\arch\x86\include\serial.h|636532474820000000|/home/computerfido/projects/Kernel|| 
+C:\Users\fidoj\OneDrive\Documents\Lemon\Kernel\src\include\graphicsresources.h|636539564260000000|/home/computerfido/projects/Kernel|| 
+C:\Users\fidoj\OneDrive\Documents\Lemon\Kernel\src\arch\x86\include\fatal.h|636526775510000000|/home/computerfido/projects/Kernel|| 
+C:\Users\fidoj\OneDrive\Documents\Lemon\Kernel\src\arch\x86\include\paging.h|636556867050000000|/home/computerfido/projects/Kernel|| 
+C:\Users\fidoj\OneDrive\Documents\Lemon\Kernel\src\arch\x86\include\gdt.h|636519973580000000|/home/computerfido/projects/Kernel|| 
+C:\Users\fidoj\OneDrive\Documents\Lemon\Kernel\src\arch\x86\include\idt.h|636538906930000000|/home/computerfido/projects/Kernel|| 
+C:\Users\fidoj\OneDrive\Documents\Lemon\Kernel\src\arch\x86\include\vga.h|636528430180000000|/home/computerfido/projects/Kernel|| 
+C:\Users\fidoj\OneDrive\Documents\Lemon\Kernel\src\include\console.h|636558681580000000|/home/computerfido/projects/Kernel|| 
+C:\Users\fidoj\OneDrive\Documents\Lemon\Kernel\src\include\initrd.h|636557828610000000|/home/computerfido/projects/Kernel|| 
+C:\Users\fidoj\OneDrive\Documents\Lemon\Kernel\src\include\list.h|636539775220000000|/home/computerfido/projects/Kernel|| 
+C:\Users\fidoj\OneDrive\Documents\Lemon\Kernel\src\include\memory.h|636536312920000000|/home/computerfido/projects/Kernel|| 
+C:\Users\fidoj\OneDrive\Documents\Lemon\Kernel\src\include\mischdr.h|636558674040000000|/home/computerfido/projects/Kernel|| 
+C:\Users\fidoj\OneDrive\Documents\Lemon\Kernel\src\include\string.h|636530241840000000|/home/computerfido/projects/Kernel|| 
+C:\Users\fidoj\OneDrive\Documents\Lemon\Kernel\src\include\video.h|636556928620000000|/home/computerfido/projects/Kernel|| 
+C:\Users\fidoj\OneDrive\Documents\Lemon\Kernel\src\include\window.h|636557001080000000|/home/computerfido/projects/Kernel|| 
+C:\Users\fidoj\OneDrive\Documents\Lemon\Kernel\src\liballoc\liballoc.h|636536311720000000|/home/computerfido/projects/Kernel|| 

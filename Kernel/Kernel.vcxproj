@@ -102,6 +102,7 @@
     <ClCompile Include="src\console.cpp" />
     <ClCompile Include="src\fatal.cpp" />
     <ClCompile Include="src\gui\GUI.cpp" />
+    <ClCompile Include="src\initrd.cpp" />
     <ClCompile Include="src\kernel.cpp" />
     <ClCompile Include="src\liballoc\liballoc.c" />
     <ClCompile Include="src\liballoc\_liballoc.cpp" />
@@ -109,6 +110,7 @@
     <ClCompile Include="src\memory.cpp" />
     <ClCompile Include="src\string.cpp" />
     <ClCompile Include="src\video.cpp" />
+    <ClCompile Include="src\window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\arch\x86\include\mouse.h" />
@@ -123,11 +125,13 @@
     <ClInclude Include="src\arch\x86\include\idt.h" />
     <ClInclude Include="src\arch\x86\include\vga.h" />
     <ClInclude Include="src\include\console.h" />
+    <ClInclude Include="src\include\initrd.h" />
     <ClInclude Include="src\include\list.h" />
     <ClInclude Include="src\include\memory.h" />
     <ClInclude Include="src\include\mischdr.h" />
     <ClInclude Include="src\include\string.h" />
     <ClInclude Include="src\include\video.h" />
+    <ClInclude Include="src\include\window.h" />
     <ClInclude Include="src\liballoc\liballoc.h" />
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
@@ -146,7 +150,7 @@
       </IgnoreDefaultLibraries>
     </Link>
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\include;D:\OneDrive\Documents\Lemon\Kernel\src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src\arch\x86\include;$(ProjectDir)src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ThreadSafeStatics>
       </ThreadSafeStatics>
       <ExceptionHandling>Disabled</ExceptionHandling>

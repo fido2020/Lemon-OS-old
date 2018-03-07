@@ -3,30 +3,26 @@
 
 cd src
 
+for i in *.cpp
+do
+	echo Compiling $i
+    g++ -c "$i" -o "../obj/x86/${i%.cpp}.o" -m32 -I include -I arch/x86/include --freestanding -fno-exceptions -fno-rtti -std=c++11 -Wno-write-strings
+done
+
+cd arch/x86
+
 for i in *.asm
 do
 	echo Assembling $i
-    nasm -f elf32 -g -F dwarf -o "../obj/${i%.asm}.asm.o" "$i"
+    nasm -f elf32 -g -F dwarf -o "../../../obj/x86/${i%.asm}.asm.o" "$i"
 done
 
 for i in *.cpp
 do
 	echo Compiling $i
-    i686-elf-g++ -c "$i" -o "../obj/${i%.cpp}.cpp.o" -I ../include --freestanding -fno-exceptions -fno-rtti -std=c++14 -Wno-write-strings
+    g++ -c "$i" -o "../../../obj/x86/${i%.cpp}.o" -m32 -I include -I ../../include --freestanding -fno-exceptions -fno-rtti -std=c++11 -Wno-write-strings
 done
 
-#for i in *.S
-#do
-#	echo Compiling $i
-#    i686-elf-as -c "$i" -o "../obj/${i%.S}.S.o"
-#done
+cd ../../../
 
-for i in *.c
-do
-	echo Compiling $i
-    i686-elf-gcc -c "$i" -o "../obj/${i%.c}.c.o" -I ../include --freestanding -Wno-implicit
-done
-
-cd ..
-
-i686-elf-ld -m elf_i386 -T linkscript.ld -o bin/kernel.sys obj/*.asm.o obj/*.cpp.o obj/*.c.o #obj/*.S.o
+gcc -lgcc -m32 -T linkscript.ld -o bin/x86/kernel.sys obj/x86/*.o obj/x86/*.asm.o -fno-pic -Wl,--build-id=none -ffreestanding -O2 -nostdlib

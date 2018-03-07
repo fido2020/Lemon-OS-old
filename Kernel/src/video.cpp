@@ -86,8 +86,8 @@ void screen_putpixel(int x, int y, uint8_t r, uint8_t g, uint8_t b) {
 	video_memory[pos + 1] = g;
 	video_memory[pos + 0] = b;
 }
-
-void screen_fillrect(int x, int y, int w, int h, uint8_t r, uint8_t g, uint8_t b) {
+*/
+void screen_fillrect_direct(int x, int y, int w, int h, uint8_t r, uint8_t g, uint8_t b) {
 	uint32_t pos = 0;
 	for (int i = 0; i<h; i++) {
 		for (int j = 0; j<w; j++) {
@@ -98,7 +98,7 @@ void screen_fillrect(int x, int y, int w, int h, uint8_t r, uint8_t g, uint8_t b
 		}
 	}
 }
-
+/*
 void drawgrayscalebitmap(int x, int y, int w, int h, uint8_t* data) {
 	uint32_t pos = 0;
 	for (int i = 0; i < h; i++)
@@ -159,27 +159,29 @@ void drawgrayscalebitmap(int x, int y, int w, int h, uint8_t* data) {
 		}
 }
 
-/*void drawbitmap(bitmap_t *bmp, int x, int y, int w, int h)
+video_mode_t get_video_mode()
 {
-	for (int j = 0; j < h && j < bmp->height; j++) {
-		for (int i = 0; i < w*video_mode.bpp && i < bmp->width*(video_mode.bpp/8); i++)
+	return video_mode;
+}
+
+void drawbitmap(int x, int y, int w, int h, uint8_t *data)
+{
+	for (int j = 0; j < h; j++) {
+		for (int i = 0; i < w*video_mode.bpp/8; i++)
 		{
 			int video_memory_pos = j*video_mode.pitch + i + x*(video_mode.bpp/8);
 			int bmp_pos = j*(video_mode.width*video_mode.bpp/8) + i;
-			video_memory[video_memory_pos] = bmp->data[bmp_pos];
+			video_buffer[video_memory_pos] = data[bmp_pos];
 		}
 	}
-}*/
+}
 
 void screen_update() {
 	int bpp = video_mode.bpp;
 	int pitch = video_mode.pitch;
 	uint32_t pos = 0;
-	for (int y = 0; y < video_mode.height; y++) {
-		pos = pitch * y;
-		for (int x = 0; x < video_mode.pitch; x++) {
-			video_memory[pos] = video_buffer[pos];
-			pos++;
-		}
+	for (int i = 0; i < video_mode.height*pitch; i++) {
+		video_memory[pos] = video_buffer[pos];
+		pos++;
 	}
 }

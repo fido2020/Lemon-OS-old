@@ -85,6 +85,12 @@
     <ClCompile Include="src\list.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\window.cpp">
+      <Filter>src\arch</Filter>
+    </ClCompile>
+    <ClCompile Include="src\initrd.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="linkscript.ld" />
@@ -152,6 +158,12 @@
       <Filter>src\include</Filter>
     </ClInclude>
     <ClInclude Include="src\include\list.h">
+      <Filter>src\include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\window.h">
+      <Filter>src\arch\x86\include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\initrd.h">
       <Filter>src\include</Filter>
     </ClInclude>
   </ItemGroup>
