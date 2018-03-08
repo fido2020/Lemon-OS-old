@@ -55,19 +55,3 @@ typedef struct{
 
     uint32_t address; // Video memory address
 } video_mode_t;
-
-typedef struct{
-    // CPUID info
-} cpu_info_t;
-
-typedef struct{
-    uint32_t total_memory_megabytes;
-} memory_info_t;
-
-typedef struct { //
-    //bool mutliboot; // Is multiboot??
-    multiboot_info_t* multiboot_info; // Multiboot header ptr
-    video_mode_t video_mode_info; // Video mode info
-    cpu_info_t cpu_info; // CPU Info
-    memory_info_t memory_info; // Memory Info
-} hardware_info_t;

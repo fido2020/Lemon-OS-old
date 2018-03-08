@@ -43,6 +43,12 @@ void Console::putc(char c, uint8_t r, uint8_t g, uint8_t b) {
 		x++;
 		break;
 	 }
+
+	if (x >= width_characters) {
+		y++;
+		x = 0;
+	}
+
 	ConsoleCharacter con_char;
 	con_char.c = c;
 	con_char.r = r;

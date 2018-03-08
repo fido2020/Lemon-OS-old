@@ -101,21 +101,22 @@
     <ClCompile Include="src\arch\x86\vga.cpp" />
     <ClCompile Include="src\console.cpp" />
     <ClCompile Include="src\fatal.cpp" />
-    <ClCompile Include="src\gui\GUI.cpp" />
+    <ClCompile Include="src\gui\windowmanager.cpp" />
     <ClCompile Include="src\initrd.cpp" />
     <ClCompile Include="src\kernel.cpp" />
     <ClCompile Include="src\liballoc\liballoc.c" />
     <ClCompile Include="src\liballoc\_liballoc.cpp" />
     <ClCompile Include="src\list.cpp" />
     <ClCompile Include="src\memory.cpp" />
+    <ClCompile Include="src\runtime.cpp" />
     <ClCompile Include="src\string.cpp" />
     <ClCompile Include="src\video.cpp" />
-    <ClCompile Include="src\window.cpp" />
+    <ClCompile Include="src\gui\window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\arch\x86\include\mouse.h" />
     <ClInclude Include="src\arch\x86\include\system.h" />
-    <ClInclude Include="src\include\GUI.h" />
+    <ClInclude Include="src\include\windowmanager.h" />
     <ClInclude Include="src\arch\x86\include\keyboard.h" />
     <ClInclude Include="src\arch\x86\include\serial.h" />
     <ClInclude Include="src\include\graphicsresources.h" />
@@ -129,6 +130,7 @@
     <ClInclude Include="src\include\list.h" />
     <ClInclude Include="src\include\memory.h" />
     <ClInclude Include="src\include\mischdr.h" />
+    <ClInclude Include="src\include\runtime.h" />
     <ClInclude Include="src\include\string.h" />
     <ClInclude Include="src\include\video.h" />
     <ClInclude Include="src\include\window.h" />

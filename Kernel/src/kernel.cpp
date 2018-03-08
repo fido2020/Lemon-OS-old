@@ -10,7 +10,7 @@
 #include <serial.h>
 #include <initrd.h>
 #include <memory.h>
-#include <GUI.h>
+#include <windowmanager.h>
 
 bool keypending = false;
 char key;
@@ -63,8 +63,8 @@ void kmain(uint32_t mb_info_addr){
 	lemoninitfs_node_t** initrd_fs_nodes = initrd_list();
 	lemoninitfs_header_t* initrd_fs_header = initrd_get_header();
 
-	// Initialize GUI
-	GUI gui(&video_mode);
+	// Initialize Window Manager
+	WindowManager wman(&video_mode);
 
 	// Initialize Console
 	Console console(video_mode,20,20,400,300);
@@ -94,38 +94,11 @@ void kmain(uint32_t mb_info_addr){
 
 	screen_update();
 
-	/*for (;;) {
-		gui.Update();
+	for (;;) {
+		wman.Update();
 		console.refresh();
 		screen_update();
-	}*/
-
-	//console::initialize(video_mode);
-	//console::puts("Initializing Lemon...\n\n");
-
-	/*console::puts("Bootloader: ");
-	console::puts((char*)mb_info->bootloaderName);
-
-	console::puts("\n\nVideo Mode");
-	console::puts("\n\tWidth: ");
-	console::puts(itoa(video_mode.width));
-	console::puts("\n\tHeight: ");
-	console::puts(itoa(video_mode.height));
-	console::puts("\n\tColour Depth: ");
-	console::puts(itoa(video_mode.bpp));
-	console::puts("bpp");
-
-	keyboard_install();
-
-	for (;;) {
-		if (keypending) {
-			if (key != 0) {
-				console::putc(key);
-			}
-			keypending = false;
-		}
-		
-	}*/
+	}
 
 	for (;;);
 }

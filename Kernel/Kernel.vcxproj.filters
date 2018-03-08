@@ -76,20 +76,23 @@
     <ClCompile Include="src\arch\x86\mouse.cpp">
       <Filter>src\arch\x86</Filter>
     </ClCompile>
-    <ClCompile Include="src\gui\GUI.cpp">
-      <Filter>src\gui</Filter>
-    </ClCompile>
     <ClCompile Include="src\graphicsresources.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\list.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\window.cpp">
-      <Filter>src\arch</Filter>
-    </ClCompile>
     <ClCompile Include="src\initrd.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\window.cpp">
+      <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\runtime.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\windowmanager.cpp">
+      <Filter>src\gui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -145,9 +148,6 @@
     <ClInclude Include="src\liballoc\liballoc.h">
       <Filter>src\liballoc</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\GUI.h">
-      <Filter>src\include</Filter>
-    </ClInclude>
     <ClInclude Include="src\arch\x86\include\mouse.h">
       <Filter>src\arch\x86\include</Filter>
     </ClInclude>
@@ -160,10 +160,16 @@
     <ClInclude Include="src\include\list.h">
       <Filter>src\include</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\window.h">
-      <Filter>src\arch\x86\include</Filter>
-    </ClInclude>
     <ClInclude Include="src\include\initrd.h">
+      <Filter>src\include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\window.h">
+      <Filter>src\include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\runtime.h">
+      <Filter>src\include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\windowmanager.h">
       <Filter>src\include</Filter>
     </ClInclude>
   </ItemGroup>
