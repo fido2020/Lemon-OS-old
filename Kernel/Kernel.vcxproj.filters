@@ -26,6 +26,9 @@
       <UniqueIdentifier>{2f97d162-6658-4e07-8be1-c4ede9d44de1}</UniqueIdentifier>
       <Extensions>*.h</Extensions>
     </Filter>
+    <Filter Include="src\util">
+      <UniqueIdentifier>{90b996ce-0bf0-43c7-8d14-46b85c1708b8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\kernel.cpp">
@@ -94,6 +97,12 @@
     <ClCompile Include="src\gui\windowmanager.cpp">
       <Filter>src\gui</Filter>
     </ClCompile>
+    <ClCompile Include="src\util\rand.cpp">
+      <Filter>src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="src\shell.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="linkscript.ld" />
@@ -133,9 +142,6 @@
     <ClInclude Include="src\arch\x86\include\fatal.h">
       <Filter>src\include</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\video.h">
-      <Filter>src\include</Filter>
-    </ClInclude>
     <ClInclude Include="src\include\console.h">
       <Filter>src\include</Filter>
     </ClInclude>
@@ -171,6 +177,18 @@
     </ClInclude>
     <ClInclude Include="src\include\windowmanager.h">
       <Filter>src\include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\video.h">
+      <Filter>src\liballoc</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\math.h">
+      <Filter>src\include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\shell.h">
+      <Filter>src\include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\bitmap.h">
+      <Filter>src\arch\x86\include</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

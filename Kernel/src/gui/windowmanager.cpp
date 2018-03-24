@@ -14,7 +14,7 @@ static int8_t* mouse_data;
 
 Window* win;
 Window* win2;
-Window* win3;
+Window win3;
 
 WindowManager::WindowManager(video_mode_t* video_mode)
 {
@@ -25,8 +25,6 @@ WindowManager::WindowManager(video_mode_t* video_mode)
 
 	win = Window_new(10, 20, 320, 200);
 	win2 = Window_new(150, 20, 200, 300);
-	win3 = Window_new(100, 100, 200, 150);
-
 	
 
 	//windows.add_back(win);
@@ -34,7 +32,6 @@ WindowManager::WindowManager(video_mode_t* video_mode)
 	Window_draw(win);
 
 	Window_draw(win2);
-	Window_draw(win3);
 
 	screen_update();
 

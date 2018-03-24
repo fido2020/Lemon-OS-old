@@ -45,6 +45,14 @@ typedef struct
 	uint32_t reserved;
 }__attribute__((packed)) multiboot_module_t;
 
+typedef struct
+{
+	uint32_t size;
+	uint64_t base;
+	uint64_t length;
+	uint32_t type;
+} __attribute__((packed)) multiboot_memory_map_t;
+
 typedef struct{
     uint32_t width; // Resolution width
     uint32_t height; // Resolution height

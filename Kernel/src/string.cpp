@@ -1,5 +1,6 @@
 #include <stddef.h>
 #include <string.h>
+#include <memory.h>
 
 string::string()
 {
@@ -195,12 +196,12 @@ int strindex(char c, char *str){
 
 
 void substr(int i, char *src, char *dest){ //substring exclusive
-	//memcpy(dest,src,i);
+	memcpy(dest,src,i);
 	dest[i] = '\0';
 }
 
 void substr(int s, int e, char *src, char *dest){ //substring exclusive range (end is exclusive, beginning is inclusive)
-	//memcpy(dest,&src[s],e-s);
+	memcpy(dest,&src[s],e-s);
 	dest[e-s] = '\0';
 }
 
@@ -238,4 +239,57 @@ char* itoa(int num, char* str, int base)
     reverse(str, i);
 
     return str;
+}
+
+char* itoa(unsigned int num, char* str, int base)
+{
+	int i = 0;
+
+	if (num == 0)
+	{
+		str[i++] = '0';
+		str[i] = '\0';
+		return str;
+	}
+
+	while (num != 0)
+	{
+		int rem = num % base;
+		str[i++] = (rem > 9) ? (rem - 10) + 'a' : rem + '0';
+		num = num / base;
+	}
+
+	str[i] = '\0';
+
+	reverse(str, i);
+
+	return str;
+}
+
+void strcpy(char* dest, const char* src)
+{
+	for(int i = 0; dest[i] != '\0'; i++)
+	{
+		dest[i] = src[i];
+	}
+}
+
+char* strtok(char* s, char delim) {
+	static int index = 0;
+	if (!s || !delim || s[index] == '\0')
+		return NULL;
+	char *newstr = (char *)malloc(sizeof(char) * strlen(s));
+	int i = index, j = 0;
+
+	while (s[i] != '\0') {
+		if (s[i] != delim)
+			newstr[j] = s[i];
+		else goto It;
+		i++;
+		j++;
+	}
+It:
+	newstr[i] = 0;
+	index = i + 1;
+	return newstr;
 }

@@ -1,0 +1,16 @@
+﻿  Validating sources
+  Copying sources remotely to 'localhost'
+  Starting remote build
+  Compiling sources:
+  kernel.cpp
+D:\OneDrive\Documents\Lemon\Kernel\src\kernel.cpp(47,20): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\OneDrive\Documents\Lemon\Kernel\src\kernel.cpp(79,23): warning : unused variable ‘initrd_fs_nodes’ [-Wunused-variable]
+D:\OneDrive\Documents\Lemon\Kernel\src\kernel.cpp(80,24): warning : unused variable ‘initrd_fs_header’ [-Wunused-variable]
+  Invoking '/bin/bash ~/projects/Kernel/buildasmx86.sh', working directory: '/home/computerfido/projects/Kernel'
+  Assembling entry.asm
+  Assembling gdt.asm
+  Assembling idt.asm
+  
+  Linking objects
+  Kernel.vcxproj -> D:\OneDrive\Documents\Lemon\Kernel\bin\x86\kernel.sys
+          1 file(s) copied.

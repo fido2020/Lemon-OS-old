@@ -32,6 +32,11 @@ void screen_clear(uint8_t r, uint8_t g, uint8_t b) {
 	screen_fillrect(0, 0, video_mode.width, video_mode.height, r, g, b);
 }
 
+void screen_clear_direct(uint8_t r, uint8_t g, uint8_t b) {
+	if (video_mode.type != Graphical) return; // Text Mode is only 16-colors
+	screen_fillrect_direct(0, 0, video_mode.width, video_mode.height, r, g, b);
+}
+
 void screen_clear(uint8_t colour) {
 	if (video_mode.type != Text) return; // Text Mode is the only 16-color Mode
 	VGA::clearscreen(colour);
@@ -129,6 +134,18 @@ void drawchar(char c, int x, int y, uint8_t r, uint8_t g, uint8_t b, int scale) 
 	}
 }
 
+void drawchar_direct(char c, int x, int y, uint8_t r, uint8_t g, uint8_t b, int scale) {
+	for (int i = 0; i < 8; i++)
+	{
+		int row = font_default[c][i];
+		for (int j = 0; j < 8; j++)
+		{
+			if ((row & (1 << j)) >> j)
+				screen_fillrect_direct(x + j * scale, y + i * scale, scale, scale, r, g, b);
+		}
+	}
+}
+
 void drawstring(char* str, int x, int y, uint8_t r, uint8_t g, uint8_t b, int scale) {
 	int xOffset = 0;
 	while (*str != 0) {
@@ -138,9 +155,12 @@ void drawstring(char* str, int x, int y, uint8_t r, uint8_t g, uint8_t b, int sc
 	}
 }
 
-void drawstring(char** str, int x, int y, uint8_t r, uint8_t g, uint8_t b, int scale) {
-	for (int i = 0; str[i] != '\0'; i++) {
-		drawstring(str, x, y, r, g, b, scale);
+void drawstring_direct(char* str, int x, int y, uint8_t r, uint8_t g, uint8_t b, int scale) {
+	int xOffset = 0;
+	while (*str != 0) {
+		drawchar_direct(*str, x + xOffset, y, r, g, b, scale);
+		xOffset += scale * 8;
+		str++;
 	}
 }
 

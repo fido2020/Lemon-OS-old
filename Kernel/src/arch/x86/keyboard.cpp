@@ -1,9 +1,10 @@
 #include <keyboard.h>
 #include <system.h>
 #include <idt.h>
+#include <serial.h>
 
-extern bool keypending;
-extern char key;
+static bool data_updated;
+char key;
 
 unsigned char keymap_us[128] =
 {
@@ -52,10 +53,26 @@ void keyboard_handler(regs32_t* r)
 	/* Read from the keyboard's data buffer */
 	scancode = inportb(0x60);
 
-	keypending = true;
-	key = keymap_us[scancode];
+	if (scancode & 0x80) {
+		// Shift, Ctrl, Alt, etc. is held down
+	}
+	else {
+		data_updated = true;
+		key = keymap_us[scancode];
+		write_serial(key);
+	}
 }
 
 void keyboard_install() {
 	interrupt_register_handler(33, keyboard_handler);
+}
+
+bool key_updated() {
+	bool u = data_updated;
+	data_updated = false;
+	return u;
+}
+
+char get_key() {
+	return key;
 }

@@ -4,27 +4,6 @@
 #include <stddef.h>
 #include <system.h>
 
-/*typedef struct {
-	uint32_t present	: 1;	// Page present in memory
-	uint32_t writable	: 1;	// Read-only if clear, readwrite if set
-	uint32_t user		: 1;	// Supervisor level only if clear
-	uint32_t accessed	: 1;	// Has the page been accessed since last refresh?
-	uint32_t dirty		: 1;	// Has the page been written to since last refresh?
-	uint32_t unused		: 7;	// Combination of unused and reserved bits
-	uint32_t frame		: 20;	// Frame Address (Shifted right by 12 bits)
-} page_t;
-
-typedef struct {
-	uint8_t  present : 1;
-	uint8_t  write : 1;
-	uint8_t  user : 1;
-	uint8_t  wt : 1;
-	uint8_t  cd : 1;
-	uint8_t  accessed : 1;
-	uint8_t  dirty : 1;
-	uint8_t  unused : 7;
-	uint32_t frame : 20;
-} pd_entry_t;*/
 
 #define PAGES_PER_TABLE 1024
 #define TABLES_PER_DIR	1024
@@ -36,6 +15,8 @@ typedef struct {
 
 typedef uint32_t pd_entry_t;
 typedef uint32_t page_t;
+
+
 
 enum PAGE_FLAGS {
 
@@ -86,11 +67,17 @@ static inline uint32_t pde_get_frame(uint32_t p) {
 
 using page_directory_t = pd_entry_t[TABLES_PER_DIR];
 using page_table_t = page_t[PAGES_PER_TABLE];
+using page_tables_t = page_table_t[TABLES_PER_DIR];
+
+typedef struct {
+	page_directory_t* page_directory;
+	page_table_t* page_tables;
+} __attribute__((packed)) page_directory_ptr_t;
 
 void paging_initialize();
 
 void enable_paging();
-void disable_pse();
+page_directory_ptr_t clone_page_directory(page_directory_ptr_t src);
 
 void switch_page_directory(uint32_t dir);
 
@@ -102,6 +89,10 @@ void unmap_page(uint32_t addr);
 uint32_t pages_allocate(uint32_t amount);
 bool pages_free(uint32_t virt, uint32_t amount);
 
+void map_page(uint32_t phys, uint32_t virt);
+
+bool mark_pages_reserved(uint32_t phys, uint32_t virt, uint32_t amount);
+
 static inline void set_flags(uint32_t* target, uint32_t flags) {
 	*target |= flags;
 }
@@ -109,8 +100,6 @@ static inline void set_flags(uint32_t* target, uint32_t flags) {
 static inline void clear_flags(uint32_t* target, uint32_t flags) {
 	*target &= ~flags;
 }
-
-
 
 static inline void flush_tlb_entry(uint32_t addr)
 {

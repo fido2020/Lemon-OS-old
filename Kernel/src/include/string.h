@@ -58,3 +58,8 @@ public:
 	friend string operator+ (const char* left, const string& right);
 };
 #endif
+
+void substr(int i, char *src, char *dest);
+void strcpy(char* dest, const char* src);
+char* strtok(char* s, char delim);
+char* itoa(unsigned int num, char* str, int base);

@@ -3,16 +3,11 @@
 #include <video.h>
 #include <memory.h>
 #include <stdint.h>
+#include <math.h>
 
 uint8_t r;
 uint8_t g;
 uint8_t b;
-
-static uint8_t random() {
-
-	uint16_t seed = 0;
-	return (uint8_t)(seed = (12657 * seed + 12345) % 256);
-}
 
 /*Window::Window(uint16_t x, uint16_t y, uint16_t width, uint16_t height) {
 	this->x = x;
@@ -38,9 +33,9 @@ Window* Window_new(uint16_t x, uint16_t y, uint16_t width, uint16_t height) {
 }
 
 void Window_draw(Window* win) {
-	r = random();
-	g = random();
-	b = random();
+	r = rand();
+	g = rand();
+	b = rand();
 
 	screen_fillrect(win->x, win->y, win->width, win->height, r, g, b);
 }

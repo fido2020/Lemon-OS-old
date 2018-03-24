@@ -107,6 +107,8 @@
     <ClCompile Include="src\liballoc\liballoc.c" />
     <ClCompile Include="src\liballoc\_liballoc.cpp" />
     <ClCompile Include="src\list.cpp" />
+    <ClCompile Include="src\shell.cpp" />
+    <ClCompile Include="src\util\rand.cpp" />
     <ClCompile Include="src\memory.cpp" />
     <ClCompile Include="src\runtime.cpp" />
     <ClCompile Include="src\string.cpp" />
@@ -114,6 +116,8 @@
     <ClCompile Include="src\gui\window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\include\bitmap.h" />
+    <ClInclude Include="src\include\shell.h" />
     <ClInclude Include="src\arch\x86\include\mouse.h" />
     <ClInclude Include="src\arch\x86\include\system.h" />
     <ClInclude Include="src\include\windowmanager.h" />
@@ -135,6 +139,7 @@
     <ClInclude Include="src\include\video.h" />
     <ClInclude Include="src\include\window.h" />
     <ClInclude Include="src\liballoc\liballoc.h" />
+    <ClInclude Include="src\include\math.h" />
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
     <Link>

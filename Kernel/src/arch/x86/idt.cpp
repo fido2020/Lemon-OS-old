@@ -3,6 +3,7 @@
 #include <vga.h>
 #include <string.h>
 #include <memory.h>
+#include <serial.h>
 
 idt_entry_t idt[256];
 
@@ -199,7 +200,8 @@ extern "C"
 void isr_handler(regs32_t* regs) {
 	if (regs->int_num < 32)
 	{
-		//puts("Fatal Exception!\n", 0x1F);
+		write_serial_string("Fatal Exception: ");
+		write_serial_string(itoa(regs->int_num));
 
 		if (interrupt_handlers[regs->int_num] != 0) {
 			isr_t handler;

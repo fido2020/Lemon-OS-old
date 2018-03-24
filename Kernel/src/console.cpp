@@ -49,12 +49,10 @@ void Console::putc(char c, uint8_t r, uint8_t g, uint8_t b) {
 		x = 0;
 	}
 
-	ConsoleCharacter con_char;
-	con_char.c = c;
-	con_char.r = r;
-	con_char.g = g;
-	con_char.b = b;
-	char_buffer[width_characters*y + x] = con_char;
+	char_buffer[width_characters*y + x].c = c;
+	char_buffer[width_characters*y + x].r = r;
+	char_buffer[width_characters*y + x].g = g;
+	char_buffer[width_characters*y + x].b = b;
 }
 
 void Console::puts(char* str, uint8_t r, uint8_t g, uint8_t b) {
@@ -72,9 +70,8 @@ void Console::refresh() {
 	x = 0;
 	y = 0;
 
-	for (int i = 0; i < width_characters * height_characters; i++) {
-		ConsoleCharacter con_char = char_buffer[i];
+	for (int i = 0; y < height_characters || x < width_characters; i++) {
+		ConsoleCharacter con_char = char_buffer[y*width_characters + x];
 		putc(con_char.c, con_char.r, con_char.g, con_char.b);
-		write_serial(con_char.c);
 	}
 }
