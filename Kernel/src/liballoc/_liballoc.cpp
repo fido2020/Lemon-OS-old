@@ -1,4 +1,9 @@
 #include <paging.h>
+#include <physallocator.h>
+#include <serial.h>
+#include <string.h>
+
+char test[50];
 
 extern "C" {
 
@@ -13,7 +18,13 @@ extern "C" {
 	}
 
 	void* liballoc_alloc(int pages) {
-		return (void*)pages_allocate(pages);
+		void* addr = (void*)(pages_allocate(pages));
+		for (int i = 0; i < pages; i++)
+		{
+			uint32_t phys = physalloc_alloc_block();
+			map_page(phys, (uint32_t)addr + i * PAGE_SIZE, 1);
+		}
+		return addr;
 	}
 
 	int liballoc_free(void* addr, int pages) {

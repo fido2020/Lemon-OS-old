@@ -44,7 +44,8 @@ KERNEL_VIRTUAL_BASE = 0xC0000000;
 SECTIONS
 {
 	. = 100000;
-	kernel_base = .;
+	
+    .multiboot : { *(.multiboot) }
 	.text : { *(.text) }
 	.data : {
 		*(.data) 
@@ -55,5 +56,5 @@ SECTIONS
        *(.eh_frame);
        *(.comment*);
    }
-	kernel_end = .;
+    kernel_end = .;
 }

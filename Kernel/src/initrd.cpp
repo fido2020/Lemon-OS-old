@@ -27,20 +27,22 @@ uint32_t initrd_read(int node) {
 }
 
 uint8_t* initrd_read(lemoninitfs_node_t node, uint8_t* buffer) {
-	memcpy((void*)buffer, (void*)initrd_address + node.offset, node.size);
+	memcpy((void*)buffer, (void*)(initrd_address + node.offset), node.size);
 	return buffer;
 }
 
 uint32_t initrd_read(char* filename) {
-	for (int i = 0; i < initrd_header.num_files; i++) {
+	for (uint32_t i = 0; i < initrd_header.num_files; i++) {
 		if (nodes[i].filename == filename)
 			return nodes[i].offset+initrd_address;
 	}
+	return 0;
 }
 
 lemoninitfs_node_t initrd_get_node(char* filename) {
-	for (int i = 0; i < initrd_header.num_files; i++) {
+	for (uint32_t i = 0; i < initrd_header.num_files; i++) {
 		if (nodes[i].filename == filename)
 			return nodes[i];
 	}
+	return nodes[0];
 }

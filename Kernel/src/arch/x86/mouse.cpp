@@ -29,11 +29,11 @@ void mouse_handler(regs32_t* regs) {
 inline void mouse_wait(uint8_t type) //unsigned char
 {
 	int timeout = 100000; //unsigned int
-	if (type == 0)
+	if (type == 0) {
 		while (timeout--) //Data
 			if ((inportb(0x64) & 1) == 1)
 				return;
-	else
+	} else
 		while (timeout--) //Signal
 			if ((inportb(0x64) & 2) == 0)
 				return;

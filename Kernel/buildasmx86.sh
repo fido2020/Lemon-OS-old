@@ -6,3 +6,5 @@ do
 	echo Assembling $i
     nasm -f elf32 -g -F dwarf -o "../../../obj/x86/${i%.asm}.asm.o" "$i"
 done
+
+cd ../../../

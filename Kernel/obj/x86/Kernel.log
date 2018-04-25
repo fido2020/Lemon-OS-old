@@ -1,0 +1,16 @@
+﻿  Validating sources
+  Copying sources remotely to 'localhost'
+  Starting remote build
+  Compiling sources:
+  graphicsresources.cpp
+  windowmanager.cpp
+  video.cpp
+D:\OneDrive\Documents\Lemon\Kernel\src\video.cpp(183,11): warning : unused variable ‘video_mem_offset’ [-Wunused-variable]
+  Invoking '/bin/bash ~/projects/Kernel/buildasmx86.sh', working directory: '/home/computerfido/projects/Kernel'
+  Assembling entry.asm
+  Assembling gdt.asm
+  Assembling idt.asm
+  
+  Linking objects
+  Kernel.vcxproj -> D:\OneDrive\Documents\Lemon\Kernel\bin\x86\kernel.sys
+          1 file(s) copied.

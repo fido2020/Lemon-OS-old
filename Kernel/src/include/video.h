@@ -25,10 +25,12 @@ void drawchar(char c, int x, int y, uint8_t r = 255, uint8_t g = 255, uint8_t b 
 void drawstring(char* str, int x, int y, uint8_t r = 255, uint8_t g = 255, uint8_t b = 255, int scale = 2);
 void drawstring(char** str, int x, int y, uint8_t r, uint8_t g, uint8_t b, int scale);
 void screen_clear(uint8_t r, uint8_t g, uint8_t b);
-void drawbitmap(int x, int y, int w, int h, uint8_t *data);
+void drawbitmap(int x, int y, int w, int h, uint8_t *data, int bmp_bpp);
 
 void screen_fillrect_direct(int x, int y, int w, int h, uint8_t r, uint8_t g, uint8_t b);
 
 void drawgrayscalebitmap(int x, int y, int w, int h, uint8_t* data);
 
 video_mode_t get_video_mode();
+
+void screen_clear_direct(uint8_t r, uint8_t g, uint8_t b);

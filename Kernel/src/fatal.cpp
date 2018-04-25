@@ -2,10 +2,7 @@
 #include <video.h>
 #include <console.h>
 #include <serial.h>
-
-#ifdef __cplusplus
-extern "C"
-#endif
+#include <graphicsresources.h>
 
 void fatal_error(char* msg, char* err) {
 	write_serial_string(msg);
@@ -18,13 +15,9 @@ void fatal_error(char* msg, char* err) {
 	drawstring(msg, 2, 60, 255, 255, 255, 2);
 	drawstring(err, 2, 80, 255, 255, 255, 2);
 
-	screen_update();
+	drawgrayscalebitmap(2, 100, 20, 13, lemon_dead);
 
-	/*
-	console::puts("Lemon has encountered a fatal error. The system has been halted.\n\n", 0x4F);
-	console::puts(msg, 0x4F);
-	console::puts("\nError: ", 0x4F);
-	console::puts(err, 0x4F);*/
+	screen_update();
 
 	asm("cli");
 	asm("hlt");

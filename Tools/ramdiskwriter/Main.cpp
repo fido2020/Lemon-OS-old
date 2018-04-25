@@ -8,7 +8,6 @@
 
 using namespace std;
 
-
 typedef struct {
 	uint32_t num_files; // Amount of files present
 	char versionstring[16]; // Version string
@@ -21,9 +20,13 @@ typedef struct {
 	uint32_t size; // File Size
 } lemoninitfs_node_t;
 
+// Usage ramdiskwriter <output> <inputfilenameonramdisk> <inputfilepathonsystem> ...
 int main(int argc, char** argv) {
 	lemoninitfs_header_t header;
 	lemoninitfs_node_t nodes[128];
+
+	memset(nodes, 0, sizeof(lemoninitfs_node_t)*128);
+
 	uint32_t offset = sizeof(lemoninitfs_header_t)+sizeof(lemoninitfs_node_t)*128;
 
 	int num_nodes = (argc - 2) / 2;
