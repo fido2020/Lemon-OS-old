@@ -1,37 +1,61 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="src">
-      <UniqueIdentifier>{5b3f2d92-5898-4fb7-ade7-039f7904d156}</UniqueIdentifier>
-      <Extensions>*.cpp;*.asm</Extensions>
-    </Filter>
-    <Filter Include="src\arch">
-      <UniqueIdentifier>{2de8915e-7e82-4a7b-9f5e-dad3a5312245}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\arch\x86">
-      <UniqueIdentifier>{7e604bbb-3f3f-4b59-9995-b9a4d7041f8f}</UniqueIdentifier>
-      <Extensions>*.cpp;*.asm</Extensions>
-    </Filter>
-    <Filter Include="src\arch\x86\include">
-      <UniqueIdentifier>{1c4d2dea-198f-4a87-ab47-16044da3c43e}</UniqueIdentifier>
-      <Extensions>*.h</Extensions>
-    </Filter>
-    <Filter Include="src\liballoc">
-      <UniqueIdentifier>{bc5bc401-58fc-4a40-82c3-97deb2a76340}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\gui">
-      <UniqueIdentifier>{ca6dc2d5-6102-4a71-b626-17051c3a34bf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\include">
-      <UniqueIdentifier>{2f97d162-6658-4e07-8be1-c4ede9d44de1}</UniqueIdentifier>
-      <Extensions>*.h</Extensions>
-    </Filter>
-    <Filter Include="src\util">
-      <UniqueIdentifier>{90b996ce-0bf0-43c7-8d14-46b85c1708b8}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
+    <ClCompile Include="src\liballoc\_liballoc.cpp">
+      <Filter>src\liballoc</Filter>
+    </ClCompile>
+    <ClCompile Include="src\console.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\fatal.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\arch\x86\gdt.cpp">
+      <Filter>src\arch\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphicsresources.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\arch\x86\idt.cpp">
+      <Filter>src\arch\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="src\initrd.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="src\kernel.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\arch\x86\keyboard.cpp">
+      <Filter>src\arch\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="src\liballoc\liballoc.c">
+      <Filter>src\liballoc</Filter>
+    </ClCompile>
+    <ClCompile Include="src\list.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\math.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\memory.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\arch\x86\mouse.cpp">
+      <Filter>src\arch\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="src\arch\x86\physallocator.cpp">
+      <Filter>src\arch\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="src\arch\x86\paging.cpp">
+      <Filter>src\arch\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="src\runtime.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\arch\x86\serial.cpp">
+      <Filter>src\arch\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="src\shell.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\string.cpp">
@@ -43,180 +67,129 @@
     <ClCompile Include="src\arch\x86\vga.cpp">
       <Filter>src\arch\x86</Filter>
     </ClCompile>
-    <ClCompile Include="src\arch\x86\gdt.cpp">
-      <Filter>src\arch\x86</Filter>
-    </ClCompile>
-    <ClCompile Include="src\arch\x86\idt.cpp">
-      <Filter>src\arch\x86</Filter>
-    </ClCompile>
-    <ClCompile Include="src\memory.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\fatal.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="src\video.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\console.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\arch\x86\keyboard.cpp">
-      <Filter>src\arch\x86</Filter>
-    </ClCompile>
-    <ClCompile Include="src\arch\x86\paging.cpp">
-      <Filter>src\arch\x86</Filter>
-    </ClCompile>
-    <ClCompile Include="src\arch\x86\serial.cpp">
-      <Filter>src\arch\x86</Filter>
-    </ClCompile>
-    <ClCompile Include="src\liballoc\liballoc.c">
-      <Filter>src\liballoc</Filter>
-    </ClCompile>
-    <ClCompile Include="src\liballoc\_liballoc.cpp">
-      <Filter>src\liballoc</Filter>
-    </ClCompile>
-    <ClCompile Include="src\arch\x86\mouse.cpp">
-      <Filter>src\arch\x86</Filter>
-    </ClCompile>
-    <ClCompile Include="src\graphicsresources.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\list.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\initrd.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gui\window.cpp">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\runtime.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\gui\windowmanager.cpp">
       <Filter>src\gui</Filter>
     </ClCompile>
-<<<<<<< HEAD
-    <ClCompile Include="src\shell.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="src\gui\window.cpp">
+      <Filter>src\gui</Filter>
     </ClCompile>
-    <ClCompile Include="physallocator.cpp">
-      <Filter>src\arch\x86</Filter>
-    </ClCompile>
-    <ClCompile Include="math.cpp">
-      <Filter>src\util</Filter>
-    </ClCompile>
-=======
-    <ClCompile Include="src\util\rand.cpp">
-      <Filter>src\util</Filter>
-    </ClCompile>
-    <ClCompile Include="src\shell.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
->>>>>>> 17e9ca9a679e395e7e3bc93ec5eb2a2a0cd4790c
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\include\bitmap.h">
+      <Filter>src\include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\console.h">
+      <Filter>src\include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\arch\x86\include\fatal.h">
+      <Filter>src\include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\arch\x86\include\gdt.h">
+      <Filter>src\arch\x86\include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\graphicsresources.h">
+      <Filter>src\include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\arch\x86\include\idt.h">
+      <Filter>src\arch\x86\include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\initrd.h">
+      <Filter>src\include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\arch\x86\include\keyboard.h">
+      <Filter>src\arch\x86\include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\liballoc.h">
+      <Filter>src\include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\list.h">
+      <Filter>src\include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\math.h">
+      <Filter>src\include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\memory.h">
+      <Filter>src\include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\mischdr.h">
+      <Filter>src\include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\arch\x86\include\mouse.h">
+      <Filter>src\arch\x86\include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\arch\x86\include\multitasking.h">
+      <Filter>src\arch\x86\include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\arch\x86\include\physallocator.h">
+      <Filter>src\arch\x86\include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\arch\x86\include\paging.h">
+      <Filter>src\arch\x86\include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\runtime.h">
+      <Filter>src\arch\x86\include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\arch\x86\include\serial.h">
+      <Filter>src\arch\x86\include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\shell.h">
+      <Filter>src\include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\string.h">
+      <Filter>src\include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\arch\x86\include\system.h">
+      <Filter>src\arch\x86\include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\arch\x86\include\vga.h">
+      <Filter>src\arch\x86\include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\video.h">
+      <Filter>src\include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\window.h">
+      <Filter>src\include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\windowmanager.h">
+      <Filter>src\include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="linkscript.ld" />
-    <None Include="buildasmx86.sh" />
+    <None Include="src\arch\x86\entry.asm">
+      <Filter>src\arch\x86</Filter>
+    </None>
     <None Include="src\arch\x86\gdt.asm">
       <Filter>src\arch\x86</Filter>
     </None>
     <None Include="src\arch\x86\idt.asm">
       <Filter>src\arch\x86</Filter>
     </None>
-    <None Include="src\arch\x86\entry.asm">
-      <Filter>src\arch\x86</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\arch\x86\include\vga.h">
-      <Filter>src\arch\x86\include</Filter>
-    </ClInclude>
-    <ClInclude Include="src\include\mischdr.h">
-      <Filter>src\include</Filter>
-    </ClInclude>
-    <ClInclude Include="src\include\string.h">
-      <Filter>src\include</Filter>
-    </ClInclude>
-    <ClInclude Include="src\arch\x86\include\gdt.h">
-      <Filter>src\arch\x86\include</Filter>
-    </ClInclude>
-    <ClInclude Include="src\arch\x86\include\idt.h">
-      <Filter>src\arch\x86\include</Filter>
-    </ClInclude>
-    <ClInclude Include="src\include\memory.h">
-      <Filter>src\include</Filter>
-    </ClInclude>
-    <ClInclude Include="src\arch\x86\include\paging.h">
-      <Filter>src\arch\x86\include</Filter>
-    </ClInclude>
-    <ClInclude Include="src\arch\x86\include\fatal.h">
-      <Filter>src\include</Filter>
-    </ClInclude>
-    <ClInclude Include="src\include\console.h">
-      <Filter>src\include</Filter>
-    </ClInclude>
-    <ClInclude Include="src\arch\x86\include\keyboard.h">
-      <Filter>src\arch\x86\include</Filter>
-    </ClInclude>
-    <ClInclude Include="src\arch\x86\include\serial.h">
-      <Filter>src\arch\x86\include</Filter>
-    </ClInclude>
-    <ClInclude Include="src\arch\x86\include\mouse.h">
-      <Filter>src\arch\x86\include</Filter>
-    </ClInclude>
-    <ClInclude Include="src\arch\x86\include\system.h">
-      <Filter>src\arch\x86\include</Filter>
-    </ClInclude>
-    <ClInclude Include="src\include\graphicsresources.h">
-      <Filter>src\include</Filter>
-    </ClInclude>
-    <ClInclude Include="src\include\list.h">
-      <Filter>src\include</Filter>
-    </ClInclude>
-    <ClInclude Include="src\include\initrd.h">
-      <Filter>src\include</Filter>
-    </ClInclude>
-    <ClInclude Include="src\include\window.h">
-      <Filter>src\include</Filter>
-    </ClInclude>
-    <ClInclude Include="src\include\runtime.h">
-      <Filter>src\include</Filter>
-    </ClInclude>
-    <ClInclude Include="src\include\windowmanager.h">
-      <Filter>src\include</Filter>
-    </ClInclude>
-<<<<<<< HEAD
-=======
-    <ClInclude Include="src\include\video.h">
-      <Filter>src\liballoc</Filter>
-    </ClInclude>
->>>>>>> 17e9ca9a679e395e7e3bc93ec5eb2a2a0cd4790c
-    <ClInclude Include="src\include\math.h">
-      <Filter>src\include</Filter>
-    </ClInclude>
-    <ClInclude Include="src\include\shell.h">
-      <Filter>src\include</Filter>
-    </ClInclude>
-<<<<<<< HEAD
-    <ClInclude Include="src\include\video.h">
-      <Filter>src\include</Filter>
-    </ClInclude>
-    <ClInclude Include="src\arch\x86\include\physallocator.h">
-      <Filter>src\arch\x86\include</Filter>
-    </ClInclude>
-    <ClInclude Include="src\include\liballoc.h">
-      <Filter>src\include</Filter>
-    </ClInclude>
-    <ClInclude Include="src\include\bitmap.h">
-      <Filter>src\include</Filter>
-    </ClInclude>
-    <ClInclude Include="src\arch\x86\include\multitasking.h">
-=======
-    <ClInclude Include="src\include\bitmap.h">
->>>>>>> 17e9ca9a679e395e7e3bc93ec5eb2a2a0cd4790c
-      <Filter>src\arch\x86\include</Filter>
-    </ClInclude>
+    <Filter Include="src">
+      <UniqueIdentifier>{60fb7acd-8b1f-417b-af49-006a6bce8909}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\include">
+      <UniqueIdentifier>{bdf051ab-fab5-4983-864b-e48988430b29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\arch">
+      <UniqueIdentifier>{dcdb7302-4756-4acb-89cc-4dfcc70ebc90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\arch\x86">
+      <UniqueIdentifier>{25ab175e-0747-405f-9d3f-10a8c5438369}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\arch\x86\include">
+      <UniqueIdentifier>{9e05ea3e-85e2-4c48-adf8-1f998e52b62a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\liballoc">
+      <UniqueIdentifier>{a0cd32c1-64e2-48c4-b3ed-d79240ca28ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\gui">
+      <UniqueIdentifier>{6550734f-39f7-4112-ab89-87905ec8200c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

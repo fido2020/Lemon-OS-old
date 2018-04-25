@@ -67,9 +67,6 @@
     <IncludePath>D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\include;D:\OneDrive\Documents\Lemon\Kernel\src\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="buildasmx86.sh">
-      <FileType>Text</FileType>
-    </None>
     <None Include="linkscript.ld">
       <FileType>Text</FileType>
     </None>
@@ -82,8 +79,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="math.cpp" />
-    <ClCompile Include="physallocator.cpp" />
+    <ClCompile Include="src\math.cpp" />
+    <ClCompile Include="src\arch\x86\physallocator.cpp" />
     <ClCompile Include="src\graphicsresources.cpp" />
     <ClCompile Include="src\arch\x86\mouse.cpp" />
     <ClCompile Include="src\arch\x86\gdt.cpp" />

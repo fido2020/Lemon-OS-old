@@ -18,35 +18,18 @@ typedef struct {
 	uint32_t size; // Size of file
 	uint32_t reserved; // Reserved bytes
 	uint32_t offset; // Offset of pixel data
-<<<<<<< HEAD
 } bitmap_file_header_t __attribute__((packed));
 
 typedef struct {
 	uint32_t hdr_size; // The size of this header
 	int32_t width; // The width of the image in pixels
 	int32_t height; // The height of the image in pixels
-=======
-} bitmap_header_t;
-
-typedef struct {
-	uint32_t hdr_size; // The size of this header
-	uint32_t width; // The width of the image in pixels
-	uint32_t height; // The height of the image in pixels
->>>>>>> 17e9ca9a679e395e7e3bc93ec5eb2a2a0cd4790c
 	uint16_t colour_planes;// Number of colour planes (should be 1)
 	uint16_t bpp; // Bits per pixel
 	uint32_t compression; // Compression method
 	uint32_t size; // The image size
-<<<<<<< HEAD
 	int32_t hres; // The horizontal resolution of the image (pixels per metre)
 	int32_t vres; // The vertical resolution of the image (pixels per metre)
 	uint32_t colour_num; // The number of colours in the colour palette 
 	uint32_t colours_important; // Number of important colours - usually ignored
 } bitmap_info_header_t __attribute__((packed));
-=======
-	uint32_t hres; // The horizontal resolution of the image (pixels per metre)
-	uint32_t vres; // The vertical resolution of the image (pixels per metre)
-	uint32_t colour_num; // The number of colours in the colour palette 
-	uint32_t colours_important; // Number of important colours - usually ignored
-} bitmapinfo_header_t;
->>>>>>> 17e9ca9a679e395e7e3bc93ec5eb2a2a0cd4790c
