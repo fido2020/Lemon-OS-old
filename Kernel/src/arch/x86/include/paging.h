@@ -96,6 +96,10 @@ void map_page(uint32_t phys, uint32_t virt);
 
 bool mark_pages_reserved(uint32_t phys, uint32_t virt, uint32_t amount);
 
+void map_page(uint32_t phys, uint32_t virt);
+
+bool mark_pages_reserved(uint32_t phys, uint32_t virt, uint32_t amount);
+
 static inline void set_flags(uint32_t* target, uint32_t flags) {
 	*target |= flags;
 }

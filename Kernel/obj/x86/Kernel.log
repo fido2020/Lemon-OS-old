@@ -2,10 +2,17 @@
   Copying sources remotely to 'localhost'
   Starting remote build
   Compiling sources:
+<<<<<<< HEAD
   graphicsresources.cpp
   windowmanager.cpp
   video.cpp
 D:\OneDrive\Documents\Lemon\Kernel\src\video.cpp(183,11): warning : unused variable ‘video_mem_offset’ [-Wunused-variable]
+=======
+  kernel.cpp
+D:\OneDrive\Documents\Lemon\Kernel\src\kernel.cpp(47,20): warning : comparison between signed and unsigned integer expressions [-Wsign-compare]
+D:\OneDrive\Documents\Lemon\Kernel\src\kernel.cpp(79,23): warning : unused variable ‘initrd_fs_nodes’ [-Wunused-variable]
+D:\OneDrive\Documents\Lemon\Kernel\src\kernel.cpp(80,24): warning : unused variable ‘initrd_fs_header’ [-Wunused-variable]
+>>>>>>> 17e9ca9a679e395e7e3bc93ec5eb2a2a0cd4790c
   Invoking '/bin/bash ~/projects/Kernel/buildasmx86.sh', working directory: '/home/computerfido/projects/Kernel'
   Assembling entry.asm
   Assembling gdt.asm

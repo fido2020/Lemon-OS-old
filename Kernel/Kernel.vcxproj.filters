@@ -97,6 +97,7 @@
     <ClCompile Include="src\gui\windowmanager.cpp">
       <Filter>src\gui</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="src\shell.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -106,6 +107,14 @@
     <ClCompile Include="math.cpp">
       <Filter>src\util</Filter>
     </ClCompile>
+=======
+    <ClCompile Include="src\util\rand.cpp">
+      <Filter>src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="src\shell.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+>>>>>>> 17e9ca9a679e395e7e3bc93ec5eb2a2a0cd4790c
   </ItemGroup>
   <ItemGroup>
     <None Include="linkscript.ld" />
@@ -178,12 +187,19 @@
     <ClInclude Include="src\include\windowmanager.h">
       <Filter>src\include</Filter>
     </ClInclude>
+<<<<<<< HEAD
+=======
+    <ClInclude Include="src\include\video.h">
+      <Filter>src\liballoc</Filter>
+    </ClInclude>
+>>>>>>> 17e9ca9a679e395e7e3bc93ec5eb2a2a0cd4790c
     <ClInclude Include="src\include\math.h">
       <Filter>src\include</Filter>
     </ClInclude>
     <ClInclude Include="src\include\shell.h">
       <Filter>src\include</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="src\include\video.h">
       <Filter>src\include</Filter>
     </ClInclude>
@@ -197,6 +213,9 @@
       <Filter>src\include</Filter>
     </ClInclude>
     <ClInclude Include="src\arch\x86\include\multitasking.h">
+=======
+    <ClInclude Include="src\include\bitmap.h">
+>>>>>>> 17e9ca9a679e395e7e3bc93ec5eb2a2a0cd4790c
       <Filter>src\arch\x86\include</Filter>
     </ClInclude>
   </ItemGroup>

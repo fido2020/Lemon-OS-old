@@ -23,7 +23,11 @@ static page_t* get_page(uint32_t addr)
 	set_flags(&(*current_page_directory)[pdindex], PDE_PRESENT | PDE_WRITABLE);
 	pde_set_frame(&(*current_page_directory)[pdindex], (uint32_t)&current_page_tables[pdindex]);
 
+<<<<<<< HEAD
 	page_table_t* pt = &(current_page_tables[pdindex]);
+=======
+	page_table_t* pt = &current_page_tables[pdindex];
+>>>>>>> 17e9ca9a679e395e7e3bc93ec5eb2a2a0cd4790c
 	return &(*pt)[ptindex];
 }
 
@@ -67,10 +71,21 @@ void pages_free(page_t* p) {
 
 void pages_free(uint32_t virt, uint32_t amount)
 {
+<<<<<<< HEAD
 	for (uint32_t i = 0; i < amount; i++) {
 		page_t* pg = get_page(virt + i*PAGE_SIZE);
 		clear_flags(pg, PAGE_PRESENT);
 	}
+=======
+	for (int i = 0; i < amount; i++) {
+		page_t* pg = get_page(virt + i*PAGE_SIZE);
+		clear_flags(pg, PAGE_PRESENT);
+	}
+}
+
+bool allocate_map_page() {
+
+>>>>>>> 17e9ca9a679e395e7e3bc93ec5eb2a2a0cd4790c
 }
 
 // Map amount pages from phys to virt
@@ -85,7 +100,11 @@ bool map_page(uint32_t phys, uint32_t virt, uint32_t amount) {
 		uint32_t pdindex = PAGE_DIRECTORY_INDEX(virt);
 
 		// Get the page from the page table
+<<<<<<< HEAD
 		page_t* page = get_page(virt); // &(current_page_tables[pdindex][PAGE_TABLE_INDEX(virt)]);
+=======
+		page_t* page = &(current_page_tables[pdindex][PAGE_TABLE_INDEX(virt)]);
+>>>>>>> 17e9ca9a679e395e7e3bc93ec5eb2a2a0cd4790c
 		set_flags(page, PAGE_PRESENT | PAGE_WRITABLE); // Make it present and writeable
 		page_set_frame(page, phys); // Point it to the physical address
 
@@ -115,7 +134,11 @@ bool mark_pages_reserved(uint32_t phys, uint32_t virt, uint32_t amount) {
 		current_page_tables[pdindex][PAGE_TABLE_INDEX(virt)] = page;
 		return 1;
 	}
+<<<<<<< HEAD
 	return 0;
+=======
+	
+>>>>>>> 17e9ca9a679e395e7e3bc93ec5eb2a2a0cd4790c
 }
 
 
@@ -150,7 +173,11 @@ void paging_initialize()
 		kernel_page_tables[pdindex][PAGE_TABLE_INDEX(virt)] = page;
 	}
 
+<<<<<<< HEAD
 	/*for (int i = 0, frame = 0x100000, virt = 0xc0000000; i<4096; i++, frame += PAGE_SIZE, virt += PAGE_SIZE) {
+=======
+	/*for (int i = 0, frame = 0x100000, virt = 0xc0000000; i<8192; i++, frame += PAGE_SIZE, virt += PAGE_SIZE) {
+>>>>>>> 17e9ca9a679e395e7e3bc93ec5eb2a2a0cd4790c
 
 		//Create a new page
 		page_t page = 0;
@@ -196,6 +223,10 @@ page_directory_ptr_t clone_page_directory(page_directory_ptr_t src) {
 
 	for (int i = 0; i < TABLES_PER_DIR; i++) {
 		(*dir)[i] = (*src.page_directory)[i];
+<<<<<<< HEAD
+=======
+		page_table_t* table = (page_table_t*)malloc(sizeof(page_table_t));
+>>>>>>> 17e9ca9a679e395e7e3bc93ec5eb2a2a0cd4790c
 		for (int j = 0; j < PAGES_PER_TABLE; i++) {
 			tables[i][j] = src.page_tables[i][j];
 		}
@@ -229,6 +260,7 @@ void page_fault_handler(regs32_t* regs)
 	if (id)
 		reason = "instruction fetch";
 
+<<<<<<< HEAD
 	
 	write_serial_string(reason);
 
@@ -237,6 +269,16 @@ void page_fault_handler(regs32_t* regs)
 	write_serial_string(msg);
 	write_serial_string(" ");
 
+=======
+	write_serial_string(msg);
+	write_serial_string(" ");
+	write_serial_string(reason);
+
+	strcat(msg, itoa(fault_addr, NULL, 16));
+	strcat(msg, "\r\nPage ");
+	strcat(msg, reason);
+
+>>>>>>> 17e9ca9a679e395e7e3bc93ec5eb2a2a0cd4790c
 	fatal_error(msg, "ERR_PAGE_FAULT");
 
 	for (;;);

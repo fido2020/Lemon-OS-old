@@ -102,6 +102,10 @@
     <ClCompile Include="src\liballoc\_liballoc.cpp" />
     <ClCompile Include="src\list.cpp" />
     <ClCompile Include="src\shell.cpp" />
+<<<<<<< HEAD
+=======
+    <ClCompile Include="src\util\rand.cpp" />
+>>>>>>> 17e9ca9a679e395e7e3bc93ec5eb2a2a0cd4790c
     <ClCompile Include="src\memory.cpp" />
     <ClCompile Include="src\runtime.cpp" />
     <ClCompile Include="src\string.cpp" />
@@ -109,10 +113,14 @@
     <ClCompile Include="src\gui\window.cpp" />
   </ItemGroup>
   <ItemGroup>
+<<<<<<< HEAD
     <ClInclude Include="src\arch\x86\include\multitasking.h" />
     <ClInclude Include="src\arch\x86\include\physallocator.h" />
     <ClInclude Include="src\include\bitmap.h" />
     <ClInclude Include="src\include\liballoc.h" />
+=======
+    <ClInclude Include="src\include\bitmap.h" />
+>>>>>>> 17e9ca9a679e395e7e3bc93ec5eb2a2a0cd4790c
     <ClInclude Include="src\include\shell.h" />
     <ClInclude Include="src\arch\x86\include\mouse.h" />
     <ClInclude Include="src\arch\x86\include\system.h" />
@@ -134,6 +142,10 @@
     <ClInclude Include="src\include\string.h" />
     <ClInclude Include="src\include\video.h" />
     <ClInclude Include="src\include\window.h" />
+<<<<<<< HEAD
+=======
+    <ClInclude Include="src\liballoc\liballoc.h" />
+>>>>>>> 17e9ca9a679e395e7e3bc93ec5eb2a2a0cd4790c
     <ClInclude Include="src\include\math.h" />
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">

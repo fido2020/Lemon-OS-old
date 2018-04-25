@@ -40,13 +40,19 @@ void screen_clear(uint8_t r, uint8_t g, uint8_t b) {
 	screen_fillrect(0, 0, video_mode.width, video_mode.height, r, g, b);
 }
 
+<<<<<<< HEAD
 // Clears the screen with specified colour and skips doublebuffer
+=======
+>>>>>>> 17e9ca9a679e395e7e3bc93ec5eb2a2a0cd4790c
 void screen_clear_direct(uint8_t r, uint8_t g, uint8_t b) {
 	if (video_mode.type != Graphical) return; // Text Mode is only 16-colors
 	screen_fillrect_direct(0, 0, video_mode.width, video_mode.height, r, g, b);
 }
 
+<<<<<<< HEAD
 // Clears the screen with specified colour
+=======
+>>>>>>> 17e9ca9a679e395e7e3bc93ec5eb2a2a0cd4790c
 void screen_clear(uint8_t colour) {
 	if (video_mode.type != Text) return; // Text Mode is the only 16-color Mode
 	VGA::clearscreen(colour);
@@ -114,7 +120,22 @@ void drawchar_direct(char c, int x, int y, uint8_t r, uint8_t g, uint8_t b, int 
 	}
 }
 
+<<<<<<< HEAD
 // Draws specified string with specified colour at specified location using specified scale
+=======
+void drawchar_direct(char c, int x, int y, uint8_t r, uint8_t g, uint8_t b, int scale) {
+	for (int i = 0; i < 8; i++)
+	{
+		int row = font_default[c][i];
+		for (int j = 0; j < 8; j++)
+		{
+			if ((row & (1 << j)) >> j)
+				screen_fillrect_direct(x + j * scale, y + i * scale, scale, scale, r, g, b);
+		}
+	}
+}
+
+>>>>>>> 17e9ca9a679e395e7e3bc93ec5eb2a2a0cd4790c
 void drawstring(char* str, int x, int y, uint8_t r, uint8_t g, uint8_t b, int scale) {
 	int xOffset = 0;
 	while (*str != 0) {
@@ -124,8 +145,11 @@ void drawstring(char* str, int x, int y, uint8_t r, uint8_t g, uint8_t b, int sc
 	}
 }
 
+<<<<<<< HEAD
 // Draws specified character with specified colour at specified location using specified scale,
 // skipping double buffer
+=======
+>>>>>>> 17e9ca9a679e395e7e3bc93ec5eb2a2a0cd4790c
 void drawstring_direct(char* str, int x, int y, uint8_t r, uint8_t g, uint8_t b, int scale) {
 	int xOffset = 0;
 	while (*str != 0) {

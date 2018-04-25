@@ -1,0 +1,24 @@
+D:\OneDrive\Documents\Lemon\Kernel\src\liballoc\liballoc.c|636536306998163708|/home/computerfido/projects/Kernel||g++ -c -x c /home/computerfido/projects/Kernel/src/liballoc/liballoc.c -g2 -gdwarf-2 -o "/home/computerfido/projects/Kernel/obj/ARM/Debug/liballoc.o" -Wall -Wswitch -W"no-deprecated-declarations" -W"empty-body" -Wconversion -W"return-type" -Wparentheses -W"no-pointer-sign" -W"no-format" -Wuninitialized -W"unreachable-code" -W"unused-function" -W"unused-value" -W"unused-variable" -O0 -fno-strict-aliasing -fno-omit-frame-pointer -fthreadsafe-statics -fexceptions -frtti -std=c11
+D:\OneDrive\Documents\Lemon\Kernel\src\include\shell.h|636568092120000000|/home/computerfido/projects/Kernel|| 
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\include\mouse.h|636538973158377387|/home/computerfido/projects/Kernel|| 
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\include\system.h|636534482559588107|/home/computerfido/projects/Kernel|| 
+D:\OneDrive\Documents\Lemon\Kernel\src\include\windowmanager.h|636560530963970650|/home/computerfido/projects/Kernel|| 
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\include\keyboard.h|636567919850000000|/home/computerfido/projects/Kernel|| 
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\include\serial.h|636532474825899315|/home/computerfido/projects/Kernel|| 
+D:\OneDrive\Documents\Lemon\Kernel\src\include\graphicsresources.h|636539564267957565|/home/computerfido/projects/Kernel|| 
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\include\fatal.h|636526775511726206|/home/computerfido/projects/Kernel|| 
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\include\paging.h|636573496406201079|/home/computerfido/projects/Kernel|| 
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\include\gdt.h|636519973587804771|/home/computerfido/projects/Kernel|| 
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\include\idt.h|636538906939689359|/home/computerfido/projects/Kernel|| 
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\include\vga.h|636528430182814842|/home/computerfido/projects/Kernel|| 
+D:\OneDrive\Documents\Lemon\Kernel\src\include\console.h|636565478540000000|/home/computerfido/projects/Kernel|| 
+D:\OneDrive\Documents\Lemon\Kernel\src\include\initrd.h|636560318760000000|/home/computerfido/projects/Kernel|| 
+D:\OneDrive\Documents\Lemon\Kernel\src\include\list.h|636560529337346452|/home/computerfido/projects/Kernel|| 
+D:\OneDrive\Documents\Lemon\Kernel\src\include\memory.h|636560320460000000|/home/computerfido/projects/Kernel|| 
+D:\OneDrive\Documents\Lemon\Kernel\src\include\mischdr.h|636564839083496612|/home/computerfido/projects/Kernel|| 
+D:\OneDrive\Documents\Lemon\Kernel\src\include\runtime.h|636560521225277302|/home/computerfido/projects/Kernel|| 
+D:\OneDrive\Documents\Lemon\Kernel\src\include\string.h|636570896885004269|/home/computerfido/projects/Kernel|| 
+D:\OneDrive\Documents\Lemon\Kernel\src\include\video.h|636573863281473942|/home/computerfido/projects/Kernel|| 
+D:\OneDrive\Documents\Lemon\Kernel\src\include\window.h|636567919460000000|/home/computerfido/projects/Kernel|| 
+D:\OneDrive\Documents\Lemon\Kernel\src\liballoc\liballoc.h|636536311728599571|/home/computerfido/projects/Kernel|| 
+D:\OneDrive\Documents\Lemon\Kernel\src\include\math.h|636565489150000000|/home/computerfido/projects/Kernel|| 

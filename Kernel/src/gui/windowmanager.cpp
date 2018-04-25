@@ -12,6 +12,13 @@
 
 static int8_t* mouse_data;
 
+<<<<<<< HEAD
+=======
+Window* win;
+Window* win2;
+Window win3;
+
+>>>>>>> 17e9ca9a679e395e7e3bc93ec5eb2a2a0cd4790c
 WindowManager::WindowManager(video_mode_t* video_mode)
 {
 	screen_width = video_mode->width;
@@ -19,6 +26,19 @@ WindowManager::WindowManager(video_mode_t* video_mode)
 
 	screen_clear(96, 192, 192);
 
+<<<<<<< HEAD
+=======
+	win = Window_new(10, 20, 320, 200);
+	win2 = Window_new(150, 20, 200, 300);
+	
+
+	//windows.add_back(win);
+
+	Window_draw(win);
+
+	Window_draw(win2);
+
+>>>>>>> 17e9ca9a679e395e7e3bc93ec5eb2a2a0cd4790c
 	screen_update();
 
 	mouse_install();
