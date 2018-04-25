@@ -1,3 +1,11 @@
 ﻿  Validating sources
   Copying sources remotely to 'localhost'
-D:\Programs\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Application Type\Linux\1.0\Linux.targets(89,5): error : Could not connect to the remote system. Please verify your connection settings, and that your machine is on the network and reachable.
+  Starting remote build
+  Compiling sources:
+  windowmanager.cpp
+  window.cpp
+  Invoking '/bin/bash ~/projects/Kernel/buildasmx86.sh', working directory: '/home/computerfido/projects/Kernel'
+  /bin/bash: /home/computerfido/projects/Kernel/buildasmx86.sh: No such file or directory
+  /bin/bash: /home/computerfido/projects/Kernel/buildasmx86.sh: No such file or directory
+  
+D:\Programs\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Application Type\Linux\1.0\Linux.targets(396,5): error : /bin/bash ~/projects/Kernel/buildasmx86.sh exited with code 127, please see the Output Window - Build output for more details (NOTE: the build output verbosity might need to be changed in Tools Options to see more information in the Output Window).
