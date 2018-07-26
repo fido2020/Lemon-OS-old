@@ -14,8 +14,8 @@ void initrd_init(uint32_t address, uint32_t size) {
 	nodes = (lemoninitfs_node_t*)(address + sizeof(lemoninitfs_header_t));
 }
 
-lemoninitfs_node_t** initrd_list() {
-	return &nodes;
+lemoninitfs_node_t* initrd_list() {
+	return nodes;
 }
 
 lemoninitfs_header_t* initrd_get_header() {

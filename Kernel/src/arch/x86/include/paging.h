@@ -78,25 +78,20 @@ typedef struct {
 void paging_initialize();
 
 void enable_paging();
-page_directory_ptr_t clone_page_directory(page_directory_ptr_t src);
 
 void switch_page_directory(uint32_t dir);
 
+void set_current_page_directory(page_directory_ptr_t dir);
+void set_current_page_directory_kernel();
+
+void map_kernel();
+
 void page_fault_handler(regs32_t* regs);
 bool map_page(uint32_t phys, uint32_t virt, uint32_t amount);
-void map_page(uint32_t phys, uint32_t virt);
-void map_phys (uint32_t virt, uint32_t phys, uint32_t flags) ;
-
 void unmap_page(uint32_t addr);
 
 uint32_t pages_allocate(uint32_t amount);
 void pages_free(uint32_t virt, uint32_t amount);
-
-void map_page(uint32_t phys, uint32_t virt);
-
-bool mark_pages_reserved(uint32_t phys, uint32_t virt, uint32_t amount);
-
-void map_page(uint32_t phys, uint32_t virt);
 
 bool mark_pages_reserved(uint32_t phys, uint32_t virt, uint32_t amount);
 
@@ -112,3 +107,7 @@ static inline void flush_tlb_entry(uint32_t addr)
 {
 	asm volatile("invlpg (%0)" ::"r" (addr) : "memory");
 }
+
+page_directory_ptr_t new_address_space();
+
+uint32_t addr_virt_to_phys(uint32_t addr);

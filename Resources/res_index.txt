@@ -1,0 +1,2 @@
+res_1.bmp: splash_lemon.bmp
+res_2.bmp: progressbar.bmp

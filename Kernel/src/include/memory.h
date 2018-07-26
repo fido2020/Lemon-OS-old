@@ -9,7 +9,7 @@
 extern "C" {
 #endif
 	
-	unsigned char *memset(uint8_t *src, int c, size_t count);
+	void* memset(void* src, int c, size_t count);
 
 #ifdef __cplusplus
 }
@@ -17,4 +17,4 @@ extern "C" {
 
 void *memcpy(void* dest, void* src, size_t count);
 
-void* sse2_memcpy(void* dest, void* src, size_t count);
+void memcpy_sse2(void * dest, void * src, size_t count);

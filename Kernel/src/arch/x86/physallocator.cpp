@@ -6,7 +6,7 @@
 #include <serial.h>
 #include <string.h>
 
-extern "C" uint32_t kernel_end;
+extern char kernel_end;
 
 uint32_t mem_bitmap[PHYSALLOC_BITMAP_SIZE_DWORDS];
 
@@ -16,9 +16,7 @@ uint32_t physalloc_max_blocks = 0;
 // Initialize the physical page allocator
 void physalloc_init(memory_info_t* mem_info)
 {
-	// Throw a fatal if there isnt enough memory at the moment 24MB is demanded as the minimum
-	if (mem_info->memory_high < 24576) fatal_error("Not enough memory! (< 24MB)", "ERR_NOT_ENOUGH_MEM");
-
+	
 	memset((uint8_t*)mem_bitmap, 0xFFFFFFFF, PHYSALLOC_BITMAP_SIZE_DWORDS * 4);
 
 	multiboot_memory_map_t* mem_map = mem_info->mem_map;
@@ -31,7 +29,7 @@ void physalloc_init(memory_info_t* mem_info)
 		mem_map = (multiboot_memory_map_t*)((uint32_t)mem_map + mem_map->size + sizeof(mem_map->size));
 	}
 	physalloc_max_blocks = mem_info->memory_high * 1024 / PHYSALLOC_BLOCK_SIZE;
-	physalloc_mark_region_used(0, kernel_end + 0xF00000);
+	physalloc_mark_region_used(0, 0xF000000/*(uint32_t)&kernel_end*/);
 }
 
 // Sets a bit in the physical memory bitmap
@@ -63,7 +61,7 @@ uint32_t physalloc_first_free_block() {
 
 // Marks a region in physical memory as being used
 void physalloc_mark_region_used(uint32_t base, size_t size) {
-	for (uint32_t blocks = size / PHYSALLOC_BLOCK_SIZE, align = base / PHYSALLOC_BLOCK_SIZE; blocks > 0; blocks--, physalloc_used_blocks++)
+	for (uint32_t blocks = size / PHYSALLOC_BLOCK_SIZE + 1, align = base / PHYSALLOC_BLOCK_SIZE; blocks > 0; blocks--, physalloc_used_blocks++)
 		physalloc_bit_set(align++);
 }
 

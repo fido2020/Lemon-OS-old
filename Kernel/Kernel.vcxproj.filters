@@ -55,9 +55,6 @@
     <ClCompile Include="src\arch\x86\serial.cpp">
       <Filter>src\arch\x86</Filter>
     </ClCompile>
-    <ClCompile Include="src\shell.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="src\string.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -73,8 +70,26 @@
     <ClCompile Include="src\gui\windowmanager.cpp">
       <Filter>src\gui</Filter>
     </ClCompile>
+    <ClCompile Include="src\arch\x86\multitasking.cpp">
+      <Filter>src\arch\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="src\shell.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="src\gui\window.cpp">
       <Filter>src\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\arch\x86\timer.cpp">
+      <Filter>src\arch\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="src\arch\x86\cpuid.cpp">
+      <Filter>src\arch\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="src\arch\x86\syscalls.cpp">
+      <Filter>src\arch\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="src\snake.cpp">
+      <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -129,14 +144,8 @@
     <ClInclude Include="src\arch\x86\include\paging.h">
       <Filter>src\arch\x86\include</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\runtime.h">
-      <Filter>src\arch\x86\include</Filter>
-    </ClInclude>
     <ClInclude Include="src\arch\x86\include\serial.h">
       <Filter>src\arch\x86\include</Filter>
-    </ClInclude>
-    <ClInclude Include="src\include\shell.h">
-      <Filter>src\include</Filter>
     </ClInclude>
     <ClInclude Include="src\include\string.h">
       <Filter>src\include</Filter>
@@ -150,15 +159,32 @@
     <ClInclude Include="src\include\video.h">
       <Filter>src\include</Filter>
     </ClInclude>
+    <ClInclude Include="src\include\windowmanager.h">
+      <Filter>src\include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\shell.h">
+      <Filter>src\include</Filter>
+    </ClInclude>
     <ClInclude Include="src\include\window.h">
       <Filter>src\include</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\windowmanager.h">
+    <ClInclude Include="src\include\runtime.h">
+      <Filter>src\include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\arch\x86\include\timer.h">
+      <Filter>src\arch\x86\include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\arch\x86\include\cpuid.h">
+      <Filter>src\arch\x86\include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\arch\x86\include\syscalls.h">
+      <Filter>src\arch\x86\include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\snake.h">
       <Filter>src\include</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="linkscript.ld" />
     <None Include="src\arch\x86\entry.asm">
       <Filter>src\arch\x86</Filter>
     </None>
@@ -166,6 +192,20 @@
       <Filter>src\arch\x86</Filter>
     </None>
     <None Include="src\arch\x86\idt.asm">
+      <Filter>src\arch\x86</Filter>
+    </None>
+    <None Include="buildasmx86.sh" />
+    <None Include="linkscript-x86.ld" />
+    <None Include="src\arch\x86\user.asm">
+      <Filter>src\arch\x86</Filter>
+    </None>
+    <None Include="src\arch\x86\multitasking.asm">
+      <Filter>src\arch\x86</Filter>
+    </None>
+    <None Include="src\arch\x86\cpuid.asm">
+      <Filter>src\arch\x86</Filter>
+    </None>
+    <None Include="src\arch\x86\memory.asm">
       <Filter>src\arch\x86</Filter>
     </None>
   </ItemGroup>

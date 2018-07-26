@@ -8,49 +8,143 @@
 #include <console.h>
 #include <serial.h>
 #include <string.h>
-#include <math.h>
+#include <initrd.h>
+#include <bitmap.h>
+#include <timer.h>
 
+bool prevMouseButtonState = false;
 static int8_t* mouse_data;
+bool enableFpsCounter = false;
 
-WindowManager::WindowManager(video_mode_t* video_mode)
-{
-	screen_width = video_mode->width;
-	screen_height = video_mode->height;
+// FPS counter
+uint32_t fps;
 
-	screen_clear(96, 192, 192);
+// Frames since last timer update
+uint64_t frames;
 
-	screen_update();
-
-	mouse_install();
+// Timer callback to update fps counter
+void fps_update(uint16_t timer_Hz) {
+	fps = frames * timer_Hz;
+	frames = 0;
 }
 
-void WindowManager::Update()
+// Constructor
+WindowManager::WindowManager(video_mode_t* _video_mode)
 {
+	video_mode = *_video_mode;
+
+	screen_width = video_mode.width;
+	screen_height = video_mode.height;
+
+	if(enableFpsCounter)
+		timer_register_callback(fps_update);
+
+	Window_New(100, 20, 400, 200,windowtype_gui);
+}
+
+// Create a new window
+Window* WindowManager::Window_New(int x, int y, int width, int height, uint8_t type) {
+	Window* win = (Window*)malloc(sizeof(Window));
+	*win = Window(x, y, width, height, type);
+	windows.add_back(win);
+	num_windows++;
+	if (activeWindow) activeWindow->active = false;
+	activeWindow = win;
+	win->active = true;
+	return win;
+}
+void WindowManager::Window_Add(Window* win) {
+	windows.add_back(win);
+	num_windows++;
+}
+
+// Render (called every frame)
+void WindowManager::Render()
+{
+	screen_clear(0, 0, 0);
+
 	screen_clear(96, 192, 192);
-
-	if (mouse_data_updated()) {
-		mouse_data = mouse_get_data();
-
-		mouse_x += mouse_data[1];
-		mouse_y -= mouse_data[2];
-
-		if (mouse_x < 0)
-			mouse_x = 0;
-		if (mouse_y < 0)
-			mouse_y = 0;
-
-		if (mouse_x > (int)screen_width)
-			mouse_x = screen_width;
-		if (mouse_y > (int)screen_height)
-			mouse_y = screen_height;
+	Window* current;
+	for (int i = 0; i < num_windows; i++) {
+		if (windows[i] != NULL) {
+			windows[i]->Render();
+			if (windows[i]->render_callback)
+				windows[i]->render_callback();
+		}
 	}
 
 	DrawMouseCursor();
-
-	//screen_update();
 }
 
+// Update (called every frame)
+void WindowManager::Update() {
+	mouse_data = mouse_get_data();
+	if (mouse_data_updated()) {
+		mouse_x += mouse_data[1];
+		mouse_y -= mouse_data[2];
+
+		if (mouse_data[0] & MOUSE_BUTTON_LEFT) {
+			if (!prevMouseButtonState) {
+				MouseClick();
+			}
+		}
+		else {
+			drag = false;
+		}
+	}
+
+	if (drag && activeWindow) {
+		if (mouse_x - drag_offset_x >= 0)
+			activeWindow->x = mouse_x - drag_offset_x;
+		else
+			activeWindow->x = 0;
+
+		if(mouse_y - drag_offset_y >= 0)
+			activeWindow->y = mouse_y - drag_offset_y;
+		else activeWindow->y = 0;
+	}
+
+	prevMouseButtonState = mouse_data[0] & MOUSE_BUTTON_LEFT;
+	Render();
+
+	if (enableFpsCounter) {
+		// Draw FPS counter
+		drawstring("FPS:", 0, 0, 255, 255, 255, 1);
+		drawstring(itoa(fps), 40, 0, 255, 255, 255, 1);
+
+		// Frames since last timer update
+		frames++;
+	}
+}
+
+// Draws the mouse cursor
 void WindowManager::DrawMouseCursor() {
 	drawgrayscalebitmap(mouse_x, mouse_y, 11, 18, mouse_cursor);
 }
 
+// Handles a mouse click
+void WindowManager::MouseClick() {
+	//Window_ptr* current_ptr = windows_tail;
+
+	// Loop through windows
+	for (int i = num_windows - 1; i >= 0; i--) {
+		Window* win =  windows[i];
+
+		// Check if mouse is within bounds of window win
+		if (mouse_x >= win->x && mouse_x < (win->x + win->width) && mouse_y >= win->y && mouse_y < (win->y + win->height)) {
+			if (activeWindow) activeWindow->active = false;
+			activeWindow = win;
+			win->active = true;
+			if (i != num_windows - 1) {
+				windows.remove_at(i);
+				Window_Add(win);
+			}
+			if (mouse_y < win->y + 24) {
+				drag_offset_x = mouse_x - win->x;
+				drag_offset_y = mouse_y - win->y;
+				drag = true;
+			}
+			break;
+		}
+	}
+}

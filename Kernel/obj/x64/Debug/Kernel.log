@@ -1,0 +1,201 @@
+﻿  Validating architecture
+  Validating sources
+  Copying sources remotely to 'localhost'
+  Starting remote build
+  Compiling sources:
+  multitasking.cpp
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\multitasking.cpp(1,26): error : multitasking.h: No such file or directory
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\multitasking.cpp(1,26): error :  #include <multitasking.h>
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\multitasking.cpp(1,26): error :                           ^
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\multitasking.cpp(1,26): error : compilation terminated.
+  math.cpp
+  physallocator.cpp
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\physallocator.cpp(1,27): error : physallocator.h: No such file or directory
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\physallocator.cpp(1,27): error :  #include <physallocator.h>
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\physallocator.cpp(1,27): error :                            ^
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\physallocator.cpp(1,27): error : compilation terminated.
+  graphicsresources.cpp
+D:\OneDrive\Documents\Lemon\Kernel\src\graphicsresources.cpp(1,31): error : graphicsresources.h: No such file or directory
+D:\OneDrive\Documents\Lemon\Kernel\src\graphicsresources.cpp(1,31): error :  #include <graphicsresources.h>
+D:\OneDrive\Documents\Lemon\Kernel\src\graphicsresources.cpp(1,31): error :                                ^
+D:\OneDrive\Documents\Lemon\Kernel\src\graphicsresources.cpp(1,31): error : compilation terminated.
+  mouse.cpp
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\mouse.cpp(1,19): error : mouse.h: No such file or directory
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\mouse.cpp(1,19): error :  #include <mouse.h>
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\mouse.cpp(1,19): error :                    ^
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\mouse.cpp(1,19): error : compilation terminated.
+  gdt.cpp
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\gdt.cpp(1,17): error : gdt.h: No such file or directory
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\gdt.cpp(1,17): error :  #include <gdt.h>
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\gdt.cpp(1,17): error :                  ^
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\gdt.cpp(1,17): error : compilation terminated.
+  idt.cpp
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\idt.cpp(1,17): error : idt.h: No such file or directory
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\idt.cpp(1,17): error :  #include <idt.h>
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\idt.cpp(1,17): error :                  ^
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\idt.cpp(1,17): error : compilation terminated.
+  keyboard.cpp
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\keyboard.cpp(1,22): error : keyboard.h: No such file or directory
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\keyboard.cpp(1,22): error :  #include <keyboard.h>
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\keyboard.cpp(1,22): error :                       ^
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\keyboard.cpp(1,22): error : compilation terminated.
+  paging.cpp
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\paging.cpp(1,20): error : paging.h: No such file or directory
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\paging.cpp(1,20): error :  #include <paging.h>
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\paging.cpp(1,20): error :                     ^
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\paging.cpp(1,20): error : compilation terminated.
+  serial.cpp
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\serial.cpp(1,20): error : system.h: No such file or directory
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\serial.cpp(1,20): error :  #include <system.h>
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\serial.cpp(1,20): error :                     ^
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\serial.cpp(1,20): error : compilation terminated.
+  system.cpp
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\system.cpp(1,20): error : system.h: No such file or directory
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\system.cpp(1,20): error :  #include <system.h>
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\system.cpp(1,20): error :                     ^
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\system.cpp(1,20): error : compilation terminated.
+  vga.cpp
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\vga.cpp(1,17): error : vga.h: No such file or directory
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\vga.cpp(1,17): error :  #include <vga.h>
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\vga.cpp(1,17): error :                  ^
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\vga.cpp(1,17): error : compilation terminated.
+  console.cpp
+D:\OneDrive\Documents\Lemon\Kernel\src\console.cpp(1,21): error : console.h: No such file or directory
+D:\OneDrive\Documents\Lemon\Kernel\src\console.cpp(1,21): error :  #include <console.h>
+D:\OneDrive\Documents\Lemon\Kernel\src\console.cpp(1,21): error :                      ^
+D:\OneDrive\Documents\Lemon\Kernel\src\console.cpp(1,21): error : compilation terminated.
+  fatal.cpp
+D:\OneDrive\Documents\Lemon\Kernel\src\fatal.cpp(1,19): error : fatal.h: No such file or directory
+D:\OneDrive\Documents\Lemon\Kernel\src\fatal.cpp(1,19): error :  #include <fatal.h>
+D:\OneDrive\Documents\Lemon\Kernel\src\fatal.cpp(1,19): error :                    ^
+D:\OneDrive\Documents\Lemon\Kernel\src\fatal.cpp(1,19): error : compilation terminated.
+  windowmanager.cpp
+D:\OneDrive\Documents\Lemon\Kernel\src\gui\windowmanager.cpp(1,27): error : windowmanager.h: No such file or directory
+D:\OneDrive\Documents\Lemon\Kernel\src\gui\windowmanager.cpp(1,27): error :  #include <windowmanager.h>
+D:\OneDrive\Documents\Lemon\Kernel\src\gui\windowmanager.cpp(1,27): error :                            ^
+D:\OneDrive\Documents\Lemon\Kernel\src\gui\windowmanager.cpp(1,27): error : compilation terminated.
+  initrd.cpp
+D:\OneDrive\Documents\Lemon\Kernel\src\initrd.cpp(1,20): error : initrd.h: No such file or directory
+D:\OneDrive\Documents\Lemon\Kernel\src\initrd.cpp(1,20): error :  #include <initrd.h>
+D:\OneDrive\Documents\Lemon\Kernel\src\initrd.cpp(1,20): error :                     ^
+D:\OneDrive\Documents\Lemon\Kernel\src\initrd.cpp(1,20): error : compilation terminated.
+  kernel.cpp
+D:\OneDrive\Documents\Lemon\Kernel\src\kernel.cpp(1,18): error : gdt.h: No such file or directory
+D:\OneDrive\Documents\Lemon\Kernel\src\kernel.cpp(1,18): error :  #include  <gdt.h>
+D:\OneDrive\Documents\Lemon\Kernel\src\kernel.cpp(1,18): error :                   ^
+D:\OneDrive\Documents\Lemon\Kernel\src\kernel.cpp(1,18): error : compilation terminated.
+  liballoc.c
+cc1 : warning : command line option ‘-fthreadsafe-statics’ is valid for C++/ObjC++ but not for C
+cc1 : warning : command line option ‘-frtti’ is valid for C++/ObjC++ but not for C
+D:\OneDrive\Documents\Lemon\Kernel\src\liballoc\liballoc.c(1,22): error : liballoc.h: No such file or directory
+D:\OneDrive\Documents\Lemon\Kernel\src\liballoc\liballoc.c(1,22): error : compilation terminated.
+  _liballoc.cpp
+D:\OneDrive\Documents\Lemon\Kernel\src\liballoc\_liballoc.cpp(1,20): error : paging.h: No such file or directory
+D:\OneDrive\Documents\Lemon\Kernel\src\liballoc\_liballoc.cpp(1,20): error :  #include <paging.h>
+D:\OneDrive\Documents\Lemon\Kernel\src\liballoc\_liballoc.cpp(1,20): error :                     ^
+D:\OneDrive\Documents\Lemon\Kernel\src\liballoc\_liballoc.cpp(1,20): error : compilation terminated.
+  list.cpp
+D:\OneDrive\Documents\Lemon\Kernel\src\list.cpp(1,18): error : list.h: No such file or directory
+D:\OneDrive\Documents\Lemon\Kernel\src\list.cpp(1,18): error :  #include <list.h>
+D:\OneDrive\Documents\Lemon\Kernel\src\list.cpp(1,18): error :                   ^
+D:\OneDrive\Documents\Lemon\Kernel\src\list.cpp(1,18): error : compilation terminated.
+  memory.cpp
+D:\OneDrive\Documents\Lemon\Kernel\src\memory.cpp(4,23): warning : ‘memset’ initialized and declared ‘extern’
+D:\OneDrive\Documents\Lemon\Kernel\src\memory.cpp(4,23): warning :  unsigned char *memset(uint8_t* src, int c, size_t count)
+D:\OneDrive\Documents\Lemon\Kernel\src\memory.cpp(4,23): warning :                        ^
+D:\OneDrive\Documents\Lemon\Kernel\src\memory.cpp(4,23): error : ‘unsigned char* memset’ redeclared as different kind of symbol
+/usr/include/string.h(62,14): message : previous declaration ‘void* memset(void*, int, size_t)’
+/usr/include/string.h(62,14): message :  extern void *memset (void *__s, int __c, size_t __n) __THROW __nonnull ((1));
+/usr/include/string.h(62,14): message :               ^
+D:\OneDrive\Documents\Lemon\Kernel\src\memory.cpp(4,23): error : ‘uint8_t’ was not declared in this scope
+D:\OneDrive\Documents\Lemon\Kernel\src\memory.cpp(4,23): error :  unsigned char *memset(uint8_t* src, int c, size_t count)
+D:\OneDrive\Documents\Lemon\Kernel\src\memory.cpp(4,23): error :                        ^
+D:\OneDrive\Documents\Lemon\Kernel\src\memory.cpp(4,32): error : ‘src’ was not declared in this scope
+D:\OneDrive\Documents\Lemon\Kernel\src\memory.cpp(4,32): error :  unsigned char *memset(uint8_t* src, int c, size_t count)
+D:\OneDrive\Documents\Lemon\Kernel\src\memory.cpp(4,32): error :                                 ^
+D:\OneDrive\Documents\Lemon\Kernel\src\memory.cpp(4,37): error : expected primary-expression before ‘int’
+D:\OneDrive\Documents\Lemon\Kernel\src\memory.cpp(4,37): error :  unsigned char *memset(uint8_t* src, int c, size_t count)
+D:\OneDrive\Documents\Lemon\Kernel\src\memory.cpp(4,37): error :                                      ^
+D:\OneDrive\Documents\Lemon\Kernel\src\memory.cpp(4,51): error : expected primary-expression before ‘count’
+D:\OneDrive\Documents\Lemon\Kernel\src\memory.cpp(4,51): error :  unsigned char *memset(uint8_t* src, int c, size_t count)
+D:\OneDrive\Documents\Lemon\Kernel\src\memory.cpp(4,51): error :                                                    ^
+  runtime.cpp
+D:\OneDrive\Documents\Lemon\Kernel\src\runtime.cpp(6,20): error : ‘malloc’ was not declared in this scope
+D:\OneDrive\Documents\Lemon\Kernel\src\runtime.cpp(6,20): error :   return malloc(size);
+D:\OneDrive\Documents\Lemon\Kernel\src\runtime.cpp(6,20): error :                     ^
+D:\OneDrive\Documents\Lemon\Kernel\src\runtime.cpp(11,20): error : ‘malloc’ was not declared in this scope
+D:\OneDrive\Documents\Lemon\Kernel\src\runtime.cpp(11,20): error :   return malloc(size);
+D:\OneDrive\Documents\Lemon\Kernel\src\runtime.cpp(11,20): error :                     ^
+D:\OneDrive\Documents\Lemon\Kernel\src\runtime.cpp(16,8): error : ‘free’ was not declared in this scope
+D:\OneDrive\Documents\Lemon\Kernel\src\runtime.cpp(16,8): error :   free(p);
+D:\OneDrive\Documents\Lemon\Kernel\src\runtime.cpp(16,8): error :         ^
+D:\OneDrive\Documents\Lemon\Kernel\src\runtime.cpp(21,8): error : ‘free’ was not declared in this scope
+D:\OneDrive\Documents\Lemon\Kernel\src\runtime.cpp(21,8): error :   free(p);
+D:\OneDrive\Documents\Lemon\Kernel\src\runtime.cpp(21,8): error :         ^
+  snake.cpp
+D:\OneDrive\Documents\Lemon\Kernel\src\snake.cpp(1,19): error : snake.h: No such file or directory
+D:\OneDrive\Documents\Lemon\Kernel\src\snake.cpp(1,19): error :  #include <snake.h>
+D:\OneDrive\Documents\Lemon\Kernel\src\snake.cpp(1,19): error :                    ^
+D:\OneDrive\Documents\Lemon\Kernel\src\snake.cpp(1,19): error : compilation terminated.
+  string.cpp
+D:\OneDrive\Documents\Lemon\Kernel\src\string.cpp(5,1): error : ‘string’ does not name a type
+D:\OneDrive\Documents\Lemon\Kernel\src\string.cpp(12,1): error : ‘string’ does not name a type
+D:\OneDrive\Documents\Lemon\Kernel\src\string.cpp(19,1): error : ‘string’ does not name a type
+D:\OneDrive\Documents\Lemon\Kernel\src\string.cpp(39,1): error : ‘string’ does not name a type
+D:\OneDrive\Documents\Lemon\Kernel\src\string.cpp(56,7): error : ‘string’ has not been declared
+D:\OneDrive\Documents\Lemon\Kernel\src\string.cpp(57,9): error : ‘data’ was not declared in this scope
+D:\OneDrive\Documents\Lemon\Kernel\src\string.cpp(57,9): error :   return data;
+D:\OneDrive\Documents\Lemon\Kernel\src\string.cpp(57,9): error :          ^
+D:\OneDrive\Documents\Lemon\Kernel\src\string.cpp(60,8): error : ‘string’ has not been declared
+D:\OneDrive\Documents\Lemon\Kernel\src\string.cpp(60,22): error : non-member function ‘size_t len()’ cannot have cv-qualifier
+D:\OneDrive\Documents\Lemon\Kernel\src\string.cpp(61,9): error : ‘length’ was not declared in this scope
+D:\OneDrive\Documents\Lemon\Kernel\src\string.cpp(61,9): error :   return length;
+D:\OneDrive\Documents\Lemon\Kernel\src\string.cpp(61,9): error :          ^
+D:\OneDrive\Documents\Lemon\Kernel\src\string.cpp(64,7): error : ‘string’ has not been declared
+D:\OneDrive\Documents\Lemon\Kernel\src\string.cpp(64,39): error : non-member function ‘char operator[](unsigned int)’ cannot have cv-qualifier
+D:\OneDrive\Documents\Lemon\Kernel\src\string.cpp(64,39): error : ‘char operator[](unsigned int)’ must be a nonstatic member function
+D:\OneDrive\Documents\Lemon\Kernel\src\string.cpp(69,7): error : ‘string’ has not been declared
+D:\OneDrive\Documents\Lemon\Kernel\src\string.cpp(69,37): error : ‘char& operator[](unsigned int)’ must be a nonstatic member function
+D:\OneDrive\Documents\Lemon\Kernel\src\string.cpp(74,1): error : ‘string’ does not name a type
+D:\OneDrive\Documents\Lemon\Kernel\src\string.cpp(87,1): error : ‘string’ does not name a type
+D:\OneDrive\Documents\Lemon\Kernel\src\string.cpp(105,1): error : ‘string’ does not name a type
+D:\OneDrive\Documents\Lemon\Kernel\src\string.cpp(105,1): error :  string operator+ (const string& left, const string& right)
+D:\OneDrive\Documents\Lemon\Kernel\src\string.cpp(105,1): error :  ^
+D:\OneDrive\Documents\Lemon\Kernel\src\string.cpp(110,1): error : ‘string’ does not name a type
+D:\OneDrive\Documents\Lemon\Kernel\src\string.cpp(110,1): error :  string operator+ (const string& left, char right)
+D:\OneDrive\Documents\Lemon\Kernel\src\string.cpp(110,1): error :  ^
+D:\OneDrive\Documents\Lemon\Kernel\src\string.cpp(115,1): error : ‘string’ does not name a type
+D:\OneDrive\Documents\Lemon\Kernel\src\string.cpp(115,1): error :  string operator+ (const string& left, const char* right)
+D:\OneDrive\Documents\Lemon\Kernel\src\string.cpp(115,1): error :  ^
+D:\OneDrive\Documents\Lemon\Kernel\src\string.cpp(120,1): error : ‘string’ does not name a type
+D:\OneDrive\Documents\Lemon\Kernel\src\string.cpp(120,1): error :  string operator+ (char left, const string& right)
+D:\OneDrive\Documents\Lemon\Kernel\src\string.cpp(120,1): error :  ^
+D:\OneDrive\Documents\Lemon\Kernel\src\string.cpp(124,1): error : ‘string’ does not name a type
+D:\OneDrive\Documents\Lemon\Kernel\src\string.cpp(124,1): error :  string operator+ (const char* left, const string& right)
+D:\OneDrive\Documents\Lemon\Kernel\src\string.cpp(124,1): error :  ^
+D:\OneDrive\Documents\Lemon\Kernel\src\string.cpp(229,25): warning : conversion to ‘int’ from ‘long int’ may alter its value [-Wconversion]
+D:\OneDrive\Documents\Lemon\Kernel\src\string.cpp(229,25): warning :          int rem = num % base;
+D:\OneDrive\Documents\Lemon\Kernel\src\string.cpp(229,25): warning :                          ^
+D:\OneDrive\Documents\Lemon\Kernel\src\string.cpp(230,18): warning : conversion to ‘char’ from ‘int’ may alter its value [-Wconversion]
+D:\OneDrive\Documents\Lemon\Kernel\src\string.cpp(230,18): warning : conversion to ‘char’ from ‘int’ may alter its value [-Wconversion]
+D:\OneDrive\Documents\Lemon\Kernel\src\string.cpp(258,12): warning : conversion to ‘char’ from ‘int’ may alter its value [-Wconversion]
+D:\OneDrive\Documents\Lemon\Kernel\src\string.cpp(258,12): warning : conversion to ‘char’ from ‘int’ may alter its value [-Wconversion]
+D:\OneDrive\Documents\Lemon\Kernel\src\string.cpp(269,40): error : ambiguating new declaration of ‘void strcpy(char*, const char*)’
+D:\OneDrive\Documents\Lemon\Kernel\src\string.cpp(269,40): error :  void strcpy(char* dest, const char* src)
+D:\OneDrive\Documents\Lemon\Kernel\src\string.cpp(269,40): error :                                         ^
+/usr/include/string.h(125,14): message : old declaration ‘char* strcpy(char*, const char*)’
+/usr/include/string.h(125,14): message :  extern char *strcpy (char *__restrict __dest, const char *__restrict __src)
+/usr/include/string.h(125,14): message :               ^
+D:\OneDrive\Documents\Lemon\Kernel\src\string.cpp(281,56): error : ‘malloc’ was not declared in this scope
+D:\OneDrive\Documents\Lemon\Kernel\src\string.cpp(281,56): error :   char *newstr = (char *)malloc(sizeof(char) * strlen(s));
+D:\OneDrive\Documents\Lemon\Kernel\src\string.cpp(281,56): error :                                                         ^
+  video.cpp
+D:\OneDrive\Documents\Lemon\Kernel\src\video.cpp(1,19): error : video.h: No such file or directory
+D:\OneDrive\Documents\Lemon\Kernel\src\video.cpp(1,19): error :  #include <video.h>
+D:\OneDrive\Documents\Lemon\Kernel\src\video.cpp(1,19): error :                    ^
+D:\OneDrive\Documents\Lemon\Kernel\src\video.cpp(1,19): error : compilation terminated.
+  window.cpp
+D:\OneDrive\Documents\Lemon\Kernel\src\gui\window.cpp(1,20): error : window.h: No such file or directory
+D:\OneDrive\Documents\Lemon\Kernel\src\gui\window.cpp(1,20): error :  #include <window.h>
+D:\OneDrive\Documents\Lemon\Kernel\src\gui\window.cpp(1,20): error :                     ^
+D:\OneDrive\Documents\Lemon\Kernel\src\gui\window.cpp(1,20): error : compilation terminated.

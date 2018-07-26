@@ -1,0 +1,27 @@
+D:\OneDrive\Documents\Lemon\Kernel\src\math.cpp|636600736490000000|/home/computerfido/projects/Kernel||g++ -c -x c++ /home/computerfido/projects/Kernel/src/math.cpp -g2 -gdwarf-2 -o "/home/computerfido/projects/Kernel/obj/x64/Debug/math.o" -Wall -Wswitch -W"no-deprecated-declarations" -W"empty-body" -Wconversion -W"return-type" -Wparentheses -W"no-format" -Wuninitialized -W"unreachable-code" -W"unused-function" -W"unused-value" -W"unused-variable" -O0 -fno-strict-aliasing -fno-omit-frame-pointer -fthreadsafe-statics -fexceptions -frtti -std=c++11
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\include\multitasking.h|636611297200000000|/home/computerfido/projects/Kernel|| 
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\include\physallocator.h|636600169570000000|/home/computerfido/projects/Kernel|| 
+D:\OneDrive\Documents\Lemon\Kernel\src\include\bitmap.h|636633961171084005|/home/computerfido/projects/Kernel|| 
+D:\OneDrive\Documents\Lemon\Kernel\src\include\liballoc.h|636633960392204284|/home/computerfido/projects/Kernel|| 
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\include\mouse.h|636538973150000000|/home/computerfido/projects/Kernel|| 
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\include\system.h|636534482550000000|/home/computerfido/projects/Kernel|| 
+D:\OneDrive\Documents\Lemon\Kernel\src\include\snake.h|636629663530000000|/home/computerfido/projects/Kernel|| 
+D:\OneDrive\Documents\Lemon\Kernel\src\include\windowmanager.h|636636381004564612|/home/computerfido/projects/Kernel|| 
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\include\keyboard.h|636567919850000000|/home/computerfido/projects/Kernel|| 
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\include\serial.h|636532474820000000|/home/computerfido/projects/Kernel|| 
+D:\OneDrive\Documents\Lemon\Kernel\src\include\graphicsresources.h|636601196770000000|/home/computerfido/projects/Kernel|| 
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\include\fatal.h|636526775510000000|/home/computerfido/projects/Kernel|| 
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\include\paging.h|636611294210000000|/home/computerfido/projects/Kernel|| 
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\include\gdt.h|636519973580000000|/home/computerfido/projects/Kernel|| 
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\include\idt.h|636538906930000000|/home/computerfido/projects/Kernel|| 
+D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\include\vga.h|636528430180000000|/home/computerfido/projects/Kernel|| 
+D:\OneDrive\Documents\Lemon\Kernel\src\include\console.h|636565478540000000|/home/computerfido/projects/Kernel|| 
+D:\OneDrive\Documents\Lemon\Kernel\src\include\initrd.h|636636519527984669|/home/computerfido/projects/Kernel|| 
+D:\OneDrive\Documents\Lemon\Kernel\src\include\list.h|636560529330000000|/home/computerfido/projects/Kernel|| 
+D:\OneDrive\Documents\Lemon\Kernel\src\include\memory.h|636600289650000000|/home/computerfido/projects/Kernel|| 
+D:\OneDrive\Documents\Lemon\Kernel\src\include\mischdr.h|636602920800000000|/home/computerfido/projects/Kernel|| 
+D:\OneDrive\Documents\Lemon\Kernel\src\include\runtime.h|636560521220000000|/home/computerfido/projects/Kernel|| 
+D:\OneDrive\Documents\Lemon\Kernel\src\include\string.h|636633968551176627|/home/computerfido/projects/Kernel|| 
+D:\OneDrive\Documents\Lemon\Kernel\src\include\video.h|636636306796503030|/home/computerfido/projects/Kernel|| 
+D:\OneDrive\Documents\Lemon\Kernel\src\include\window.h|636567919460000000|/home/computerfido/projects/Kernel|| 
+D:\OneDrive\Documents\Lemon\Kernel\src\include\math.h|636603312250000000|/home/computerfido/projects/Kernel|| 

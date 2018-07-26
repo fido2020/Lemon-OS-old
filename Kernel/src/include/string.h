@@ -2,12 +2,12 @@
 
 #include <stddef.h>
 
-#ifdef __cplusplus
+/*#ifdef __cplusplus
 extern "C"
 char* itoa(int num, char* str = NULL, int base = 10);
 #else
 char* itoa(int num, char* str, int base);
-#endif
+#endif*/
 
 #ifdef __cplusplus
 extern "C"
@@ -16,7 +16,7 @@ char* strcat(char *dest, const char *src);
 
 #ifdef __cplusplus
 class string {
-	char data[300]; // Short-term fix - far from optimal
+	char* data;
 	size_t length;
 public:
 	//Empty String
@@ -34,8 +34,10 @@ public:
 	//String destructor (no memory allocation and deallocation yet)
 	//~string();
 
+	~string();
+
 	// Get C compatible string
-	char* c_str() /*const*/;
+	char* c_str() const;
 
 	// Get length
 	size_t len() const;
@@ -59,7 +61,12 @@ public:
 };
 #endif
 
+char *strchr(const char *s, int c);
+size_t strspn(const char *s1, const char *s2);
+size_t strcspn(const char *s1, const char *s2);
 void substr(int i, char *src, char *dest);
 void strcpy(char* dest, const char* src);
-char* strtok(char* s, char delim);
-char* itoa(unsigned int num, char* str, int base);
+char *strtok(char * str, const char * delim);
+int strlen(char *str);
+char* itoa(long num, char* str = NULL, int base = 10);
+int strcmp(char* s1, char* s2);

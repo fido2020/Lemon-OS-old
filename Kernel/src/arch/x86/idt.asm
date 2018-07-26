@@ -69,7 +69,7 @@ irq_common_stub:
 	global isr%1
 	isr%1:
 		cli
-		push byte %1
+		push  %1
 		jmp isr_common_stub
 %endmacro
 
@@ -78,7 +78,7 @@ irq_common_stub:
 	isr%1:
 		cli
 		push byte 0
-		push byte %1
+		push  %1
 		jmp isr_common_stub
 %endmacro
 
@@ -87,7 +87,7 @@ irq_common_stub:
   irq%1:
     cli
     push byte 0
-    push byte %2
+    push  %2
     jmp irq_common_stub
 %endmacro
 
@@ -108,7 +108,7 @@ ISR_ERROR_CODE 13
 ISR_ERROR_CODE 14
 ISR_NO_ERROR_CODE  15
 ISR_NO_ERROR_CODE  16
-ISR_NO_ERROR_CODE  17
+ISR_ERROR_CODE  17
 ISR_NO_ERROR_CODE  18
 ISR_NO_ERROR_CODE 19
 ISR_NO_ERROR_CODE 20
@@ -121,9 +121,10 @@ ISR_NO_ERROR_CODE 26
 ISR_NO_ERROR_CODE 27
 ISR_NO_ERROR_CODE 28
 ISR_NO_ERROR_CODE 29
-ISR_NO_ERROR_CODE 30
+ISR_ERROR_CODE 30
 ISR_NO_ERROR_CODE 31
 ISR_NO_ERROR_CODE 32
+ISR_NO_ERROR_CODE 0x69 ; Syscall
 
 IRQ 0, 32
 IRQ 1, 33

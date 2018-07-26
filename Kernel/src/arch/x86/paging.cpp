@@ -57,6 +57,10 @@ uint32_t pages_allocate(uint32_t amount) {
 	return 0;
 }
 
+uint32_t addr_virt_to_phys(uint32_t addr) {
+	return ((uint32_t*)(*current_page_directory[addr >> 22] & ~0xfff))[addr << 10 >> 10 >> 12];
+}
+
 void pages_free(page_t* p) {
 	uint32_t frame;
 	if ((frame = page_get_frame(*p))) {
@@ -135,7 +139,7 @@ void paging_initialize()
 		kernel_page_directory[i] = 0 | PDE_WRITABLE;
 	}
 
-	for (int i = 0, frame = 0x0, virt = 0x00000000; i<8192; i++, frame += PAGE_SIZE, virt += PAGE_SIZE) {
+	for (int i = 0, frame = 0x0, virt = 0x00000000; i<32768; i++, frame += PAGE_SIZE, virt += PAGE_SIZE) {
 
 		//Create a new page
 		page_t page = 0;
@@ -171,10 +175,39 @@ void paging_initialize()
 	enable_paging();
 }
 
+void map_kernel() {
+	for (int i = 0, frame = 0x0, virt = 0x00000000; i<8192; i++, frame += PAGE_SIZE, virt += PAGE_SIZE) {
+
+		//Create a new page
+		page_t page = 0;
+		set_flags(&page, PAGE_PRESENT | PAGE_WRITABLE); // Make it present and writable
+		page_set_frame(&page, frame);
+
+		// Add it to the page table and directory
+		uint32_t pdindex = PAGE_DIRECTORY_INDEX(virt);
+		set_flags(current_page_directory[pdindex], PDE_PRESENT);
+		set_flags(current_page_directory[pdindex], PDE_WRITABLE);
+		pde_set_frame(current_page_directory[pdindex], (uint32_t)&current_page_tables[pdindex]);
+		current_page_tables[pdindex][PAGE_TABLE_INDEX(virt)] = page;
+	}
+}
+
 // Switch Page Directory
 void switch_page_directory(uint32_t dir)
 {
 	asm volatile("mov %0, %%cr3":: "r"(dir));
+}
+
+// Sets the current page directory but does not switch
+void set_current_page_directory(page_directory_ptr_t dir) {
+	current_page_directory = dir.page_directory;
+	current_page_tables = dir.page_tables;
+}
+
+// Sets the current page directory to that of the kernel but does not switch
+void set_current_page_directory_kernel() {
+	current_page_directory = &kernel_page_directory;
+	current_page_tables = kernel_page_tables;
 }
 
 // Enable Paging
@@ -185,22 +218,16 @@ void enable_paging() {
 	asm volatile("mov %0, %%cr0":: "r"(cr0));
 }
 
-// Clone specified page directory
-page_directory_ptr_t clone_page_directory(page_directory_ptr_t src) {
-	page_directory_t* dir = (page_directory_t*)malloc(sizeof(page_directory_t));
-	page_table_t* tables = (page_table_t*)malloc(sizeof(page_table_t)*TABLES_PER_DIR);
+page_directory_ptr_t new_address_space() {
+	page_directory_ptr_t ptr;
 
-	page_directory_ptr_t dir_ptr;
-	dir_ptr.page_directory = dir;
-	dir_ptr.page_tables = tables;
+	ptr.page_directory = (page_directory_t*)malloc(sizeof(page_directory_t));
+	ptr.page_tables = (page_table_t*)malloc(sizeof(page_table_t) * TABLES_PER_DIR);
 
-	for (int i = 0; i < TABLES_PER_DIR; i++) {
-		(*dir)[i] = (*src.page_directory)[i];
-		for (int j = 0; j < PAGES_PER_TABLE; i++) {
-			tables[i][j] = src.page_tables[i][j];
-		}
-	}
-	return dir_ptr;
+	memset((uint8_t*)ptr.page_directory, 0, sizeof(page_directory_t));
+	memset((uint8_t*)ptr.page_tables, 0, sizeof(page_table_t) * TABLES_PER_DIR);
+
+	return ptr;
 }
 
 void page_fault_handler(regs32_t* regs)
@@ -230,9 +257,12 @@ void page_fault_handler(regs32_t* regs)
 		reason = "instruction fetch";
 
 	
-	write_serial_string(reason);
+	write_serial_string(reason); // Print fault to serial
 
-	strcat(msg, itoa(fault_addr, NULL, 16));
+	char* buf = (char*)malloc(16);
+	strcat(msg, itoa((long)fault_addr, buf, (int)16));
+
+	strcat(msg, reason);
 
 	write_serial_string(msg);
 	write_serial_string(" ");

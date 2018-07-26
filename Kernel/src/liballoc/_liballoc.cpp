@@ -2,6 +2,7 @@
 #include <physallocator.h>
 #include <serial.h>
 #include <string.h>
+#include <stddef.h>
 
 char test[50];
 
@@ -27,7 +28,7 @@ extern "C" {
 		return addr;
 	}
 
-	int liballoc_free(void* addr, int pages) {
+	int liballoc_free(void* addr, size_t pages) {
 		pages_free((uint32_t)addr, pages);
 		return 0;
 	}

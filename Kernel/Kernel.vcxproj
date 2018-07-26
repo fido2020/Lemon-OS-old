@@ -65,11 +65,18 @@
     <CustomBuildBeforeTargets>
     </CustomBuildBeforeTargets>
     <IncludePath>D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\include;D:\OneDrive\Documents\Lemon\Kernel\src\include;$(IncludePath)</IncludePath>
+    <RemoteCCompileToolExe>i686-elf-g++</RemoteCCompileToolExe>
+    <RemoteCppCompileToolExe>i686-elf-g++</RemoteCppCompileToolExe>
+    <RemoteLdToolExe>i686-elf-g++</RemoteLdToolExe>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="linkscript.ld">
+    <None Include="buildasmx86.sh">
       <FileType>Text</FileType>
     </None>
+    <None Include="linkscript-x86.ld">
+      <FileType>Text</FileType>
+    </None>
+    <None Include="src\arch\x86\cpuid.asm" />
     <None Include="src\arch\x86\entry.asm">
       <FileType>Text</FileType>
     </None>
@@ -77,8 +84,16 @@
     <None Include="src\arch\x86\idt.asm">
       <FileType>Text</FileType>
     </None>
+    <None Include="src\arch\x86\memory.asm" />
+    <None Include="src\arch\x86\multitasking.asm" />
+    <None Include="src\arch\x86\user.asm" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\arch\x86\cpuid.cpp" />
+    <ClCompile Include="src\arch\x86\multitasking.cpp" />
+    <ClCompile Include="src\arch\x86\syscalls.cpp" />
+    <ClCompile Include="src\arch\x86\timer.cpp" />
+    <ClCompile Include="src\gui\window.cpp" />
     <ClCompile Include="src\math.cpp" />
     <ClCompile Include="src\arch\x86\physallocator.cpp" />
     <ClCompile Include="src\graphicsresources.cpp" />
@@ -98,21 +113,26 @@
     <ClCompile Include="src\liballoc\liballoc.c" />
     <ClCompile Include="src\liballoc\_liballoc.cpp" />
     <ClCompile Include="src\list.cpp" />
-    <ClCompile Include="src\shell.cpp" />
     <ClCompile Include="src\memory.cpp" />
     <ClCompile Include="src\runtime.cpp" />
+    <ClCompile Include="src\shell.cpp" />
+    <ClCompile Include="src\snake.cpp" />
     <ClCompile Include="src\string.cpp" />
     <ClCompile Include="src\video.cpp" />
-    <ClCompile Include="src\gui\window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\arch\x86\include\cpuid.h" />
     <ClInclude Include="src\arch\x86\include\multitasking.h" />
     <ClInclude Include="src\arch\x86\include\physallocator.h" />
+    <ClInclude Include="src\arch\x86\include\syscalls.h" />
+    <ClInclude Include="src\arch\x86\include\timer.h" />
     <ClInclude Include="src\include\bitmap.h" />
     <ClInclude Include="src\include\liballoc.h" />
-    <ClInclude Include="src\include\shell.h" />
     <ClInclude Include="src\arch\x86\include\mouse.h" />
     <ClInclude Include="src\arch\x86\include\system.h" />
+    <ClInclude Include="src\include\shell.h" />
+    <ClInclude Include="src\include\snake.h" />
+    <ClInclude Include="src\include\window.h" />
     <ClInclude Include="src\include\windowmanager.h" />
     <ClInclude Include="src\arch\x86\include\keyboard.h" />
     <ClInclude Include="src\arch\x86\include\serial.h" />
@@ -130,7 +150,6 @@
     <ClInclude Include="src\include\runtime.h" />
     <ClInclude Include="src\include\string.h" />
     <ClInclude Include="src\include\video.h" />
-    <ClInclude Include="src\include\window.h" />
     <ClInclude Include="src\include\math.h" />
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
@@ -143,7 +162,7 @@
       <AdditionalDependencies />
       <UnresolvedSymbolReferences>false</UnresolvedSymbolReferences>
       <AdditionalLibraryDirectories />
-      <AdditionalOptions>-m32 -T $(RemoteProjectDir)/linkscript.ld -Wl,--build-id=none -fno-pic -ffreestanding -O2 -nostdlib $(RemoteProjectDir)/obj/x86/*.asm.o</AdditionalOptions>
+      <AdditionalOptions>-m32 -T $(RemoteProjectDir)/linkscript-x86.ld -Wl,--build-id=none -fno-pic -ffreestanding -O2 -nostdlib $(RemoteProjectDir)/obj/x86/*.asm.o</AdditionalOptions>
       <SharedLibrarySearchPath />
       <IgnoreDefaultLibraries>
       </IgnoreDefaultLibraries>
@@ -158,10 +177,10 @@
       <DebugInformationFormat />
       <CAdditionalWarning />
       <CppAdditionalWarning />
-      <Optimization />
-      <StrictAliasing />
+      <Optimization>MaxSpeed</Optimization>
+      <StrictAliasing>true</StrictAliasing>
       <OmitFramePointers />
-      <AdditionalOptions>-m32 -ffreestanding -Wno-write-strings -I $(RemoteProjectDir)/src/arch/x86/include -I $(RemoteProjectDir)/src/include</AdditionalOptions>
+      <AdditionalOptions>-m32 -ffreestanding -Wno-write-strings -I $(RemoteProjectDir)/src/arch/x86/include -I $(RemoteProjectDir)/src/include -Wno-pointer-arith -Wextra</AdditionalOptions>
       <CLanguageStandard />
     </ClCompile>
     <RemotePreBuildEvent>

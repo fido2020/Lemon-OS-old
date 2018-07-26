@@ -2,10 +2,29 @@
   Copying sources remotely to 'localhost'
   Starting remote build
   Compiling sources:
-  windowmanager.cpp
-  window.cpp
+  kernel.cpp
+D:\OneDrive\Documents\Lemon\Kernel\src\kernel.cpp(119,23): warning : variable 'bmpinfoheader' set but not used [-Wunused-but-set-variable]
+D:\OneDrive\Documents\Lemon\Kernel\src\kernel.cpp(119,23): warning :   bitmap_info_header_t bmpinfoheader = *((bitmap_info_header_t*)splashscreen_bmp + sizeof(bitmap_file_header_t));
+D:\OneDrive\Documents\Lemon\Kernel\src\kernel.cpp(119,23): warning :                        ^~~~~~~~~~~~~
+D:\OneDrive\Documents\Lemon\Kernel\src\kernel.cpp(120,23): warning : variable 'bmpfileheader2' set but not used [-Wunused-but-set-variable]
+D:\OneDrive\Documents\Lemon\Kernel\src\kernel.cpp(120,23): warning :   bitmap_file_header_t bmpfileheader2 = *((bitmap_file_header_t*)progress_bmp);
+D:\OneDrive\Documents\Lemon\Kernel\src\kernel.cpp(120,23): warning :                        ^~~~~~~~~~~~~~
+D:\OneDrive\Documents\Lemon\Kernel\src\kernel.cpp(121,23): warning : variable 'bmpinfoheader2' set but not used [-Wunused-but-set-variable]
+D:\OneDrive\Documents\Lemon\Kernel\src\kernel.cpp(121,23): warning :   bitmap_info_header_t bmpinfoheader2 = *((bitmap_info_header_t*)progress_bmp + sizeof(bitmap_file_header_t));
+D:\OneDrive\Documents\Lemon\Kernel\src\kernel.cpp(121,23): warning :                        ^~~~~~~~~~~~~~
+D:\OneDrive\Documents\Lemon\Kernel\src\include\snake.h(16,13): warning : 'bool operator==(const Vector2i&, const Vector2i&)' defined but not used [-Wunused-function]
+D:\OneDrive\Documents\Lemon\Kernel\src\include\snake.h(16,13): warning :  static bool operator==(const Vector2i& l, const Vector2i& r) {
+D:\OneDrive\Documents\Lemon\Kernel\src\include\snake.h(16,13): warning :              ^~~~~~~~
   Invoking '/bin/bash ~/projects/Kernel/buildasmx86.sh', working directory: '/home/computerfido/projects/Kernel'
-  /bin/bash: /home/computerfido/projects/Kernel/buildasmx86.sh: No such file or directory
-  /bin/bash: /home/computerfido/projects/Kernel/buildasmx86.sh: No such file or directory
+  Assembling cpuid.asm
+  Assembling entry.asm
+  Assembling gdt.asm
+  Assembling idt.asm
+  Assembling memory.asm
+  Assembling multitasking.asm
+  Assembling user.asm
   
-D:\Programs\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Application Type\Linux\1.0\Linux.targets(396,5): error : /bin/bash ~/projects/Kernel/buildasmx86.sh exited with code 127, please see the Output Window - Build output for more details (NOTE: the build output verbosity might need to be changed in Tools Options to see more information in the Output Window).
+  Linking objects
+  Kernel.vcxproj -> D:\OneDrive\Documents\Lemon\Kernel\bin\x86\kernel.sys
+          1 file(s) copied.
+          1 file(s) copied.

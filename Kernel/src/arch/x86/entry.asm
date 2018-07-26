@@ -10,11 +10,7 @@ MAGIC       equ 0x1BADB002
 FLAGS       equ MBALIGN | MEMINFO | VIDINFO
 CHECKSUM    equ -(MAGIC + FLAGS)
 
-<<<<<<< HEAD
 section .multiboot
-=======
-section .text
->>>>>>> 17e9ca9a679e395e7e3bc93ec5eb2a2a0cd4790c
 align 4 ; Multiboot Header
 multiboot_header:
 dd MAGIC
@@ -33,12 +29,20 @@ dd 32
 
 section .text
 entry:
-<<<<<<< HEAD
-=======
-
->>>>>>> 17e9ca9a679e395e7e3bc93ec5eb2a2a0cd4790c
     mov esp, stack_top
     push eax
+
+	; Enable SSE
+	mov eax, cr4
+	or eax, 3 << 9 ; Set bits 9 & 10 in cr4
+	mov cr4, eax
+	;mov eax, cr0
+	;and ax, 0xFFFB		;clear coprocessor emulation
+	;or ax, 0x2			;set coprocessor monitoring
+	;mov cr0, eax
+	;mov eax, cr4
+	;or ax, 3 << 9		; set flags for sse
+	;mov cr4, eax
 
     push ebx
     call kmain

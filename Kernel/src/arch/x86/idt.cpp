@@ -110,6 +110,9 @@ void irq14();
 extern "C"
 void irq15();
 
+extern "C"
+void isr0x69();
+
 static void idt_set_gate(uint8_t num, uint32_t base, uint16_t sel, uint8_t flags) {
 	idt[num].base_high = (base >> 16) & 0xFFFF;
 	idt[num].base_low = base & 0xFFFF;
@@ -160,6 +163,7 @@ void idt_initialize() {
 	idt_set_gate(29, (uint32_t)isr29,0x08,0x8E);
 	idt_set_gate(30, (uint32_t)isr30,0x08,0x8E);
 	idt_set_gate(31, (uint32_t)isr31,0x08,0x8E);
+	idt_set_gate(0x69, (uint32_t)isr0x69, 0x08, 0x8E);
 
 	idt_flush();
 
@@ -191,6 +195,8 @@ void idt_initialize() {
 	idt_set_gate(46, (uint32_t)irq14, 0x08, 0x8E);
 	idt_set_gate(47, (uint32_t)irq15, 0x08, 0x8E);
 
+	
+
 	memset((uint8_t*)&interrupt_handlers, 0, sizeof(isr_t) * 256);
 
 	__asm__ __volatile__("sti");
@@ -198,17 +204,12 @@ void idt_initialize() {
 
 extern "C"
 void isr_handler(regs32_t* regs) {
-	if (regs->int_num < 32)
-	{
+
+	if (interrupt_handlers[regs->int_num] != 0) {
+		interrupt_handlers[regs->int_num](regs);
+	} else {
 		write_serial_string("Fatal Exception: ");
 		write_serial_string(itoa(regs->int_num));
-
-		if (interrupt_handlers[regs->int_num] != 0) {
-			isr_t handler;
-			handler = interrupt_handlers[regs->int_num];
-			handler(regs);
-		}
-
 		for (;;);
 	}
 }

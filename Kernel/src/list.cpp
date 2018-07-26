@@ -1,13 +1,15 @@
 #include <list.h>
 
-template<typename T>
+#include <memory.h>
+
+/*template<typename T>
 List<T>::List()
 {
 }
 
 template<typename T>
 void List<T>::add_back(T obj) {
-	ListNode<T> node;
+	ListNode<T>* node = malloc(sizeof(ListNode<T>));
 	node.obj = obj;
 	node.index = num;
 	node.prev = back;
@@ -54,11 +56,11 @@ void List<T>::remove_front()
 template<typename T>
 T List<T>::get_front()
 {
-	return T();
+	return front->obj;
 }
 
 template<typename T>
 T List<T>::get_back()
 {
-	return T();
-}
+	return back->obj;
+}*/

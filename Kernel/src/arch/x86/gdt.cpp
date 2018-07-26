@@ -1,8 +1,11 @@
 #include <gdt.h>
 #include <stdint.h>
+#include <memory.h>
 
 gdt_entry_t gdt[5];
 gdt_ptr_t gdt_ptr;
+tss_entry_t tss;
+uint16_t tss_sel;
 
 extern "C" void gdt_flush(uint32_t ptr);
 

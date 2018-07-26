@@ -5,15 +5,14 @@
 string::string()
 {
 	length = 0;
-	//char a[0];
-	//data = a;
+	data = (char*)malloc(0);
 }
 
 string::string(char c)
 {
 	length = 1;
-	//char a[1];
-	//data = a;
+	data = (char*)malloc(1);
+	data[0] = c;
 }
 
 string::string(const char* c)
@@ -23,37 +22,34 @@ string::string(const char* c)
 		unsigned n = 0;
 		while (c[n] != '\0') n++;
 		length = n;
-		//char a[n];
-		//data = a;
+		data = (char*)malloc(n);
 		for (unsigned j = 0; j < n; j++)
 			data[j] = c[j];
 	}
 	else
 	{
 		length = 0;
-		//char a[0];
-		//data = a;
+		data = (char*)malloc(0);
 	}
 }
 
 string::string(const string& s)
 {
 	length = s.len();
-	///char a[length];
-	//data = a;
+	data = (char*)malloc(length);
 	for (unsigned j = 0; j < length; j++)
 		data[j] = s[j];
 }
 
 
 
-/*string::~string()
+string::~string()
 {
-	delete[] data;
-}*/
+	free(data);
+}
 
 
-char* string::c_str() /*const*/ {
+char* string::c_str() const {
 	return data;
 }
 
@@ -75,10 +71,9 @@ string& string::operator= (const string& s)
 {
 	if (this == &s) return *this;
 
-	//delete data;
+	free(data);
 	length = s.len();
-	//char a[length];
-	//data = a;
+	data = (char*)malloc(length);
 	for (unsigned j = 0; j < length; j++)
 		data[j] = s[j];
 	return *this;
@@ -86,19 +81,19 @@ string& string::operator= (const string& s)
 
 string& string::operator+= (const string& s) {
 	unsigned len = length + s.len();
-	//char a[len];
-	//char* str = a;
+	char* str = (char*)malloc(len);
 
-	//for (unsigned j = 0; j < length; j++)
-		//str[j] = data[j];
+	for (unsigned j = 0; j < length; j++)
+		str[j] = data[j];
 
-	for (unsigned i = 0; i < s.len(); i++)
-		//str[length + i] = s[i];
+	for (unsigned i = 0; i < s.len(); i++) {
+		str[length + i] = s[i];
 		data[length + i] = s[i];
+	}
 
 	length = len;
-	// delete previous data variable when allocation implemented
-	//data = str;
+	free(data);
+	data = str;
 	return *this;
 }
 
@@ -194,6 +189,62 @@ int strindex(char c, char *str){
 	return strlen(str);
 }
 
+// strchr - Get pointer to first occurance of c in string s
+char *strchr(const char *s, int c)
+{
+	while (*s != (char)c)
+		if (!*s++)
+			return 0;
+	return (char *)s;
+}
+
+// strspn - Get initial length of s1 including only the characters of s2
+size_t strspn(const char *s1, const char *s2)
+{
+	size_t ret = 0;
+	while (*s1 && strchr(s2, *s1++))
+		ret++;
+	return ret;
+}
+
+// strspn - Get initial length of s1 excluding the characters of s2
+size_t strcspn(const char *s1, const char *s2)
+{
+	size_t ret = 0;
+	while (*s1)
+		if (strchr(s2, *s1))
+			return ret;
+		else
+			s1++, ret++;
+	return ret;
+}
+
+// strtok - breaks str into tokens using specified delimiters
+char *strtok(char * str, const char * delim)
+{
+	static char* p = 0;
+	if (str)
+		p = str;
+	else if (!p)
+		return 0;
+	str = p + strspn(p, delim);
+	p = str + strcspn(str, delim);
+	if (p == str)
+		return p = 0;
+	p = *p ? *p = 0, p + 1 : 0;
+	return str;
+}
+
+int strcmp(char* s1, char* s2)
+{
+	for (int i = 0; ; i++)
+	{
+		if (s1[i] != s2[i])
+			return s1[i] < s2[i] ? -1 : 1;
+		else if (s1[i] == '\0')
+			return 0;
+	}
+}
 
 void substr(int i, char *src, char *dest){ //substring exclusive
 	memcpy(dest,src,i);
@@ -205,8 +256,8 @@ void substr(int s, int e, char *src, char *dest){ //substring exclusive range (e
 	dest[e-s] = '\0';
 }
 
-extern "C"
-char* itoa(int num, char* str, int base)
+//extern "C"
+char* itoa(long num, char* str, int base)
 {
     int i = 0;
     bool isNegative = false;
@@ -272,24 +323,4 @@ void strcpy(char* dest, const char* src)
 	{
 		dest[i] = src[i];
 	}
-}
-
-char* strtok(char* s, char delim) {
-	static int index = 0;
-	if (!s || !delim || s[index] == '\0')
-		return NULL;
-	char *newstr = (char *)malloc(sizeof(char) * strlen(s));
-	int i = index, j = 0;
-
-	while (s[i] != '\0') {
-		if (s[i] != delim)
-			newstr[j] = s[i];
-		else goto It;
-		i++;
-		j++;
-	}
-It:
-	newstr[i] = 0;
-	index = i + 1;
-	return newstr;
 }

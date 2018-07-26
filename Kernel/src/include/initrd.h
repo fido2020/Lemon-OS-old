@@ -11,18 +11,18 @@
 typedef struct {
 	uint32_t num_files; // Amount of files present
 	char versionstring[16]; // Version string
-} lemoninitfs_header_t;
+} __attribute__((packed)) lemoninitfs_header_t;
 
 typedef struct {
 	uint16_t magic; // Check for corruption (should be 0xBEEF)
 	char filename[32]; // Filename
 	uint32_t offset; // Offset in file
 	uint32_t size; // File Size
-} lemoninitfs_node_t ;
+} __attribute__((packed)) lemoninitfs_node_t ;
 
 void initrd_init(uint32_t address, uint32_t size);
 
-lemoninitfs_node_t** initrd_list();
+lemoninitfs_node_t* initrd_list();
 lemoninitfs_header_t* initrd_get_header();
 uint32_t initrd_read(int node);
 uint32_t initrd_read(char* filename);

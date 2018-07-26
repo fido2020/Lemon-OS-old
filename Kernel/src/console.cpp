@@ -4,26 +4,17 @@
 #include <serial.h>
 #include <string.h>
 
-Console::Console(video_mode_t v, uint16_t x, uint16_t y, uint16_t _width, uint16_t _height) {
-	video_mode = v;
+Console::Console(uint16_t x, uint16_t y, uint16_t _width, uint16_t _height) {
 	startX = x;
 	startY = y;
 	width = _width;
 	height = _height;
 	width_characters = (width - width % 8) / 8;
 	height_characters = (height - height % 8) / 8;
-
-	char_buffer = (ConsoleCharacter*)malloc(width_characters * height_characters * sizeof(ConsoleCharacter));
-
-	ConsoleCharacter con_char;
-	con_char.c = ' ';
-	con_char.r = 0;
-	con_char.b = 0;
-	con_char.g = 0;
-
-	for (int i = 0; i < width_characters * height_characters; i++) {
-		char_buffer[i] = con_char;
-	}
+	this->x = 0;
+	this->y = 0;
+	char_buffer = (uint8_t*)malloc(width_characters*height_characters * sizeof(ConsoleCharacter*));
+	memset((uint8_t*)char_buffer, 0, width_characters*height_characters * sizeof(ConsoleCharacter*));
 }
 
 void Console::putc(char c, uint8_t r, uint8_t g, uint8_t b) {
@@ -44,15 +35,14 @@ void Console::putc(char c, uint8_t r, uint8_t g, uint8_t b) {
 		break;
 	 }
 
+	char_buffer[y*width_characters*4 + x*4] = c;
+	char_buffer[y*width_characters * 4 + x * 4 + 1] = r;
+	char_buffer[y*width_characters * 4 + x * 4 + 2] = g;
+	char_buffer[y*width_characters * 4 + x * 4 + 3] = b;
 	if (x >= width_characters) {
 		y++;
 		x = 0;
 	}
-
-	char_buffer[width_characters*y + x].c = c;
-	char_buffer[width_characters*y + x].r = r;
-	char_buffer[width_characters*y + x].g = g;
-	char_buffer[width_characters*y + x].b = b;
 }
 
 void Console::puts(char* str, uint8_t r, uint8_t g, uint8_t b) {
@@ -63,15 +53,29 @@ void Console::puts(char* str, uint8_t r, uint8_t g, uint8_t b) {
 
 void Console::clear(uint8_t r, uint8_t g, uint8_t b) {
 	screen_fillrect(startX, startY, width, height, r, g, b);
+	x = 0;
+	y = 0;
+	memset((uint8_t*)char_buffer, 0, width_characters*height_characters * sizeof(ConsoleCharacter*));
 }
 
 void Console::refresh() {
-	clear(0, 0, 0);
-	x = 0;
-	y = 0;
+	//screen_fillrect(startX, startY, width, height, 0, 0, 0);
 
-	for (int i = 0; y < height_characters || x < width_characters; i++) {
-		ConsoleCharacter con_char = char_buffer[y*width_characters + x];
-		putc(con_char.c, con_char.r, con_char.g, con_char.b);
+	for (int i = 0; i < height_characters; i++) {
+		for (int j = 0; j < width_characters; j++) {
+			volatile ConsoleCharacter con_char = ((ConsoleCharacter*)char_buffer)[i * width_characters * 4 + j * 4];
+			
+			if (con_char.c == '\n') {
+				i++;
+			} else if (con_char.c != 0) {
+				drawchar(con_char.c, startX + j * 8, startY + i * 8, 255, con_char.b, con_char.b, 1);
+			}
+		}
 	}
+}
+
+void Console::relocate(uint16_t x, uint16_t y)
+{
+	startX = x;
+	startY = y;
 }
