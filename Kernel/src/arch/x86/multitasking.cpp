@@ -3,8 +3,11 @@
 #include <paging.h>
 #include <memory.h>
 #include <physallocator.h>
+#include <list.h>
 
-process_t* processes;
+//List<thread_t*> threads;
+//thread_t* current_thread;
+
 process_t* current_process;
 
 uint32_t pid_next = 0;
@@ -63,4 +66,8 @@ void execute_process() {
 	process_stack = proc->threads[0].registers.esp;
 
 	execute_process_asm();
+}
+
+void scheduler_tick() {
+
 }

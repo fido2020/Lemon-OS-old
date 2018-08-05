@@ -91,6 +91,9 @@
     <ClCompile Include="src\snake.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\gui\widget.cpp">
+      <Filter>src\gui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\include\bitmap.h">
@@ -181,6 +184,9 @@
       <Filter>src\arch\x86\include</Filter>
     </ClInclude>
     <ClInclude Include="src\include\snake.h">
+      <Filter>src\include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\widget.h">
       <Filter>src\include</Filter>
     </ClInclude>
   </ItemGroup>

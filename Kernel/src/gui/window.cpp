@@ -9,6 +9,12 @@ Window::Window(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint8_t 
 	this->width = width;
 	this->height = height;
 	this->type = type;
+
+	/*if (type == windowtype_gui) {
+		widgets = (List<Widget*>*)malloc(sizeof(List<Widget>));
+		//*widgets = List<Widget*>();
+	}*/
+
 	if (type == windowtype_console) {
 		console = (Console*)malloc(sizeof(Console));
 		*console = Console(x + 32, y, width, height - 32);

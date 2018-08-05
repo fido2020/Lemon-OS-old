@@ -23,33 +23,37 @@
 #include <snake.h>
 
 extern uint32_t physalloc_used_blocks;
+cpuid_info_t cpuid_info;
 
 char* buf;
-
-void statusbar_update(uint32_t screen_width) {
-	screen_fillrect(0, 0, screen_width, 10, 200, 0, 200);
-	drawstring("Lemon OS", 2, 2, 255, 255, 255, 1);
-	drawstring("RAM: ~", 72, 2, 255, 255, 255, 1);
-	itoa(physalloc_used_blocks * 4 / 8, buf);
-	drawstring(buf, 120, 2, 255, 255, 255, 1);
-	uint32_t offset = 120 + strlen(buf)*8;
-	drawstring("KB Used", offset, 2, 255, 255, 255, 1);
-}
-
 char* test_string = "Hello from a syscall!";
-
-void test() {
-	screen_clear(255, 255, 0);
-	drawstring("YAY!", 0, 0, 0, 0, 0, 24);
-	screen_update();
-	asm("int $0x69" :: "a"(0), "b"(test_string));
-	for (;;);
-}
 
 Snake* snekkk;
 void Snake_Render_Callback() {
 	if(snekkk)
 		snekkk->Render();
+}
+
+int sysinfo_win_x = 64;
+int sysinfo_win_y = 64;
+int ram_amount;
+
+void SysInfo_Window_Render_Callback() {
+	screen_fillrect(sysinfo_win_x, sysinfo_win_y + 24, 320, 200 - 24, 255, 255, 255);
+	drawstring("Lemon OS Alpha", sysinfo_win_x, sysinfo_win_y + 24, 0, 0, 0);
+	drawstring("CPU Vendor:", sysinfo_win_x, sysinfo_win_y + 44, 0, 0, 0, 1);
+	drawstring(cpuid_info.vendor_string, sysinfo_win_x + 12 * 8, sysinfo_win_y + 44, 0, 0, 0, 1);
+	drawstring("RAM:", sysinfo_win_x, sysinfo_win_y + 52, 0, 0, 0, 1);
+	drawstring(itoa(ram_amount/1024), sysinfo_win_x + 5*8, sysinfo_win_y + 52, 0, 0, 0, 1);
+	drawstring("MB", sysinfo_win_x + 15*8, sysinfo_win_y + 52, 0, 0, 0, 1);
+
+	screen_fillrect(sysinfo_win_x + 10, sysinfo_win_y + 150, 100, 32, 128, 128, 128);
+	drawstring("Crash!", sysinfo_win_x + 15, sysinfo_win_y + 150, 0, 0, 0, 2);
+}
+
+void SysInfo_Window_Mouse_Callback(int x, int y) {
+	if(x > sysinfo_win_x + 10 && y > sysinfo_win_y + 150)
+		fatal_error("You piece of shit, you did this to me", "ERR_SCREWED");
 }
 
 extern "C"
@@ -75,7 +79,7 @@ void kmain(uint32_t mb_info_addr){
 	multiboot_memory_map_t* memory_map = (multiboot_memory_map_t*)mb_info.mmapAddr;
 
 	memory_info_t mem_info;
-	mem_info.memory_high = mb_info.memoryHi;
+	ram_amount = mem_info.memory_high = mb_info.memoryHi;
 	mem_info.memory_low = mb_info.memoryLo;
 	mem_info.mem_map = memory_map;
 	mem_info.memory_map_len = mb_info.mmapLength;
@@ -103,7 +107,7 @@ void kmain(uint32_t mb_info_addr){
 
 	video_initialize(video_mode);
 
-	cpuid_info_t cpuid_info = cpuid_get_info();
+	cpuid_info = cpuid_get_info();
 
 	// Initialize Graphics Driver
 	if (mb_info.modsCount < 1) {
@@ -126,7 +130,7 @@ void kmain(uint32_t mb_info_addr){
 
 	syscalls_init();
 	
-	for (int i = 0; i < 50; i++) screen_update(); // Loading Bars are nice
+	for (int i = 0; i < 30; i++) screen_update(); // Loading Bars are nice
 
 	drawbitmap_noscale(video_mode.width / 2 - 32 * 2, video_mode.height / 2 + 250, 32, 32, (uint8_t*)(progress_bmp + 54), 24);
 	screen_update();
@@ -135,33 +139,38 @@ void kmain(uint32_t mb_info_addr){
 	mouse_install();
 	timer_install();
 
-	for (int i = 0; i < 50; i++) screen_update(); // Loading Bars are nice
+	for (int i = 0; i < 30; i++) screen_update(); // Loading Bars are nice
 
 	drawbitmap_noscale(video_mode.width / 2 - 32 * 1, video_mode.height / 2 + 250, 32, 32, (uint8_t*)(progress_bmp + 54), 24);
 	screen_update();
 
-	for (int i = 0; i < 50; i++) screen_update(); // Loading Bars are nice
+	for (int i = 0; i < 30; i++) screen_update(); // Loading Bars are nice
 	
 	drawbitmap_noscale(video_mode.width / 2, video_mode.height / 2 + 250, 32, 32, (uint8_t*)(progress_bmp + 54), 24);
 	screen_update();
 
 	WindowManager win_mgr(&video_mode); // Initialize Window Manager
 
-	for (int i = 0; i < 50; i++) screen_update(); // Loading Bars are nice
+	for (int i = 0; i < 30; i++) screen_update(); // Loading Bars are nice
 
 	drawbitmap_noscale(video_mode.width / 2 + 32 * 1, video_mode.height / 2 + 250, 32, 32, (uint8_t*)(progress_bmp + 54), 24);
 	screen_update();
 
 	Snake snake(10,34,500,400);
 	snekkk = &snake;
-	Window* snake_window = win_mgr.Window_New(10, 10, 500, 424, windowtype_gui);
+	Window* snake_window = win_mgr.Window_New(10, 10, 500, 424, windowtype_framebuffer);
 	snake_window->render_callback = Snake_Render_Callback;
+	
+	Window* sysinfo_window = win_mgr.Window_New(64, 64, 320, 200, windowtype_framebuffer);
+	sysinfo_window->render_callback = SysInfo_Window_Render_Callback;
+	sysinfo_window->mouse_callback = SysInfo_Window_Mouse_Callback;
 
 	for (;;) {
 		win_mgr.Update();
 		snake.Relocate(snake_window->x, snake_window->y+24);
 		snake.Update();
-		//snake.Render();
+		sysinfo_win_x = sysinfo_window->x;
+		sysinfo_win_y = sysinfo_window->y;
 		screen_update();
 	}
 }

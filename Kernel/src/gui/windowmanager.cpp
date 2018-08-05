@@ -38,8 +38,6 @@ WindowManager::WindowManager(video_mode_t* _video_mode)
 
 	if(enableFpsCounter)
 		timer_register_callback(fps_update);
-
-	Window_New(100, 20, 400, 200,windowtype_gui);
 }
 
 // Create a new window
@@ -68,8 +66,15 @@ void WindowManager::Render()
 	for (int i = 0; i < num_windows; i++) {
 		if (windows[i] != NULL) {
 			windows[i]->Render();
-			if (windows[i]->render_callback)
+			if (windows[i]->type == windowtype_framebuffer && windows[i]->render_callback) {
 				windows[i]->render_callback();
+			}
+			/*else if (windows[i]->type == windowtype_gui && windows[i]->widgets.num > 0) {
+				for (int j = 0; j < windows[i]->widgets.num; j++) {
+					windows[i]->widgets[j]->Render();
+				}
+			}*/
+			
 		}
 	}
 
@@ -80,8 +85,8 @@ void WindowManager::Render()
 void WindowManager::Update() {
 	mouse_data = mouse_get_data();
 	if (mouse_data_updated()) {
-		mouse_x += mouse_data[1];
-		mouse_y -= mouse_data[2];
+		mouse_x += mouse_data[1] * 2;
+		mouse_y -= mouse_data[2] * 2;
 
 		if (mouse_data[0] & MOUSE_BUTTON_LEFT) {
 			if (!prevMouseButtonState) {
@@ -94,12 +99,12 @@ void WindowManager::Update() {
 	}
 
 	if (drag && activeWindow) {
-		if (mouse_x - drag_offset_x >= 0)
+		if ((int)mouse_x - drag_offset_x >= 0)
 			activeWindow->x = mouse_x - drag_offset_x;
 		else
 			activeWindow->x = 0;
 
-		if(mouse_y - drag_offset_y >= 0)
+		if((int)mouse_y - drag_offset_y >= 0)
 			activeWindow->y = mouse_y - drag_offset_y;
 		else activeWindow->y = 0;
 	}
@@ -124,7 +129,6 @@ void WindowManager::DrawMouseCursor() {
 
 // Handles a mouse click
 void WindowManager::MouseClick() {
-	//Window_ptr* current_ptr = windows_tail;
 
 	// Loop through windows
 	for (int i = num_windows - 1; i >= 0; i--) {
@@ -137,13 +141,15 @@ void WindowManager::MouseClick() {
 			win->active = true;
 			if (i != num_windows - 1) {
 				windows.remove_at(i);
-				Window_Add(win);
+				windows.add_back(win);
 			}
-			if (mouse_y < win->y + 24) {
+			if ((int)mouse_y < win->y + 24) {
 				drag_offset_x = mouse_x - win->x;
 				drag_offset_y = mouse_y - win->y;
 				drag = true;
 			}
+			if (win->mouse_callback)
+				win->mouse_callback(mouse_x, mouse_y);
 			break;
 		}
 	}

@@ -16,6 +16,10 @@ typedef struct
 	unsigned char *data;
 } bitmap_t;
 
+typedef struct {
+	uint8_t r, g, b;
+} rgb_colour_t;
+
 void screen_putpixel(unsigned int x, unsigned int y, uint8_t r, uint8_t g, uint8_t b);
 void video_initialize(video_mode_t v);
 void screen_update();

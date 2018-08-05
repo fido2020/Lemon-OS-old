@@ -93,6 +93,7 @@
     <ClCompile Include="src\arch\x86\multitasking.cpp" />
     <ClCompile Include="src\arch\x86\syscalls.cpp" />
     <ClCompile Include="src\arch\x86\timer.cpp" />
+    <ClCompile Include="src\gui\widget.cpp" />
     <ClCompile Include="src\gui\window.cpp" />
     <ClCompile Include="src\math.cpp" />
     <ClCompile Include="src\arch\x86\physallocator.cpp" />
@@ -132,6 +133,7 @@
     <ClInclude Include="src\arch\x86\include\system.h" />
     <ClInclude Include="src\include\shell.h" />
     <ClInclude Include="src\include\snake.h" />
+    <ClInclude Include="src\include\widget.h" />
     <ClInclude Include="src\include\window.h" />
     <ClInclude Include="src\include\windowmanager.h" />
     <ClInclude Include="src\arch\x86\include\keyboard.h" />

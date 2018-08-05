@@ -16,7 +16,8 @@ class List {
 public:
 	List()
 	{
-		front = back = NULL;
+		front = NULL;
+		back = NULL;
 	}
 
 	~List() {

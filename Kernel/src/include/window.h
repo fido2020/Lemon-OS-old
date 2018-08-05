@@ -2,6 +2,8 @@
 
 #include <stdint.h>
 #include <console.h>
+#include <list.h>
+#include <widget.h>
 
 #define WINDOW_DEFAULT_BG_COLOUR_R 225
 #define WINDOW_DEFAULT_BG_COLOUR_G 225
@@ -34,6 +36,7 @@ public:
 	uint32_t r, g, b;
 
 	uint32_t flags;
+
 	uint8_t type;
 	Console* console;
 
@@ -44,4 +47,5 @@ public:
 	Window();
 	void Render();
 	void(*render_callback)(void) = 0;
+	void(*mouse_callback)(int,int) = 0;
 };

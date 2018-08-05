@@ -4,9 +4,10 @@ D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86|/home/computerfido/projects/Kern
 D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\multitasking.cpp|/home/computerfido/projects/Kernel/src/arch/x86/multitasking.cpp
 D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\syscalls.cpp|/home/computerfido/projects/Kernel/src/arch/x86/syscalls.cpp
 D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\timer.cpp|/home/computerfido/projects/Kernel/src/arch/x86/timer.cpp
-D:\OneDrive\Documents\Lemon\Kernel\src\gui\window.cpp|/home/computerfido/projects/Kernel/src/gui/window.cpp
+D:\OneDrive\Documents\Lemon\Kernel\src\gui\widget.cpp|/home/computerfido/projects/Kernel/src/gui/widget.cpp
 D:\OneDrive\Documents\Lemon\Kernel\src\gui|/home/computerfido/projects/Kernel/src/gui
 @D:\OneDrive\Documents\Lemon\Kernel\src\gui|@/home/computerfido/projects/Kernel/src/gui
+D:\OneDrive\Documents\Lemon\Kernel\src\gui\window.cpp|/home/computerfido/projects/Kernel/src/gui/window.cpp
 D:\OneDrive\Documents\Lemon\Kernel\src\math.cpp|/home/computerfido/projects/Kernel/src/math.cpp
 D:\OneDrive\Documents\Lemon\Kernel\src|/home/computerfido/projects/Kernel/src
 @D:\OneDrive\Documents\Lemon\Kernel\src|@/home/computerfido/projects/Kernel/src
@@ -51,6 +52,7 @@ D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\include\mouse.h|/home/computerfi
 D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\include\system.h|/home/computerfido/projects/Kernel/src/arch/x86/include/system.h
 D:\OneDrive\Documents\Lemon\Kernel\src\include\shell.h|/home/computerfido/projects/Kernel/src/include/shell.h
 D:\OneDrive\Documents\Lemon\Kernel\src\include\snake.h|/home/computerfido/projects/Kernel/src/include/snake.h
+D:\OneDrive\Documents\Lemon\Kernel\src\include\widget.h|/home/computerfido/projects/Kernel/src/include/widget.h
 D:\OneDrive\Documents\Lemon\Kernel\src\include\window.h|/home/computerfido/projects/Kernel/src/include/window.h
 D:\OneDrive\Documents\Lemon\Kernel\src\include\windowmanager.h|/home/computerfido/projects/Kernel/src/include/windowmanager.h
 D:\OneDrive\Documents\Lemon\Kernel\src\arch\x86\include\keyboard.h|/home/computerfido/projects/Kernel/src/arch/x86/include/keyboard.h

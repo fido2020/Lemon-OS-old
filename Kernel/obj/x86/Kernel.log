@@ -3,15 +3,15 @@
   Starting remote build
   Compiling sources:
   kernel.cpp
-D:\OneDrive\Documents\Lemon\Kernel\src\kernel.cpp(119,23): warning : variable 'bmpinfoheader' set but not used [-Wunused-but-set-variable]
-D:\OneDrive\Documents\Lemon\Kernel\src\kernel.cpp(119,23): warning :   bitmap_info_header_t bmpinfoheader = *((bitmap_info_header_t*)splashscreen_bmp + sizeof(bitmap_file_header_t));
-D:\OneDrive\Documents\Lemon\Kernel\src\kernel.cpp(119,23): warning :                        ^~~~~~~~~~~~~
-D:\OneDrive\Documents\Lemon\Kernel\src\kernel.cpp(120,23): warning : variable 'bmpfileheader2' set but not used [-Wunused-but-set-variable]
-D:\OneDrive\Documents\Lemon\Kernel\src\kernel.cpp(120,23): warning :   bitmap_file_header_t bmpfileheader2 = *((bitmap_file_header_t*)progress_bmp);
-D:\OneDrive\Documents\Lemon\Kernel\src\kernel.cpp(120,23): warning :                        ^~~~~~~~~~~~~~
-D:\OneDrive\Documents\Lemon\Kernel\src\kernel.cpp(121,23): warning : variable 'bmpinfoheader2' set but not used [-Wunused-but-set-variable]
-D:\OneDrive\Documents\Lemon\Kernel\src\kernel.cpp(121,23): warning :   bitmap_info_header_t bmpinfoheader2 = *((bitmap_info_header_t*)progress_bmp + sizeof(bitmap_file_header_t));
-D:\OneDrive\Documents\Lemon\Kernel\src\kernel.cpp(121,23): warning :                        ^~~~~~~~~~~~~~
+D:\OneDrive\Documents\Lemon\Kernel\src\kernel.cpp(123,23): warning : variable 'bmpinfoheader' set but not used [-Wunused-but-set-variable]
+D:\OneDrive\Documents\Lemon\Kernel\src\kernel.cpp(123,23): warning :   bitmap_info_header_t bmpinfoheader = *((bitmap_info_header_t*)splashscreen_bmp + sizeof(bitmap_file_header_t));
+D:\OneDrive\Documents\Lemon\Kernel\src\kernel.cpp(123,23): warning :                        ^~~~~~~~~~~~~
+D:\OneDrive\Documents\Lemon\Kernel\src\kernel.cpp(124,23): warning : variable 'bmpfileheader2' set but not used [-Wunused-but-set-variable]
+D:\OneDrive\Documents\Lemon\Kernel\src\kernel.cpp(124,23): warning :   bitmap_file_header_t bmpfileheader2 = *((bitmap_file_header_t*)progress_bmp);
+D:\OneDrive\Documents\Lemon\Kernel\src\kernel.cpp(124,23): warning :                        ^~~~~~~~~~~~~~
+D:\OneDrive\Documents\Lemon\Kernel\src\kernel.cpp(125,23): warning : variable 'bmpinfoheader2' set but not used [-Wunused-but-set-variable]
+D:\OneDrive\Documents\Lemon\Kernel\src\kernel.cpp(125,23): warning :   bitmap_info_header_t bmpinfoheader2 = *((bitmap_info_header_t*)progress_bmp + sizeof(bitmap_file_header_t));
+D:\OneDrive\Documents\Lemon\Kernel\src\kernel.cpp(125,23): warning :                        ^~~~~~~~~~~~~~
 D:\OneDrive\Documents\Lemon\Kernel\src\include\snake.h(16,13): warning : 'bool operator==(const Vector2i&, const Vector2i&)' defined but not used [-Wunused-function]
 D:\OneDrive\Documents\Lemon\Kernel\src\include\snake.h(16,13): warning :  static bool operator==(const Vector2i& l, const Vector2i& r) {
 D:\OneDrive\Documents\Lemon\Kernel\src\include\snake.h(16,13): warning :              ^~~~~~~~

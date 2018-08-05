@@ -24,7 +24,7 @@ private:
 	uint16_t width = 0;
 	uint16_t height = 0;
 
-	uint8_t* char_buffer;
+	char* char_buffer;
 public:
 	Console(uint16_t x, uint16_t y, uint16_t _width, uint16_t _height);
 

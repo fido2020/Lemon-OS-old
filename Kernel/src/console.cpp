@@ -13,8 +13,8 @@ Console::Console(uint16_t x, uint16_t y, uint16_t _width, uint16_t _height) {
 	height_characters = (height - height % 8) / 8;
 	this->x = 0;
 	this->y = 0;
-	char_buffer = (uint8_t*)malloc(width_characters*height_characters * sizeof(ConsoleCharacter*));
-	memset((uint8_t*)char_buffer, 0, width_characters*height_characters * sizeof(ConsoleCharacter*));
+	char_buffer = (char*)malloc(width_characters*height_characters);
+	memset((uint8_t*)char_buffer, 'a', width_characters*height_characters);
 }
 
 void Console::putc(char c, uint8_t r, uint8_t g, uint8_t b) {
@@ -35,10 +35,8 @@ void Console::putc(char c, uint8_t r, uint8_t g, uint8_t b) {
 		break;
 	 }
 
-	char_buffer[y*width_characters*4 + x*4] = c;
-	char_buffer[y*width_characters * 4 + x * 4 + 1] = r;
-	char_buffer[y*width_characters * 4 + x * 4 + 2] = g;
-	char_buffer[y*width_characters * 4 + x * 4 + 3] = b;
+	char_buffer[y*width_characters + x] = c;
+
 	if (x >= width_characters) {
 		y++;
 		x = 0;
@@ -55,7 +53,7 @@ void Console::clear(uint8_t r, uint8_t g, uint8_t b) {
 	screen_fillrect(startX, startY, width, height, r, g, b);
 	x = 0;
 	y = 0;
-	memset((uint8_t*)char_buffer, 0, width_characters*height_characters * sizeof(ConsoleCharacter*));
+	memset((uint8_t*)char_buffer, 0, width_characters*height_characters * sizeof(ConsoleCharacter));
 }
 
 void Console::refresh() {
@@ -63,12 +61,13 @@ void Console::refresh() {
 
 	for (int i = 0; i < height_characters; i++) {
 		for (int j = 0; j < width_characters; j++) {
-			volatile ConsoleCharacter con_char = ((ConsoleCharacter*)char_buffer)[i * width_characters * 4 + j * 4];
+			char con_char = char_buffer[i * width_characters + j];
 			
-			if (con_char.c == '\n') {
+			if (con_char == '\n') {
 				i++;
-			} else if (con_char.c != 0) {
-				drawchar(con_char.c, startX + j * 8, startY + i * 8, 255, con_char.b, con_char.b, 1);
+			} else if (con_char != 0) {
+				write_serial(con_char);
+				drawchar(con_char, startX + j * 8, startY + i * 8, 255, 255, 255, 1);
 			}
 		}
 	}
