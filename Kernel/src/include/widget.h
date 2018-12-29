@@ -4,7 +4,7 @@
 
 class Widget {
 public:
-	virtual void Render();
+	void Render();
 protected:
 	int x;
 	int y;

@@ -45,7 +45,13 @@ sh_restart:
 	win->render_callback = Shell_render_callback;
 	while(win->exists){
 		//con.relocate(sh_win->x,sh_win->y);
-		sh.Update();
+		while(win->event_stack->num){
+			if((*win->event_stack)[0]->type == event_key)
+				sh.Update(true, ((KeyEventData*)(*win->event_stack)[0]->data)->key/*((KeyEvent*)((*win->event_stack)[0]->dervied))->key*/);
+			(*win->event_stack)[0]->~Event();
+			free((*win->event_stack)[0]);
+			win->event_stack->remove_at(0);
+		}
 	}
 	free(win);
 	goto sh_restart;
@@ -64,6 +70,14 @@ void Snake_process(){
 	snekkk = &snake;
 	win->render_callback = Snake_render_callback;
 	while(win->exists){
+		while(win->event_stack->num){
+			if(win->event_stack->operator[](0)->type == event_key){
+				snake.OnKeyPressed(((KeyEventData*)(*win->event_stack)[0]->data)->key);
+			}
+			win->event_stack->operator[](0)->~Event(); // Run event class destructor
+			free(win->event_stack->operator[](0)); // Unallocate event class
+			win->event_stack->remove_at(0);
+		}
 		snake.Update();
 	}
 	free(win);
@@ -78,7 +92,6 @@ void WindowManager_process(){
 	for(;;){
 		screen_clear(96, 192, 192);
 		winmgr.Update();
-		
 		screen_update();
 	}
 }
@@ -113,7 +126,7 @@ void kmain(uint32_t mb_info_addr) {
 		Shell sh(&kshell_console);
 		keyboard_install();
 		for(;;){
-			sh.Update();
+			sh.Update(key_updated(),get_key());
 			kshell_console.refresh();
 			screen_update();
 		}
@@ -137,6 +150,7 @@ void kmain(uint32_t mb_info_addr) {
 	mouse_install();
 	multitasking_init();
 
+
 	drawbitmap_noscale(video_mode.width / 2 - 32 * 1, video_mode.height / 2 + 250, 32, 32, (uint8_t*)(progress_bmp + 54), 24);
 	screen_update();
 
@@ -148,6 +162,7 @@ void kmain(uint32_t mb_info_addr) {
 
 	screen_clear(96, 192, 192);
 	screen_update();
+
 
 	create_process((void*)idle2);
 	create_process((void*)WindowManager_process);

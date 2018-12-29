@@ -71,9 +71,9 @@ Args split_line(char* line)
 }
 
 // Update Shell
-void Shell::Update() {
-	if (key_updated()) {
-		char key = get_key();
+void Shell::Update(bool key_updated, char key) {
+	if (key_updated/*()*/) {
+		//char key = get_key();
 		if (key == '\n') {
 			strbuf[input_ptr] = '\0';
 			if (redirectOutput) {

@@ -1,2 +1,7 @@
 Initializing Lemon...
-Graphics Double Buffer allocated at 0x1800040
+Graphics Double Buffer allocated at 0x2000040lsInterrupt: Page Fault!
+read-only Page fault read-only  Page fault read-only 
+2ffffffInitializing Lemon...
+Graphics Double Buffer allocated at 0x2000040Interrupt: Page Fault!
+read-only Page fault read-only  Page fault read-only 
+23500a8

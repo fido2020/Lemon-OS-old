@@ -3,6 +3,8 @@
 #include <video.h>
 #include <memory.h>
 
+#include <serial.h>
+
 Window::Window(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint8_t type) {
 	this->x = x;
 	this->y = y;
@@ -15,10 +17,13 @@ Window::Window(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint8_t 
 		//*widgets = List<Widget*>();
 	}*/
 
-	if (type == windowtype_console) {
+	event_stack = new List<Event*>();
+
+	/*if (type == windowtype_console) {
 		console = (Console*)malloc(sizeof(Console));
 		*console = Console(x + 32, y, width, height - 32);
-	}
+	}*/
+
 	r = WINDOW_DEFAULT_BG_COLOUR_R;
 	g = WINDOW_DEFAULT_BG_COLOUR_G;
 	b = WINDOW_DEFAULT_BG_COLOUR_B;
@@ -32,6 +37,8 @@ Window::Window() {
 	y = 0;
 	width = 320;
 	height = 200;
+
+	//event_stack = List<Event>();
 }
 
 void Window::Render() {
@@ -50,4 +57,14 @@ void Window::Render() {
 	screen_fillrect(x + width - 1, y, 1, height, 0, 0, 0);
 	screen_fillrect(x, y, width, 1, 0, 0, 0);
 	screen_fillrect(x, y + height - 1, width, 1, 0, 0, 0);
+}
+
+void FramebufferWindow::Render(){
+	
+}
+
+void WidgetWindow::Render(){
+	for(int i = 0; i < widgets.num; i++){
+		//widgets[i].Render();
+	}
 }

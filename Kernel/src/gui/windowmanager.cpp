@@ -12,10 +12,11 @@
 #include <bitmap.h>
 #include <timer.h>
 #include <runtime.h>
+#include <keyboard.h>
 
 bool prevMouseButtonState = false;
 static int8_t* mouse_data;
-bool enableFpsCounter = false;
+bool enableFpsCounter = true;
 
 // FPS counter
 uint32_t fps;
@@ -40,6 +41,10 @@ void fps_update(uint16_t timer_Hz) {
 	}
 }
 
+bool WindowManager::IsLocked(){
+	return wm_lock;
+}
+
 // Constructor
 WindowManager::WindowManager(video_mode_t* _video_mode)
 {
@@ -57,13 +62,16 @@ WindowManager::WindowManager(video_mode_t* _video_mode)
 
 // Create a new window
 Window* WindowManager::Window_New(int x, int y, int width, int height, uint8_t type) {
-	Window* win = (Window*)malloc(sizeof(Window));
-	*win = Window(x, y, width, height, type);
+	wm_lock = true;
+	/*Window* win = (Window*)malloc(sizeof(Window));
+	*win = Window(x, y, width, height, type);*/
+	Window* win = new Window(x,y,width,height,type);
 	windows.add_back(win);
 	num_windows++;
 	if (activeWindow) activeWindow->active = false;
 	activeWindow = win;
 	win->active = true;
+	wm_lock = false;
 	return win;
 }
 void WindowManager::Window_Add(Window* win) {
@@ -124,6 +132,14 @@ void WindowManager::Update() {
 		if((int)mouse_y - drag_offset_y >= 0)
 			activeWindow->y = mouse_y - drag_offset_y;
 		else activeWindow->y = 0;
+	}
+
+	if(key_updated() && activeWindow){
+		Event* e = new Event();
+		e->type = event_key;
+		e->data = malloc(sizeof(KeyEventData));
+		((KeyEventData*)e->data)->key = get_key();
+		activeWindow->event_stack->add_back(e);
 	}
 
 	prevMouseButtonState = mouse_data[0] & MOUSE_BUTTON_LEFT;

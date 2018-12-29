@@ -42,5 +42,5 @@ private:
 	const int cmds_amount = SHELL_COMMANDS;
 public:
 	Shell(Console * con);
-	void Update();
+	void Update(bool key_updated, char key);
 };

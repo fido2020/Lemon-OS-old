@@ -42,7 +42,6 @@ Snake::Snake(int x, int y, int width, int height)
 
 void Snake::Update()
 {
-	
 	if (get_key() == '\n')
 		Reset();
 	
@@ -51,29 +50,6 @@ void Snake::Update()
 	}
 	if (!update_ready) return;
 	update_ready = false;
-
-	if (key_updated()) {
-		switch (get_key()) {
-		case 'w':
-			if(direction != DOWN)
-				direction = UP;
-			break;
-		case 'a':
-			if (direction != RIGHT)
-				direction = LEFT;
-			break;
-		case 's':
-			if (direction != UP)
-				direction = DOWN;
-			break;
-		case 'd':
-			if(direction != LEFT)
-				direction = RIGHT;
-			break;
-		default:
-			break;
-		}
-	}
 
 	switch (direction) {
 	case UP:
@@ -160,4 +136,27 @@ void Snake::Relocate(int x, int y)
 {
 	this->x = x;
 	this->y = y;
+}
+
+void Snake::OnKeyPressed(char key){
+	switch (key) {
+	case 'w':
+		if(direction != DOWN)
+			direction = UP;
+		break;
+	case 'a':
+		if (direction != RIGHT)
+			direction = LEFT;
+		break;
+	case 's':
+		if (direction != UP)
+			direction = DOWN;
+		break;
+	case 'd':
+		if(direction != LEFT)
+			direction = RIGHT;
+		break;
+	default:
+		break;
+	}
 }

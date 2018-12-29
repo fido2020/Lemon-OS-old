@@ -25,6 +25,31 @@ enum WindowType {
 	windowtype_framebuffer, // Raw framebuffer window
 };
 
+enum EventType{
+	event_empty,
+	event_key,
+	event_mouse,
+};
+
+class Event{
+public:
+	uint8_t type;
+	void* data;
+	~Event(){
+		free(data);
+	}
+};
+
+struct KeyEventData{
+	char key;
+};
+
+struct MouseEventData{
+	int x;
+	int y;
+	int button;
+};
+
 class Window {
 public:
 	uint16_t x = 0;
@@ -40,13 +65,28 @@ public:
 	uint8_t type;
 	Console* console;
 
-	bool active;
-	bool exists = true;
+	List<Event*>* event_stack;
+
+	bool active; // Whether the window is the active window
+	bool exists = true; // This lets the program owning the window know when to destroy the window and exit
 
 public:
 	Window(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint8_t type = windowtype_gui);
 	Window();
 	void Render();
-	void(*render_callback)(int,int) = 0;
-	void(*mouse_callback)(int,int) = 0;
+	void(*render_callback)(int,int) = 0; // Depracated
+	void(*mouse_callback)(int,int) = 0; // Depracated
+};
+
+class FramebufferWindow : public Window{
+public:
+	uint8_t* framebuffer;
+	void Render();
+};
+
+class WidgetWindow : public Window{
+public:
+	List<Widget> widgets;
+	
+	void Render();
 };

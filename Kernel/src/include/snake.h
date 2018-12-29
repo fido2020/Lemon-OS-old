@@ -29,6 +29,7 @@ public:
 	void Render();
 	void Reset();
 	void Relocate(int x, int y);
+	void OnKeyPressed(char key);
 private:
 	const int cellSize = 16; // Grid square size
 
