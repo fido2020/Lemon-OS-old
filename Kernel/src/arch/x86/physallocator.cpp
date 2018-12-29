@@ -29,7 +29,7 @@ void physalloc_init(memory_info_t* mem_info)
 		mem_map = (multiboot_memory_map_t*)((uint32_t)mem_map + mem_map->size + sizeof(mem_map->size));
 	}
 	physalloc_max_blocks = mem_info->memory_high * 1024 / PHYSALLOC_BLOCK_SIZE;
-	physalloc_mark_region_used(0, 0xF000000/*(uint32_t)&kernel_end*/);
+	physalloc_mark_region_used(0, 0x1400000/*(uint32_t)&kernel_end*/);
 }
 
 // Sets a bit in the physical memory bitmap
@@ -67,7 +67,7 @@ void physalloc_mark_region_used(uint32_t base, size_t size) {
 
 // Marks a region in physical memory as being free
 void physalloc_mark_region_free(uint32_t base, size_t size) {
-	for (uint32_t blocks = size / PHYSALLOC_BLOCK_SIZE, align = base / PHYSALLOC_BLOCK_SIZE; blocks > 0; blocks--, physalloc_used_blocks++)
+	for (uint32_t blocks = size / PHYSALLOC_BLOCK_SIZE + 1, align = base / PHYSALLOC_BLOCK_SIZE; blocks > 0; blocks--, physalloc_used_blocks++)
 		physalloc_bit_clear(align++);
 }
 

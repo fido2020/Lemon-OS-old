@@ -22,6 +22,13 @@ public:
 	void Render();
 	// Update (called every frame)
 	void Update();
+
+	// Mouse cursor X position
+	unsigned int mouse_x = 250;
+	// Mouse cursor Y position
+	unsigned int mouse_y = 250;
+
+	bool mouseDown = false;
 private:
 	// Add existing window
 	void Window_Add(Window* win);
@@ -38,11 +45,6 @@ private:
 	int drag_offset_x;
 	int drag_offset_y;
 
-	// Mouse cursor X position
-	unsigned int mouse_x = 250;
-	// Mouse cursor Y position
-	unsigned int mouse_y = 250;
-
 	// Screen Width (in pixels)
 	uint32_t screen_width;
 	// Screen Height (in pixels)
@@ -57,3 +59,5 @@ private:
 	// Handle a mouse click
 	void MouseClick();
 };
+
+WindowManager* wm_getinstance();

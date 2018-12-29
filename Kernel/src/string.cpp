@@ -172,7 +172,7 @@ int strlen(char *str)
 {
    int c = 0;
 
-   while( *(str + c) != '\0' )
+   while( str[c] != '\0' )
       c++;
 
    return c;
@@ -257,7 +257,7 @@ void substr(int s, int e, char *src, char *dest){ //substring exclusive range (e
 }
 
 //extern "C"
-char* itoa(long num, char* str, int base)
+char* itoa(unsigned long num, char* str, int base)
 {
     int i = 0;
     bool isNegative = false;
@@ -319,7 +319,7 @@ char* itoa(unsigned int num, char* str, int base)
 
 void strcpy(char* dest, const char* src)
 {
-	for(int i = 0; dest[i] != '\0'; i++)
+	for(int i = 0; src[i] != '\0'; i++)
 	{
 		dest[i] = src[i];
 	}

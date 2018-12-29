@@ -7,7 +7,6 @@
 
 idt_entry_t idt[256];
 
-
 idt_ptr_t idt_ptr;
 
 isr_t interrupt_handlers[256];
@@ -123,6 +122,8 @@ static void idt_set_gate(uint8_t num, uint32_t base, uint16_t sel, uint8_t flags
 	idt[num].flags = flags;
 }
 
+extern "C" void scheduler_tick();
+
 extern "C"
 void idt_flush();
 void idt_initialize() {
@@ -206,6 +207,7 @@ extern "C"
 void isr_handler(regs32_t* regs) {
 
 	if (interrupt_handlers[regs->int_num] != 0) {
+		write_serial_string("Interrupt: ");
 		interrupt_handlers[regs->int_num](regs);
 	} else {
 		write_serial_string("Fatal Exception: ");
@@ -217,18 +219,17 @@ void isr_handler(regs32_t* regs) {
 extern "C"
 void irq_handler(regs32_t* regs) {
 
-	if (interrupt_handlers[regs->int_num] != 0) {
-		isr_t handler;
-		handler = /*reinterpret_cast<isr_t>(*/interrupt_handlers[regs->int_num]/*)*/;
-		handler(regs);
-	}
-
 	if (regs->int_num >= 40) {
 		outportb(0xA0, 0x20);
 	}
 
 	outportb(0x20, 0x20);
-	
+	int a;
+	if (interrupt_handlers[regs->int_num] != 0) {
+		isr_t handler;
+		handler = interrupt_handlers[regs->int_num];
+		handler(regs);
+	}
 }
 
 extern "C"

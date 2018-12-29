@@ -18,6 +18,7 @@ typedef struct {
 	char filename[32]; // Filename
 	uint32_t offset; // Offset in file
 	uint32_t size; // File Size
+	uint8_t type;
 } __attribute__((packed)) lemoninitfs_node_t ;
 
 void initrd_init(uint32_t address, uint32_t size);

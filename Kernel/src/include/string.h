@@ -68,5 +68,5 @@ void substr(int i, char *src, char *dest);
 void strcpy(char* dest, const char* src);
 char *strtok(char * str, const char * delim);
 int strlen(char *str);
-char* itoa(long num, char* str = NULL, int base = 10);
+char* itoa(unsigned long num, char* str = NULL, int base = 10);
 int strcmp(char* s1, char* s2);

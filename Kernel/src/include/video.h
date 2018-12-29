@@ -9,13 +9,6 @@ typedef enum {
 } video_mode_type_t;
 
 
-typedef struct
-{
-	unsigned int width;
-	unsigned int height;
-	unsigned char *data;
-} bitmap_t;
-
 typedef struct {
 	uint8_t r, g, b;
 } rgb_colour_t;

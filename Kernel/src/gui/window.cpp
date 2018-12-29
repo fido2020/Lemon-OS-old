@@ -35,11 +35,16 @@ Window::Window() {
 }
 
 void Window::Render() {
-	if(active)
+	if(active && !(flags & WINDOW_FLAGS_NODECORATION))
 		screen_fillrect(x, y, width, 24, WINDOW_TITLEBAR_ACTIVE_COLOUR_R, WINDOW_TITLEBAR_ACTIVE_COLOUR_G, WINDOW_TITLEBAR_ACTIVE_COLOUR_B);
-	else screen_fillrect(x, y, width, 24, WINDOW_TITLEBAR_COLOUR_R, WINDOW_TITLEBAR_COLOUR_G, WINDOW_TITLEBAR_COLOUR_B);
-	if(type == windowtype_gui && !(flags & WINDOW_FLAGS_NODECORATION))
-		screen_fillrect(x, y + 24, width, height-24, r, g, b);
+	else if(!(flags & WINDOW_FLAGS_NODECORATION)) screen_fillrect(x, y, width, 24, WINDOW_TITLEBAR_COLOUR_R, WINDOW_TITLEBAR_COLOUR_G, WINDOW_TITLEBAR_COLOUR_B);
+
+	screen_fillrect(x + width - 20, y + 4, 16, 16, 255, 0, 0);
+	drawchar('X', x + width - 16, y + 8, 255, 255, 255, 1);
+
+	if (type == windowtype_gui && !(flags & WINDOW_FLAGS_NODECORATION)) {
+		screen_fillrect(x, y + 24, width, height - 24, r, g, b);
+	}
 	else if(type == windowtype_console) console->refresh();
 	screen_fillrect(x, y, 1, height, 0, 0, 0);
 	screen_fillrect(x + width - 1, y, 1, height, 0, 0, 0);

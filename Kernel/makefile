@@ -5,7 +5,7 @@ ARCH := x86
 SRCDIRS := src/arch/$(ARCH) src src/liballoc src/gui
 INCLUDEPATH := -I src/include -I src/arch/$(ARCH)/include
 
-CFLAGS-x86 := -Wall -Wno-pointer-arith-fno-permissive -fno-exceptions -fno-rtti -std=c++14 -fno-pic -Wno-address -m32 -ffreestanding -Wno-write-strings -fno-stack-protector $(INCLUDEPATH)
+CFLAGS-x86 := -Wall -Wno-pointer-arith -fno-permissive -fno-exceptions -fno-rtti -std=c++14 -fno-pic -Wno-address -m32 -ffreestanding -Wno-write-strings -fno-stack-protector $(INCLUDEPATH)
 ASFLAGS-x86 := -f elf32 -g -F dwarf
 
 CFLAGS-x86_64 := -Wno-pointer-arith -Wall -fno-permissive -fno-exceptions -z max-page-size=0x1000 -fno-rtti -std=c++14 -mno-mmx -mno-sse -mno-sse2 -mno-red-zone -fno-pic -Wno-address -m64 -ffreestanding -Wno-write-strings -fno-stack-protector $(INCLUDEPATH)
@@ -29,7 +29,7 @@ all: $(ARCH)
 
 x86: $(OBJFILES)
 	@./buildasmx86.sh
-	@g++ -m32 -T linkscript-x86.ld -o bin/$(ARCH)/kernel.sys -fno-pic -Wl,--build-id=none -ffreestanding -O2 -nostdlib obj/x86/*.asm.o obj/x86/*.c.o obj/x86/*.cpp.o -fno-pic #-lgcc 
+	@g++ -m32 -T linkscript-x86.ld -o bin/$(ARCH)/kernel.sys -fno-pic -Wl,--build-id=none -ffreestanding -O2 -nostdlib obj/x86/*.asm.o obj/x86/*.c.o obj/x86/*.cpp.o -fno-pic -lgcc 
 
 x86_64: $(OBJFILES)
 	@./buildasmx86_64.sh

@@ -5,7 +5,6 @@
 
 #define PROCESS_STATE_SUSPENDED 0
 #define PROCESS_STATE_ACTIVE 1
-
 struct process;
 
 typedef struct {
@@ -23,10 +22,13 @@ typedef struct process {
 	uint8_t priority; // Process Priority
 	page_directory_ptr_t page_directory; // Pointer to page directory and tables
 	uint8_t state; // Process state
-	thread_t* threads; // Array of threads
+	//thread_t* threads; // Array of threads
+	thread_t threads[1];
 	uint32_t thread_count; // Amount of threads
-	thread_t* main_thread; // Main thread
+	process* next;
 } process_t;
 
 uint32_t create_process(void* entry);
-void execute_process();
+void add_thread(uint32_t pid, void * entry);
+void scheduler_tick(regs32_t *r);
+void multitasking_init();

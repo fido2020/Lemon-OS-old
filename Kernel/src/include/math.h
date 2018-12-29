@@ -1,6 +1,6 @@
 #pragma once
 
-int rand();
+unsigned int rand();
 
 int floor(double num);
 

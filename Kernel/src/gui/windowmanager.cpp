@@ -11,6 +11,7 @@
 #include <initrd.h>
 #include <bitmap.h>
 #include <timer.h>
+#include <runtime.h>
 
 bool prevMouseButtonState = false;
 static int8_t* mouse_data;
@@ -22,15 +23,29 @@ uint32_t fps;
 // Frames since last timer update
 uint64_t frames;
 
+uint8_t ticks = 0;
+
+WindowManager* wminstance;
+
+WindowManager* wm_getinstance(){
+	return wminstance;
+}
+
 // Timer callback to update fps counter
 void fps_update(uint16_t timer_Hz) {
-	fps = frames * timer_Hz;
-	frames = 0;
+	ticks++;
+	if(ticks == timer_Hz){
+		fps = frames/* * timer_Hz*/;
+		frames = 0;
+	}
 }
 
 // Constructor
 WindowManager::WindowManager(video_mode_t* _video_mode)
 {
+	if(wminstance) delete wminstance;
+	wminstance = this;
+
 	video_mode = *_video_mode;
 
 	screen_width = video_mode.width;
@@ -59,15 +74,15 @@ void WindowManager::Window_Add(Window* win) {
 // Render (called every frame)
 void WindowManager::Render()
 {
-	screen_clear(0, 0, 0);
+	//screen_clear(0, 0, 0);
 
-	screen_clear(96, 192, 192);
+	//screen_clear(96, 192, 192);
 	Window* current;
 	for (int i = 0; i < num_windows; i++) {
 		if (windows[i] != NULL) {
 			windows[i]->Render();
-			if (windows[i]->type == windowtype_framebuffer && windows[i]->render_callback) {
-				windows[i]->render_callback();
+			if (windows[i]->render_callback && windows[i]->type == windowtype_framebuffer) {
+				windows[i]->render_callback(windows[i]->x,windows[i]->y);
 			}
 			/*else if (windows[i]->type == windowtype_gui && windows[i]->widgets.num > 0) {
 				for (int j = 0; j < windows[i]->widgets.num; j++) {
@@ -89,11 +104,13 @@ void WindowManager::Update() {
 		mouse_y -= mouse_data[2] * 2;
 
 		if (mouse_data[0] & MOUSE_BUTTON_LEFT) {
+			mouseDown = true;
 			if (!prevMouseButtonState) {
 				MouseClick();
 			}
 		}
 		else {
+			mouseDown = false;
 			drag = false;
 		}
 	}
@@ -144,6 +161,11 @@ void WindowManager::MouseClick() {
 				windows.add_back(win);
 			}
 			if ((int)mouse_y < win->y + 24) {
+				if ((int)mouse_x > win->x + win->width - 20) {
+					windows[i]->exists = false;
+					windows.remove_at(i);
+					num_windows--;
+				}
 				drag_offset_x = mouse_x - win->x;
 				drag_offset_y = mouse_y - win->y;
 				drag = true;

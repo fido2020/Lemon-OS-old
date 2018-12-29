@@ -41,11 +41,12 @@ public:
 	Console* console;
 
 	bool active;
+	bool exists = true;
 
 public:
 	Window(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint8_t type = windowtype_gui);
 	Window();
 	void Render();
-	void(*render_callback)(void) = 0;
+	void(*render_callback)(int,int) = 0;
 	void(*mouse_callback)(int,int) = 0;
 };

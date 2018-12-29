@@ -33,3 +33,9 @@ typedef struct {
 	uint32_t colour_num; // The number of colours in the colour palette 
 	uint32_t colours_important; // Number of important colours - usually ignored
 } __attribute__((packed)) bitmap_info_header_t ;
+
+typedef struct{
+	bitmap_file_header_t bmp_file_header;
+	bitmap_info_header_t bmp_info_header;
+	void* data;
+} bitmap_t;

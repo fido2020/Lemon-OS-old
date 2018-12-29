@@ -65,7 +65,7 @@ void screen_putpixel(unsigned int x, unsigned int y, uint8_t r, uint8_t g, uint8
 
 // DDraws a filled rectangle on the screen
 void screen_fillrect(unsigned int x, unsigned int y, unsigned int w, unsigned int h, uint8_t r, uint8_t g, uint8_t b) {
-	uint32_t pos = 0;
+	/*uint32_t pos = 0;
 	for (unsigned int i = 0; i<h; i++) {
 		for (unsigned int j = 0; j<w; j++) {
 			pos = (y + i) * video_mode.pitch + ((x + j) * (video_mode.bpp / 8));
@@ -73,7 +73,16 @@ void screen_fillrect(unsigned int x, unsigned int y, unsigned int w, unsigned in
 			video_buffer[pos + 1] = g;  // GREEN
 			video_buffer[pos + 2] = r; // RED
 		}
+	}*/
+	uint32_t colour = (b) + (g << 8) + (r << 16);
+	uint32_t pos = 0;
+	for (unsigned int i = 0; i<h; i++) {
+		for (unsigned int j = 0; j<w; j++) {
+			pos = (y + i) * video_mode.pitch + ((x + j) * (video_mode.bpp / 8));
+			*(uint32_t*)(&video_buffer[pos]) = colour;
+		}
 	}
+	
 }
 
 // Draws a filled rectangle on the screen skipping double buffer
@@ -144,7 +153,7 @@ void drawgrayscalebitmap(unsigned int x, unsigned int y, unsigned int w, unsigne
 		for (unsigned int j = 0; j < w; j++) {
 			pos = (y + i) * video_mode.pitch + ((x + j) * (video_mode.bpp / 8));
 			uint8_t col = data[(i*w) + j];
-
+			
 			if (col != 1) { // A bit of a hack - a value of 1 = transparent
 				video_buffer[pos] = col;
 				video_buffer[pos + 1] = col;

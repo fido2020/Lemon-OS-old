@@ -9,8 +9,14 @@
 bool update_ready = false;
 static char buf[8];
 
-void fps_timer_tick(uint16_t hz) { // 18 fps is good
-	update_ready = true;
+static uint32_t ticks;
+
+void fps_timer_tick(uint16_t hz) {
+	ticks++;
+	if(ticks == 1000/24){
+		update_ready = true;
+		ticks = 0;
+	}
 }
 
 Snake::Snake(int x, int y, int width, int height)

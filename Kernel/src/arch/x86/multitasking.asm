@@ -1,12 +1,19 @@
 extern process_stack
+extern process_base
 extern process_entry_point
 
-global execute_process_asm
+global task_switch
+global read_eip
 
-execute_process_asm:
-	push 0x10
-	push dword [process_stack]
-	push 0x200
-	push 0x8
-	push dword [process_entry_point]
-	iretd
+read_eip:
+	pop eax
+	jmp eax
+
+task_switch:
+	cli
+    mov ecx, [process_entry_point]
+    mov esp, [process_stack]
+    mov ebp, [process_base]
+	mov eax, 0x6969 ; Let the scheduler know we switched task
+    sti
+    jmp ecx
