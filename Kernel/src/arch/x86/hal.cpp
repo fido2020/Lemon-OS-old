@@ -51,7 +51,9 @@ namespace HAL{
     void initialize_video(){
         // Map Video Memory
         uint32_t vid_mem_size = multiboot_info.framebufferHeight*multiboot_info.framebufferPitch;
-        map_page(multiboot_info.framebufferAddr, multiboot_info.framebufferAddr, vid_mem_size / PAGE_SIZE + 1);
+        //map_page(multiboot_info.framebufferAddr, multiboot_info.framebufferAddr, vid_mem_size / PAGE_SIZE + 1);
+        uint32_t virtual_address = kernel_pages_allocate(vid_mem_size / PAGE_SIZE + 1);
+	    map_page(multiboot_info.framebufferAddr, virtual_address, vid_mem_size / PAGE_SIZE + 1);
         physalloc_mark_region_used(multiboot_info.framebufferAddr, vid_mem_size);
 
         // Initialize Video Mode structure
@@ -59,7 +61,7 @@ namespace HAL{
         video_mode.height = multiboot_info.framebufferHeight;
         video_mode.bpp = multiboot_info.framebufferBpp;
         video_mode.pitch = multiboot_info.framebufferPitch;
-        video_mode.address = multiboot_info.framebufferAddr;
+        video_mode.address = /*multiboot_info.framebufferAddr*/virtual_address;
         video_mode.type = Graphical;
 
         video_initialize(video_mode);

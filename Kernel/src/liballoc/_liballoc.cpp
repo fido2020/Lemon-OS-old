@@ -19,7 +19,7 @@ extern "C" {
 	}
 
 	void* liballoc_alloc(int pages) {
-		void* addr = (void*)(pages_allocate(pages));
+		void* addr = (void*)kernel_pages_allocate(pages);//(pages_allocate(pages));
 		for (int i = 0; i < pages; i++)
 		{
 			uint32_t phys = physalloc_alloc_block();

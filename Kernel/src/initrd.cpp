@@ -8,8 +8,9 @@ lemoninitfs_node_t* nodes;
 uint32_t initrd_address;
 
 void initrd_init(uint32_t address, uint32_t size) {
-	map_page(address, address, size / PAGE_SIZE + 1);
-	initrd_address = address;
+	uint32_t virtual_address = kernel_pages_allocate(size / PAGE_SIZE + 1);
+	map_page(address, virtual_address, size / PAGE_SIZE + 1);
+	initrd_address = virtual_address;
 	initrd_header = *(lemoninitfs_header_t*)address;
 	nodes = (lemoninitfs_node_t*)(address + sizeof(lemoninitfs_header_t));
 }

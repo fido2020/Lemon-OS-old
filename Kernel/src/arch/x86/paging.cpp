@@ -29,36 +29,89 @@ static page_t* get_page(uint32_t addr)
 }
 
 uint32_t pages_allocate(uint32_t amount) {
-	page_t* entries = get_page(0);
-
-	uint32_t addr = 0;
+	uint32_t page_dir_index = 0;
+	uint32_t address = 0;
+	uint32_t offset = 0;
 	uint32_t counter = 0;
 
-	amount += 1;
+	amount += 2;
 
-	for (uint32_t i = 4096; i < max_pages; ++i)
-	{
-		if (entries[i] & PAGE_PRESENT) {
-			counter = 0;
-			addr = i;
-		}
-		else
+	for(uint32_t i = page_dir_index; i < PAGE_DIRECTORY_INDEX(0xC0000000); i++){
+		for(uint32_t j = 0; j < PAGES_PER_TABLE; j++){
+			if(kernel_page_tables[i][j] & PAGE_PRESENT){
+				offset = j;
+				page_dir_index = i;
+				counter = 0;
+				continue;
+			}
+
 			counter++;
 
-		if (counter == amount)
-		{
-			for (uint32_t j = 1; j < amount; j++)
-			{
-				set_flags(&(entries[addr + j]),PAGE_PRESENT | PAGE_WRITABLE);
-			}
-			return addr * PAGE_SIZE + PAGE_SIZE;
-		}
+			if(counter == amount){
+				address = (page_dir_index * PAGES_PER_TABLE + offset) * PAGE_SIZE + PAGE_SIZE;
+				while(counter){
+					if(offset >= PAGES_PER_TABLE){
+						page_dir_index++;
+						offset = 0;
+					} 
 
-		
+					set_flags(&(kernel_page_tables[page_dir_index][offset]), PAGE_WRITABLE | PAGE_PRESENT);
+					offset++;
+					counter--;
+				}
+
+				return address;
+			}
+		}
 	}
+
 	write_serial_string("No more pages availiable!\n");
 	return 0;
 }
+
+uint32_t kernel_pages_allocate(uint32_t amount) { // Used for kernel heap
+	uint32_t page_dir_index = PAGE_DIRECTORY_INDEX(0xC0000000); // Start allocating at 3GB (0xC0000000) to allow space for processes
+	uint32_t address = 0;
+	uint32_t offset = 0;
+	uint32_t counter = 0;
+
+	amount += 2;
+
+	for(uint32_t i = page_dir_index; i < TABLES_PER_DIR; i++){
+		for(uint32_t j = 0; j < PAGES_PER_TABLE; j++){
+			if(kernel_page_tables[i][j] & PAGE_PRESENT){
+				offset = j;
+				page_dir_index = i;
+				counter = 0;
+				continue;
+			}
+
+			counter++;
+
+			if(counter == amount){
+				address = (page_dir_index * PAGES_PER_TABLE + offset) * PAGE_SIZE + PAGE_SIZE;
+				while(counter){
+					if(offset >= PAGES_PER_TABLE){
+						page_dir_index++;
+						offset = 0;
+					} 
+
+					set_flags(&(kernel_page_tables[page_dir_index][offset]), PAGE_WRITABLE | PAGE_PRESENT);
+
+					offset++;
+					counter--;
+				}
+
+				return address;
+			}
+		}
+	}
+	
+	write_serial_string("No more pages for kernel heap availiable!\n");
+	fatal_error("The kernel has run out of virtual memory for its heap", "KERNEL_HEAP_FULL");
+	for(;;);
+}
+
 
 uint32_t addr_virt_to_phys(uint32_t addr) {
 	return ((uint32_t*)(*current_page_directory[addr >> 22] & ~0xfff))[addr << 10 >> 10 >> 12];
@@ -142,35 +195,7 @@ void paging_initialize()
 		kernel_page_directory[i] = 0 | PDE_WRITABLE;
 	}
 
-	for (int i = 0, frame = 0x0, virt = 0x00000000; i<8192; i++, frame += PAGE_SIZE, virt += PAGE_SIZE) {
-
-		//Create a new page
-		page_t page = 0;
-		set_flags(&page, PAGE_PRESENT | PAGE_WRITABLE); // Make it present and writable
-		page_set_frame(&page, frame);
-
-		// Add it to the page table and directory
-		uint32_t pdindex = PAGE_DIRECTORY_INDEX(virt);
-		set_flags(&kernel_page_directory[pdindex], PDE_PRESENT);
-		set_flags(&kernel_page_directory[pdindex], PDE_WRITABLE);
-		pde_set_frame(&kernel_page_directory[pdindex], (uint32_t)&kernel_page_tables[pdindex]);
-		kernel_page_tables[pdindex][PAGE_TABLE_INDEX(virt)] = page;
-	}
-
-	/*for (int i = 0, frame = 0x100000, virt = 0xc0000000; i<6144; i++, frame += PAGE_SIZE, virt += PAGE_SIZE) {
-
-		//Create a new page
-		page_t page = 0;
-		set_flags(&page, PAGE_PRESENT | PAGE_WRITABLE); // Make it present and writable
-		page_set_frame(&page, frame);
-
-		// Add it to the page table and directory
-		uint32_t pdindex = PAGE_DIRECTORY_INDEX(virt);
-		set_flags(&kernel_page_directory[pdindex], PDE_PRESENT);
-		set_flags(&kernel_page_directory[pdindex], PDE_WRITABLE);
-		pde_set_frame(&kernel_page_directory[pdindex], (uint32_t)&kernel_page_tables[pdindex]);
-		kernel_page_tables[pdindex][PAGE_TABLE_INDEX(virt)] = page;
-	}*/
+	map_kernel();
 
 	interrupt_register_handler(14,page_fault_handler);
 
@@ -179,7 +204,7 @@ void paging_initialize()
 }
 
 void map_kernel() {
-	for (int i = 0, frame = 0x0, virt = 0x00000000; i<6144; i++, frame += PAGE_SIZE, virt += PAGE_SIZE) {
+	for (int i = 0, frame = 0x0, virt = 0x00000000; i<8192; i++, frame += PAGE_SIZE, virt += PAGE_SIZE) {
 
 		//Create a new page
 		page_t page = 0;
@@ -242,10 +267,10 @@ void page_fault_handler(regs32_t* regs)
 	asm volatile("mov %%cr2, %0" : "=r" (fault_addr));
 
 	int present = !(regs->err_code & 0x1); // Page not present
-	int rw = regs->err_code & 0x2;           // Write operation?
-	int us = regs->err_code & 0x4;           // Processor was in user-mode?
-	int reserved = regs->err_code & 0x8;     // Overwritten CPU-reserved bits of page entry?
-	int id = regs->err_code & 0x10;          // Caused by an instruction fetch?
+	int rw = regs->err_code & 0x2;           // Attempted write to read only page
+	int us = regs->err_code & 0x4;           // Processor was in user-mode and tried to access kernel page
+	int reserved = regs->err_code & 0x8;     // Overwritten CPU-reserved bits of page entry
+	int id = regs->err_code & 0x10;          // Caused by an instruction fetch
 
 	char* msg = "Page fault ";
 	char* reason;
@@ -266,7 +291,9 @@ void page_fault_handler(regs32_t* regs)
 	strcat(msg, reason);
 
 	write_serial_string(msg);
-	write_serial_string(" ");
+	write_serial_string("\r\n");
+
+	write_serial_string(itoa(regs->eip,0,16));
 
 	itoa(fault_addr,addrbuf,16);
 
