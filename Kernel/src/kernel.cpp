@@ -106,6 +106,8 @@ void kmain(uint32_t mb_info_addr) {
 
 	HAL::initialize_all(mb_info);
 
+	write_serial_string("xcv");
+
 	multiboot_module_t initrd_module = *((multiboot_module_t*)mb_info.modsAddr);
 	cpuid_info = cpuid_get_info();
 
@@ -117,6 +119,8 @@ void kmain(uint32_t mb_info_addr) {
 	}
 	else if (mem_info.memory_high + mem_info.memory_low < 32000) fatal_error("Not enough memory! (< 32MB)", "ERR_NOT_ENOUGH_MEM"); // Throw a fatal if there isnt enough memory at the moment 24MB is demanded as the minimum
 	else if (!(cpuid_info.features_edx & CPUID_EDX_SSE2)) fatal_error("CPU does not support SSE2", "ERR_NO_SSE2");
+
+	initrd_init(initrd_module.mod_start,initrd_module.mod_end - initrd_module.mod_start);
 
 	if(strcmp((char*)mb_info.cmdline,"kshell") == 0){
 		Console kshell_console = Console(0,0,video_mode.width, video_mode.height);
@@ -173,7 +177,7 @@ void kmain(uint32_t mb_info_addr) {
 
 	create_process((void*)idle2);
 	create_process((void*)WindowManager_process);
-	//create_process((void*)Shell_process);
+	
 	timer_install(1000); // The scheduler will start running when the timer is set up.
 	
 	for(;;);

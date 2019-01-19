@@ -38,6 +38,7 @@ void screen_clear() {
 
 // Clears the screen with specified colour
 void screen_clear(uint8_t r, uint8_t g, uint8_t b) {
+	write_serial_string("dejladkjlw");
 	if (video_mode.type != Graphical) return; // Text Mode is only 16-colors
 	screen_fillrect(0, 0, video_mode.width, video_mode.height, r, g, b);
 }
@@ -65,24 +66,14 @@ void screen_putpixel(unsigned int x, unsigned int y, uint8_t r, uint8_t g, uint8
 
 // DDraws a filled rectangle on the screen
 void screen_fillrect(unsigned int x, unsigned int y, unsigned int w, unsigned int h, uint8_t r, uint8_t g, uint8_t b) {
-	uint32_t pos = 0;
-	for (unsigned int i = 0; i<h; i++) {
-		for (unsigned int j = 0; j<w; j++) {
-			//write_serial_string("zzz");
-			pos = (y + i) * video_mode.pitch + ((x + j) * (video_mode.bpp / 8));
-			video_buffer[pos] = b & 255; // BLUE
-			video_buffer[pos + 1] = g;  // GREEN
-			video_buffer[pos + 2] = r; // RED
-		}
-	}
-	/*uint32_t colour = (b) + (g << 8) + (r << 16);
+	uint32_t colour = (b) + (g << 8) + (r << 16);
 	uint32_t pos = 0;
 	for (unsigned int i = 0; i<h; i++) {
 		for (unsigned int j = 0; j<w; j++) {
 			pos = (y + i) * video_mode.pitch + ((x + j) * (video_mode.bpp / 8));
 			*(uint32_t*)(&video_buffer[pos]) = colour;
 		}
-	}*/
+	}
 	
 }
 

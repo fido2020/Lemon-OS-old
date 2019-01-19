@@ -27,33 +27,42 @@ static page_t* get_page(uint32_t addr)
 }
 
 uint32_t pages_allocate(uint32_t amount) {
-	page_t* entries = get_page(0);
-
-	uint32_t addr = 0;
+	uint32_t page_dir_index = 0;
+	uint32_t address = 0;
+	uint32_t offset = 0;
 	uint32_t counter = 0;
 
-	amount += 1;
+	amount += 2;
 
-	for (uint32_t i = 4096; i < max_pages; ++i)
-	{
-		if (entries[i] & PAGE_PRESENT) {
-			counter = 0;
-			addr = i;
-		}
-		else
+	for(uint32_t i = page_dir_index; i < PAGE_DIRECTORY_INDEX(0xC0000000); i++){
+		for(uint32_t j = 0; j < PAGES_PER_TABLE; j++){
+			if(kernel_page_tables[i][j] & PAGE_PRESENT){
+				offset = j;
+				page_dir_index = i;
+				counter = 0;
+				continue;
+			}
+
 			counter++;
 
-		if (counter == amount)
-		{
-			for (uint32_t j = 1; j < amount; j++)
-			{
-				set_flags(&(entries[addr + j]),PAGE_PRESENT | PAGE_WRITABLE);
-			}
-			return addr * PAGE_SIZE + PAGE_SIZE;
-		}
+			if(counter == amount){
+				address = (page_dir_index * PAGES_PER_TABLE + offset) * PAGE_SIZE + PAGE_SIZE;
+				while(counter){
+					if(offset >= PAGES_PER_TABLE){
+						page_dir_index++;
+						offset = 0;
+					} 
 
-		
+					set_flags(&(kernel_page_tables[page_dir_index][offset]), PAGE_WRITABLE | PAGE_PRESENT);
+					offset++;
+					counter--;
+				}
+
+				return address;
+			}
+		}
 	}
+
 	write_serial_string("No more pages availiable!\n");
 	return 0;
 }
@@ -310,10 +319,10 @@ void page_fault_handler(regs32_t* regs)
 	asm volatile("mov %%cr2, %0" : "=r" (fault_addr));
 
 	int present = !(regs->err_code & 0x1); // Page not present
-	int rw = regs->err_code & 0x2;           // Write operation?
-	int us = regs->err_code & 0x4;           // Processor was in user-mode?
-	int reserved = regs->err_code & 0x8;     // Overwritten CPU-reserved bits of page entry?
-	int id = regs->err_code & 0x10;          // Caused by an instruction fetch?
+	int rw = regs->err_code & 0x2;           // Attempted write to read only page
+	int us = regs->err_code & 0x4;           // Processor was in user-mode and tried to access kernel page
+	int reserved = regs->err_code & 0x8;     // Overwritten CPU-reserved bits of page entry
+	int id = regs->err_code & 0x10;          // Caused by an instruction fetch
 
 	char* msg = "Page fault ";
 	char* reason;

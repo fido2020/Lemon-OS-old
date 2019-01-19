@@ -2,7 +2,7 @@
 
 :lemon: The Lemon Operating System :lemon:
 
-I will upload a link to a VHD file soon, it grew too big for GitHub's size restriction
+There is a compressed VHD file in the Disks directory
 
 Minimum Requriements:
  * SSE2 Compatible x86 Processor

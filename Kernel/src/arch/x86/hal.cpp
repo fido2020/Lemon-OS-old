@@ -68,8 +68,6 @@ namespace HAL{
         video_mode.address = vid_mem_virt;
         video_mode.type = Graphical;
 
-        //for(;;);
-
         video_initialize(video_mode);
     }
 
