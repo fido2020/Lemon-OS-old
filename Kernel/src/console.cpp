@@ -73,9 +73,7 @@ void Console::refresh() {
 		for (int j = 0; j < width_characters; j++) {
 			ConsoleCharacter con_char = char_buffer[i * width_characters + j];
 			
-			if (con_char.c == '\n') {
-				//i++;
-			} else if (con_char.c != 0) {
+			if (con_char.c != 0) {
 				drawchar(con_char.c, startX + j * 8, startY + i * 8, con_char.r, con_char.g, con_char.b, 1);
 			}
 		}

@@ -50,10 +50,6 @@ void timer_handler(regs32_t *r) {
 		sys_uptime_minutes -= 60;
 	}*/
 	scheduler_tick();
-
-	for (int i = 0; i < callbacks_num; i++) {
-		callbacks[i](18);
-	}
 }
 
 // Install timer interrupt handler

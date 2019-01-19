@@ -192,13 +192,13 @@ void input(int argc, char** argv) {
 void sysinfo(int argc, char** argv){
 	console->puts("\nLemon OS Alpha\n",255,255,0);
 	console->puts	("\n\
-	      ######     \n\
-	   ############  \n\
-	  ############## \n\
-	#################\n\
-	  ############## \n\
-	   ############  \n\
-	      ######     \n",255,255,0);
+	   ####    \n\
+	  ######\n\
+	 #########\n\
+	#########\n\
+	  ######\n\
+	   ####\ 
+	\n",255,255,0);
 }
 
 void randomtext(int argc, char** argv){

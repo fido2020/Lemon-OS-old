@@ -3,15 +3,19 @@ OUTPUT_FORMAT(elf32-i386)
 
 KERNEL_VIRTUAL_BASE = 0xC0000000;
 
-/*SECTIONS {
-   . = 0x00100000;
+SECTIONS {
+    . = 100000;
+
+    .multiboot.hdr : {
+       *(.multiboot.hdr)
+   }
+
+    .multiboot.data : {
+       *(.multiboot.data)
+   }
 
    .multiboot.text : {
        *(.multiboot.text)
-   }
-
-   .multiboot.data : {
-       *(.multiboot.data)
    }
 
    . += KERNEL_VIRTUAL_BASE;
@@ -38,23 +42,25 @@ KERNEL_VIRTUAL_BASE = 0xC0000000;
    }
 
    kernel_end = .;
-}*/
+}
 
 
-SECTIONS
+/*SECTIONS
 {
 	. = 100000;
 	
-    .multiboot : { *(.multiboot) }
-	.text : { *(.text) }
+    .multiboot : { *(.multiboot); }
+	.text : { *(.text); }
 	.data : {
-		*(.data) 
-		*(.rodata*)
+		*(.data) ;
+		*(.rodata*);
 	}
-	.bss  : { *(.bss)  }
+	.bss  : { *(.bss);}
+
 	/DISCARD/ : {
        *(.eh_frame);
        *(.comment*);
    }
-    kernel_end = .;
-}
+    
+    kernel_end = .; 
+}*/

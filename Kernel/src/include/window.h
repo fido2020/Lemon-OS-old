@@ -81,6 +81,8 @@ public:
 class FramebufferWindow : public Window{
 public:
 	uint8_t* framebuffer;
+
+	FramebufferWindow(uint16_t x, uint16_t y, uint16_t width, uint16_t height);
 	void Render();
 };
 
@@ -88,5 +90,6 @@ class WidgetWindow : public Window{
 public:
 	List<Widget> widgets;
 	
+	WidgetWindow(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint8_t type = windowtype_gui);
 	void Render();
 };

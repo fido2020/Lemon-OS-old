@@ -22,6 +22,7 @@ void write_serial(char c) {
 	outportb(PORT, c);
 }
 
+extern "C"
 void write_serial_string(char* str) {
 	while (*str != '\0')
 		write_serial(*str++);

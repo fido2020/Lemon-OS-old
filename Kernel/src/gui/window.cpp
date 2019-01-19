@@ -59,6 +59,12 @@ void Window::Render() {
 	screen_fillrect(x, y + height - 1, width, 1, 0, 0, 0);
 }
 
+FramebufferWindow::FramebufferWindow(uint16_t x, uint16_t y, uint16_t width, uint16_t height){
+	//Window::Window(x,y,width,height, windowtype_framebuffer);
+	
+	framebuffer = (uint8_t*)malloc(width*height*4);
+}
+
 void FramebufferWindow::Render(){
 	
 }

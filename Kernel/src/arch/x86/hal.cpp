@@ -34,8 +34,11 @@ namespace HAL{
         // Initialize Paging/Virtual Memory Manager
         paging_initialize();
 
+        // Allocate virtual memory for memory map
+        uint32_t mmap_virt = kernel_pages_allocate(mb_info.mmapLength / PAGE_SIZE + 1);
+
         // Get Memory Map
-        map_page(mb_info.mmapAddr, mb_info.mmapAddr, mb_info.mmapLength / PAGE_SIZE + 1);
+        map_page(mb_info.mmapAddr, mmap_virt, mb_info.mmapLength / PAGE_SIZE + 1);
         multiboot_memory_map_t* memory_map = (multiboot_memory_map_t*)mb_info.mmapAddr;
 
         // Initialize Memory Info Structure to pass to Physical Memory Allocator
@@ -51,7 +54,10 @@ namespace HAL{
     void initialize_video(){
         // Map Video Memory
         uint32_t vid_mem_size = multiboot_info.framebufferHeight*multiboot_info.framebufferPitch;
-        map_page(multiboot_info.framebufferAddr, multiboot_info.framebufferAddr, vid_mem_size / PAGE_SIZE + 1);
+        
+        uint32_t vid_mem_virt = kernel_pages_allocate(vid_mem_size / PAGE_SIZE + 1);
+        map_page(multiboot_info.framebufferAddr, vid_mem_virt, vid_mem_size / PAGE_SIZE + 1);
+        
         physalloc_mark_region_used(multiboot_info.framebufferAddr, vid_mem_size);
 
         // Initialize Video Mode structure
@@ -59,8 +65,10 @@ namespace HAL{
         video_mode.height = multiboot_info.framebufferHeight;
         video_mode.bpp = multiboot_info.framebufferBpp;
         video_mode.pitch = multiboot_info.framebufferPitch;
-        video_mode.address = multiboot_info.framebufferAddr;
+        video_mode.address = vid_mem_virt;
         video_mode.type = Graphical;
+
+        //for(;;);
 
         video_initialize(video_mode);
     }

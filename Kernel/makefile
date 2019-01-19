@@ -29,7 +29,7 @@ all: $(ARCH)
 
 x86: $(OBJFILES)
 	@./buildasmx86.sh
-	@g++ -m32 -T linkscript-x86.ld -o bin/$(ARCH)/kernel.sys -fno-pic -Wl,--build-id=none -ffreestanding -O2 -nostdlib obj/x86/*.asm.o obj/x86/*.c.o obj/x86/*.cpp.o -fno-pic -lgcc 
+	@i686-elf-g++ -m32 -T linkscript-x86.ld -o bin/$(ARCH)/kernel.sys -ffreestanding -O2 -nostdlib obj/x86/*.asm.o obj/x86/*.c.o obj/x86/*.cpp.o -fno-pic -lgcc 
 
 x86_64: $(OBJFILES)
 	@./buildasmx86_64.sh
@@ -40,11 +40,11 @@ copy:
 
 %.cpp.o: %.cpp
 	@echo Compiling $<
-	@g++ $(CFLAGS) -c $< -o obj/$(ARCH)/$(shell basename $@);
+	@i686-elf-g++ $(CFLAGS) -c $< -o obj/$(ARCH)/$(shell basename $@);
 
 %.c.o: %.c
 	@echo Compiling $<
-	@gcc $(CFLAGS) -c $< -o obj/$(ARCH)/$(shell basename $@);
+	@i686-elf-gcc $(CFLAGS) -c $< -o obj/$(ARCH)/$(shell basename $@);
 
 %.asm.o: %.asm
 	@echo Assembling $<

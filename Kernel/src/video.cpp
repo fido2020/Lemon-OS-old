@@ -18,10 +18,10 @@ void video_initialize(video_mode_t v) {
 	video_memory = (uint8_t*)v.address;
 	video_buffer = (uint8_t*)malloc(v.pitch*v.height+8);
 
-	write_serial_string("Graphics Double Buffer allocated at 0x");
+	//write_serial_string("Graphics Double Buffer allocated at 0x");
 
-	char* buf = (char*)malloc(16);
-	write_serial_string(itoa((long)video_buffer, buf, (int)16));
+	//char* buf = (char*)malloc(16);
+	//write_serial_string(itoa((long)video_buffer, buf, (int)16));
 
 }
 
@@ -65,23 +65,24 @@ void screen_putpixel(unsigned int x, unsigned int y, uint8_t r, uint8_t g, uint8
 
 // DDraws a filled rectangle on the screen
 void screen_fillrect(unsigned int x, unsigned int y, unsigned int w, unsigned int h, uint8_t r, uint8_t g, uint8_t b) {
-	/*uint32_t pos = 0;
+	uint32_t pos = 0;
 	for (unsigned int i = 0; i<h; i++) {
 		for (unsigned int j = 0; j<w; j++) {
+			//write_serial_string("zzz");
 			pos = (y + i) * video_mode.pitch + ((x + j) * (video_mode.bpp / 8));
 			video_buffer[pos] = b & 255; // BLUE
 			video_buffer[pos + 1] = g;  // GREEN
 			video_buffer[pos + 2] = r; // RED
 		}
-	}*/
-	uint32_t colour = (b) + (g << 8) + (r << 16);
+	}
+	/*uint32_t colour = (b) + (g << 8) + (r << 16);
 	uint32_t pos = 0;
 	for (unsigned int i = 0; i<h; i++) {
 		for (unsigned int j = 0; j<w; j++) {
 			pos = (y + i) * video_mode.pitch + ((x + j) * (video_mode.bpp / 8));
 			*(uint32_t*)(&video_buffer[pos]) = colour;
 		}
-	}
+	}*/
 	
 }
 
@@ -100,13 +101,25 @@ void screen_fillrect_direct(unsigned int x, unsigned int y, unsigned int w, unsi
 
 // Draws specified character with specified colour at specified location using specified scale
 void drawchar(char c, unsigned int x, unsigned int y, uint8_t r, uint8_t g, uint8_t b, int scale) {
-	for (int i = 0; i < 8; i++)
-	{
-		int row = font_default[(int)c][i];
-		for (int j = 0; j < 8; j++)
+	if(scale > 1){
+		for (int i = 0; i < 8; i++)
 		{
-			if ((row & (1 << j)) >> j)
-				screen_fillrect(x + j * scale, y + i * scale, scale, scale, r, g, b);
+			int row = font_default[(int)c][i];
+			for (int j = 0; j < 8; j++)
+			{
+				if ((row & (1 << j)) >> j)
+					screen_fillrect(x + j * scale, y + i * scale, scale, scale, r, g, b);
+			}
+		}
+	} else {
+		for (int i = 0; i < 8; i++)
+		{
+			int row = font_default[(int)c][i];
+			for (int j = 0; j < 8; j++)
+			{
+				if ((row & (1 << j)) >> j)
+					screen_putpixel(x + j, y + i, r, g, b);
+			}
 		}
 	}
 }

@@ -1,6 +1,8 @@
 #include <syscalls.h>
 
-#define NUM_SYSCALLS 1
+#include <video.h>
+
+#define NUM_SYSCALLS 2
 
 typedef void(*syscall_t)(regs32_t*);
 
@@ -8,8 +10,14 @@ void test_syscall(regs32_t* r) {
 	write_serial_string((char*)r->ebx);
 }
 
-syscall_t syscalls[1]{
-	test_syscall
+void test_syscall2(regs32_t* r) {
+	screen_fillrect(0,0,500,400,0,0,0);
+	screen_update();
+}
+
+syscall_t syscalls[NUM_SYSCALLS]{
+	test_syscall,
+	test_syscall2,
 };
 
 

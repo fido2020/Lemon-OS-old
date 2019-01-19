@@ -77,7 +77,7 @@ typedef struct {
 
 void paging_initialize();
 
-void enable_paging();
+extern "C" void enable_paging();
 
 void switch_page_directory(uint32_t dir);
 
@@ -91,6 +91,7 @@ bool map_page(uint32_t phys, uint32_t virt, uint32_t amount);
 void unmap_page(uint32_t addr);
 
 uint32_t pages_allocate(uint32_t amount);
+uint32_t kernel_pages_allocate(uint32_t amount);
 void pages_free(uint32_t virt, uint32_t amount);
 
 bool mark_pages_reserved(uint32_t phys, uint32_t virt, uint32_t amount);

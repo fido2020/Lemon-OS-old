@@ -29,7 +29,7 @@ void physalloc_init(memory_info_t* mem_info)
 		mem_map = (multiboot_memory_map_t*)((uint32_t)mem_map + mem_map->size + sizeof(mem_map->size));
 	}
 	physalloc_max_blocks = mem_info->memory_high * 1024 / PHYSALLOC_BLOCK_SIZE;
-	physalloc_mark_region_used(0, 0x1400000/*(uint32_t)&kernel_end*/);
+	physalloc_mark_region_used(0, 6144*4096/*(uint32_t)&kernel_end*/);
 }
 
 // Sets a bit in the physical memory bitmap

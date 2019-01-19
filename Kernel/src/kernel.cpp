@@ -88,7 +88,7 @@ void WindowManager_process(){
 	WindowManager winmgr = WindowManager(&HAL::video_mode);
 	wm = & winmgr;
 	create_process((void*)Shell_process);
-	create_process((void*)Snake_process);
+	//create_process((void*)Snake_process);
 	for(;;){
 		screen_clear(96, 192, 192);
 		winmgr.Update();
@@ -107,17 +107,15 @@ void kmain(uint32_t mb_info_addr) {
 	HAL::initialize_all(mb_info);
 
 	multiboot_module_t initrd_module = *((multiboot_module_t*)mb_info.modsAddr);
-
 	cpuid_info = cpuid_get_info();
 
 	memory_info_t mem_info = HAL::mem_info;
 	video_mode_t video_mode = HAL::video_mode;
 
-
 	if (mb_info.modsCount < 1) {
 		fatal_error("The initrd was not passed in boot config", "NO_INITRD"); // Send an error message if the initrd was not passed in boot config
 	}
-	//else if (mem_info.memory_high + mem_info.memory_low < 24000) fatal_error("Not enough memory! (< 24MB)", "ERR_NOT_ENOUGH_MEM"); // Throw a fatal if there isnt enough memory at the moment 24MB is demanded as the minimum
+	else if (mem_info.memory_high + mem_info.memory_low < 32000) fatal_error("Not enough memory! (< 32MB)", "ERR_NOT_ENOUGH_MEM"); // Throw a fatal if there isnt enough memory at the moment 24MB is demanded as the minimum
 	else if (!(cpuid_info.features_edx & CPUID_EDX_SSE2)) fatal_error("CPU does not support SSE2", "ERR_NO_SSE2");
 
 	if(strcmp((char*)mb_info.cmdline,"kshell") == 0){
@@ -134,14 +132,24 @@ void kmain(uint32_t mb_info_addr) {
 	}
 
 	initrd_init(initrd_module.mod_start,initrd_module.mod_end - initrd_module.mod_start);
+	write_serial_string("\r\n0x");
+	write_serial_string(itoa(kernel_pages_allocate(1), 0, 16));
+	write_serial_string("\r\n0x");
+	write_serial_string(itoa(kernel_pages_allocate(2), 0, 16));
+	write_serial_string("\r\n0x");
+	write_serial_string(itoa(kernel_pages_allocate(20), 0, 16));
+	write_serial_string("\r\n0x");
+	write_serial_string(itoa(kernel_pages_allocate(20), 0, 16));
 
+	
 	void* splashscreen_bmp = (void*)(initrd_read(2));
 	void* progress_bmp = (void*)(initrd_read(0));
-	void* field_bmp = (void*)(initrd_read("sunflowerfield.bmp"));
 
 	screen_clear(0, 0, 0);
+
 	drawbitmap_noscale(video_mode.width / 2 - 260, video_mode.height / 2 - 250, 525, 366, (uint8_t*)(splashscreen_bmp + 54), 24);
 	screen_update();
+	
 
 	drawbitmap_noscale(video_mode.width / 2 - 32 * 2, video_mode.height / 2 + 250, 32, 32, (uint8_t*)(progress_bmp + 54), 24);
 	screen_update();
@@ -162,7 +170,6 @@ void kmain(uint32_t mb_info_addr) {
 
 	screen_clear(96, 192, 192);
 	screen_update();
-
 
 	create_process((void*)idle2);
 	create_process((void*)WindowManager_process);

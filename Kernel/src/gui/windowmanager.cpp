@@ -16,7 +16,7 @@
 
 bool prevMouseButtonState = false;
 static int8_t* mouse_data;
-bool enableFpsCounter = true;
+bool enableFpsCounter = false;
 
 // FPS counter
 uint32_t fps;
@@ -108,8 +108,8 @@ void WindowManager::Render()
 void WindowManager::Update() {
 	mouse_data = mouse_get_data();
 	if (mouse_data_updated()) {
-		mouse_x += mouse_data[1] * 2;
-		mouse_y -= mouse_data[2] * 2;
+		mouse_x += mouse_data[1] * 3;
+		mouse_y -= mouse_data[2] * 3;
 
 		if (mouse_data[0] & MOUSE_BUTTON_LEFT) {
 			mouseDown = true;
