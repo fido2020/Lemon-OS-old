@@ -93,7 +93,7 @@ void Shell::Update(bool key_updated, char key) {
 						success = true;
 					}
 				}
-				for (int i = 0; i < argc; i++) {
+				/*for (int i = 0; i < argc; i++) {
 					free(args.argv[i]);
 				}
 				free(args.argv);
@@ -101,7 +101,7 @@ void Shell::Update(bool key_updated, char key) {
 					console->puts("\nUnknown Command: ");
 					console->puts(argv[0]);
 					console->puts(" type 'cmds' for a list of commands");
-				}
+				}*/
 			}
 			input_ptr = 0;
 			memset((uint8_t*)strbuf, 0, 512);
@@ -192,13 +192,12 @@ void input(int argc, char** argv) {
 void sysinfo(int argc, char** argv){
 	console->puts("\nLemon OS Alpha\n",255,255,0);
 	console->puts	("\n\
-	   ####    \n\
+	   ####\n\
 	  ######\n\
 	 #########\n\
 	#########\n\
 	  ######\n\
-	   ####\ 
-	\n",255,255,0);
+	   ####\n",255,255,0);
 }
 
 void randomtext(int argc, char** argv){
@@ -211,7 +210,7 @@ void randomtext(int argc, char** argv){
 
 void ls(int argc, char** argv){
 	lemoninitfs_node_t* nodes = initrd_list();
-	for(int i = 0; i < initrd_get_header()->num_files; i++){
+	for(uint32_t i = 0; i < initrd_get_header()->num_files; i++){
 		console->puts("\n");
 		console->puts(nodes[i].filename);
 		for(int j = 0; j < 20-strlen(nodes[i].filename); j++){
@@ -254,7 +253,7 @@ void viewimage_render_callback(int x, int y){
 }
 
 void viewimage(int argc, char** argv){
-	if(argc < 2){
+	/*if(argc < 2){
 		console->puts("\nUsage: ");
 		console->puts(argv[0]);
 		console->puts(" <file>");
@@ -263,13 +262,11 @@ void viewimage(int argc, char** argv){
 
 	lemoninitfs_header_t* initrd_header = initrd_get_header();
 	lemoninitfs_node_t* initrd_nodes = initrd_list();
-
-	char* file;
 	int fid;
 
-	for(int i = 0; i < initrd_header->num_files; i++){
+	for(uint32_t i = 0; i < initrd_header->num_files; i++){
 		if(strcmp(initrd_nodes[i].filename, argv[1]) == 0){
-			file = initrd_nodes[i].filename;
+			//file = initrd_nodes[i].filename;
 			fid = i;
 			break;
 		}
@@ -292,5 +289,5 @@ void viewimage(int argc, char** argv){
 
 	win->render_callback = viewimage_render_callback;
 	while(win->exists);
-	free(win);
+	free(win);*/
 }

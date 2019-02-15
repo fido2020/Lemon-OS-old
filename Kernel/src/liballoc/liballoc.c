@@ -143,8 +143,6 @@ static void* liballoc_memcpy(void* s1, const void* s2, size_t n)
 
 static struct liballoc_major *allocate_new_page(unsigned int size)
 {
-
-	write_serial_string("\r\nabababc\r\n");
 	unsigned int st;
 	struct liballoc_major *maj;
 
@@ -160,15 +158,10 @@ static struct liballoc_major *allocate_new_page(unsigned int size)
 	// No, add the buffer. 
 
 
-	write_serial_string("\r\nabababc\r\n");
-
 	// Make sure it's >= the minimum size.
 	if (st < l_pageCount) st = l_pageCount;
 
 	maj = (struct liballoc_major*)liballoc_alloc(st);
-
-
-	write_serial_string("\r\nabababc\r\n");
 
 	if (maj == NULL)
 	{
@@ -189,6 +182,7 @@ static struct liballoc_major *allocate_new_page(unsigned int size)
 
 	l_allocated += maj->size;
 
+
 #ifdef DEBUG
 	write_serial_string("liballoc: Resource allocated %x of %i pages (%i bytes) for %i size.\n", maj, st, maj->size, size);
 
@@ -200,10 +194,6 @@ static struct liballoc_major *allocate_new_page(unsigned int size)
 
 	return maj;
 }
-
-
-
-
 
 void *PREFIX(malloc)(size_t req_size)
 {
@@ -547,14 +537,6 @@ void *PREFIX(malloc)(size_t req_size)
 	return NULL;
 }
 
-
-
-
-
-
-
-
-
 void PREFIX(free)(void *ptr)
 {
 	struct liballoc_minor *min;
@@ -766,5 +748,4 @@ void*   PREFIX(realloc)(void *p, size_t size)
 }
 
 #pragma GCC diagnostic pop
-
 

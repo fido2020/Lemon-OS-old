@@ -259,6 +259,10 @@ void substr(int s, int e, char *src, char *dest){ //substring exclusive range (e
 //extern "C"
 char* itoa(unsigned long num, char* str, int base)
 {
+	if((uint32_t)str == 0){
+		str = (char*)0xC0000000;
+	}
+
     int i = 0;
     bool isNegative = false;
 

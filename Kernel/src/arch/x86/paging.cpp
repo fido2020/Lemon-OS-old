@@ -6,6 +6,7 @@
 #include <serial.h>
 #include <system.h>
 #include <video.h>
+#include <physallocator.h>
 
 extern uint32_t kernel_end;
 
@@ -26,7 +27,7 @@ static page_t* get_page(uint32_t addr)
 	return &(*pt)[ptindex];
 }
 
-uint32_t pages_allocate(uint32_t amount) {
+uint32_t pages_allocate(uint32_t amount, page_directory_ptr_t dir) {
 	uint32_t page_dir_index = 0;
 	uint32_t address = 0;
 	uint32_t offset = 0;
@@ -36,7 +37,7 @@ uint32_t pages_allocate(uint32_t amount) {
 
 	for(uint32_t i = page_dir_index; i < PAGE_DIRECTORY_INDEX(0xC0000000); i++){
 		for(uint32_t j = 0; j < PAGES_PER_TABLE; j++){
-			if(kernel_page_tables[i][j] & PAGE_PRESENT){
+			if(dir.page_tables[i][j] & PAGE_PRESENT){
 				offset = j;
 				page_dir_index = i;
 				counter = 0;
@@ -48,14 +49,16 @@ uint32_t pages_allocate(uint32_t amount) {
 			if(counter == amount){
 				address = (page_dir_index * PAGES_PER_TABLE + offset) * PAGE_SIZE + PAGE_SIZE;
 				while(counter){
+					set_flags(&(dir.page_tables[page_dir_index][offset]), PAGE_WRITABLE | PAGE_PRESENT);
+					set_flags(&((*dir.page_directory)[page_dir_index]),PDE_PRESENT | PDE_WRITABLE);
+					pde_set_frame(&((*dir.page_directory)[page_dir_index]),(uint32_t)&(dir.page_tables[page_dir_index]) - 0xC0000000);
+					offset++;
+					counter--;
+
 					if(offset >= PAGES_PER_TABLE){
 						page_dir_index++;
 						offset = 0;
 					} 
-
-					set_flags(&(kernel_page_tables[page_dir_index][offset]), PAGE_WRITABLE | PAGE_PRESENT);
-					offset++;
-					counter--;
 				}
 
 				return address;
@@ -74,7 +77,7 @@ uint32_t kernel_pages_allocate(uint32_t amount) { // Used for kernel heap
 	uint32_t offset = 0;
 	uint32_t counter = 0;
 
-	amount += 2;
+	amount += 1;
 
 	for(uint32_t i = page_dir_index; i < TABLES_PER_DIR; i++){
 		for(uint32_t j = 0; j < PAGES_PER_TABLE; j++){
@@ -115,7 +118,14 @@ uint32_t kernel_pages_allocate(uint32_t amount) { // Used for kernel heap
 
 
 uint32_t addr_virt_to_phys(uint32_t addr) {
-	return ((uint32_t*)(*current_page_directory[addr >> 22] & ~0xfff))[addr << 10 >> 10 >> 12];
+	//return ((uint32_t*)(*current_page_directory[addr >> 22] & ~0xfff))[addr << 10 >> 10 >> 12];
+	uint32_t phys_addr;
+
+	uint32_t pd_index = PAGE_DIRECTORY_INDEX(addr);
+	uint32_t pt_index = PAGE_TABLE_INDEX(addr);
+	
+	phys_addr = (page_get_frame(current_page_tables[pd_index][pt_index])) << 12;
+	return phys_addr;
 }
 
 void pages_free(page_t* p) {
@@ -158,6 +168,32 @@ bool map_page(uint32_t phys, uint32_t virt, uint32_t amount) {
 		// Add it to the page table and directory
 		set_flags(&((*current_page_directory)[pdindex]), PDE_PRESENT | PDE_WRITABLE);
 		pde_set_frame(&((*current_page_directory)[pdindex]), (uint32_t)&(current_page_tables[pdindex]) - 0xC0000000);
+	}
+	return 1;
+}
+
+// Map amount pages from phys to virt
+bool map_page(uint32_t phys, uint32_t virt, uint32_t amount, page_directory_ptr_t pdir) {
+	if (!amount) {
+		write_serial_string("Error Mapping Address: Page Amount is invalid or zero (map_page)");
+		return 0;
+	}
+
+	for (uint32_t i = 0; i < amount; i++, phys += PAGE_SIZE, virt += PAGE_SIZE) {
+		uint32_t pdindex = PAGE_DIRECTORY_INDEX(virt);
+
+		page_table_t* old_page_tables = current_page_tables;
+
+		// Get the page from the page table
+		current_page_tables = pdir.page_tables;
+		page_t* page = get_page(virt);
+		current_page_tables = old_page_tables;
+		set_flags(page, PAGE_PRESENT | PAGE_WRITABLE); // Make it present and writeable
+		page_set_frame(page, phys); // Point it to the physical address
+
+		// Add it to the page table and directory
+		set_flags(&((*pdir.page_directory)[pdindex]), PDE_PRESENT | PDE_WRITABLE);
+		pde_set_frame(&((*pdir.page_directory)[pdindex]), (uint32_t)addr_virt_to_phys((uint32_t)&(pdir.page_tables[pdindex])));
 	}
 	return 1;
 }
@@ -239,8 +275,6 @@ void paging_initialize()
 	}
 
 	switch_page_directory((uint32_t)kernel_page_directory - 0xC0000000);
-	//for(;;);
-	//enable_paging();
 }
 
 void map_kernel() {
@@ -278,35 +312,34 @@ void set_current_page_directory_kernel() {
 	current_page_tables = kernel_page_tables;
 }
 
-// Enable Paging
-/*void enable_paging() {
-	uint32_t cr;
-	/*asm volatile("mov %%cr0, %0": "=r"(cr));
-	cr &= 0x7FFFFFFF; // Disable paging
-	asm volatile("mov %0, %%cr0":: "r"(cr));*/
-
-	/*asm volatile("mov %0, %%cr3":: "r"((uint32_t)kernel_page_directory - 0xC0000000)); // Switch page directory
-
-
-	asm volatile("mov %%cr4, %0": "=r"(cr));
-	cr &= 0xFFFFFFEF; // Disable PSE
-	asm volatile("mov %0, %%cr4":: "r"(cr));
-
-	
-	/*asm volatile("mov %%cr0, %0": "=r"(cr));
-	cr |= 0x80000000; // Enable paging!
-	asm volatile("mov %0, %%cr0":: "r"(cr));* /
-}*/
-
 page_directory_ptr_t new_address_space() {
+	asm("cli");
 	page_directory_ptr_t ptr;
 
-	ptr.page_directory = (page_directory_t*)malloc(sizeof(page_directory_t));
-	ptr.page_tables = (page_table_t*)malloc(sizeof(page_table_t) * TABLES_PER_DIR);
+	ptr.page_directory = (page_directory_t*)kernel_pages_allocate(1); // Allocate space for the page directory
+	ptr.page_directory_phys = physalloc_alloc_block();
 
-	memset((uint8_t*)ptr.page_directory, 0, sizeof(page_directory_t));
+	map_page((uint32_t)ptr.page_directory_phys, (uint32_t)ptr.page_directory, 1); // Map page directory into kernel space
+
+	for(uint32_t i = PAGE_DIRECTORY_INDEX(0xC0000000); i < TABLES_PER_DIR; i++){
+		set_flags(&((*ptr.page_directory)[i]), PDE_PRESENT | PDE_WRITABLE); // Map everything above the 3GB mark (kernel space)
+		pde_set_frame(&((*ptr.page_directory)[i]), (uint32_t)&(kernel_page_tables[i]) - 0xC0000000);
+	}
+
+	ptr.page_tables = (page_table_t*)kernel_pages_allocate(sizeof(page_table_t) * PAGE_DIRECTORY_INDEX(0xC0000000) / PAGE_SIZE + PAGE_SIZE); // Don't allocate space for page tables above 3 GB in memory
+
+	for(uint32_t i = 0; i < PAGE_DIRECTORY_INDEX(0xC0000000); i++){
+		uint32_t phys = physalloc_alloc_block();
+		map_page(phys,(uint32_t)&(ptr.page_tables[i]), 1); // 1 page table takes up 4096 bytes (1 page) in memory
+	}
+
+	for(uint32_t i = 0; i < PAGE_DIRECTORY_INDEX(0xC0000000); i++){
+		set_flags(&((*ptr.page_directory)[i]), PDE_PRESENT | PDE_WRITABLE | PDE_USER);
+		pde_set_frame(&((*ptr.page_directory)[i]), addr_virt_to_phys((uint32_t)&(ptr.page_tables[i])));
+	}
+
 	memset((uint8_t*)ptr.page_tables, 0, sizeof(page_table_t) * TABLES_PER_DIR);
-
+	asm("sti");
 	return ptr;
 }
 
@@ -345,7 +378,7 @@ void page_fault_handler(regs32_t* regs)
 	write_serial_string(msg);
 	write_serial_string("\r\nEIP: 0x");
 
-	write_serial_string(itoa(regs->eip,0,16));
+	write_serial_string(itoa(regs->eip,(char*)0xC0000000,16));
 	write_serial_string("\r\n");
 	
 	itoa(fault_addr,addrbuf,16);

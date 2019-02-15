@@ -2,21 +2,12 @@
 
 #include <stdint.h>
 #include <list.h>
+#include <gui.h>
 
 #define KEY_RIGHT 0x4f // Keyboard Right Arrow
 #define KEY_LEFT 0x50 // Keyboard Left Arrow
 #define KEY_DOWN 0x51 // Keyboard Down Arrow
 #define KEY_UP 0x52 // Keyboard Up Arrow
-
-struct Vector2i
-{
-	int x, y;
-};
-
-static bool operator==(const Vector2i& l, const Vector2i& r) {
-	if (l.x == r.x && l.y == r.y) return true;
-	else return false;
-}
 
 enum Direction {
 	UP, DOWN, LEFT, RIGHT

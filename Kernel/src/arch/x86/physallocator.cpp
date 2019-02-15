@@ -16,8 +16,7 @@ uint32_t physalloc_max_blocks = 0;
 // Initialize the physical page allocator
 void physalloc_init(memory_info_t* mem_info)
 {
-	
-	memset((uint8_t*)mem_bitmap, 0xFFFFFFFF, PHYSALLOC_BITMAP_SIZE_DWORDS * 4);
+	memset(mem_bitmap, 0xFFFFFFFF, PHYSALLOC_BITMAP_SIZE_DWORDS * 4);
 
 	multiboot_memory_map_t* mem_map = mem_info->mem_map;
 	multiboot_memory_map_t* mem_map_end = (multiboot_memory_map_t*)(mem_info->mem_map + mem_info->memory_map_len);

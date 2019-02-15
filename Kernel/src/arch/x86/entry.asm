@@ -11,7 +11,7 @@ FLAGS       equ MBALIGN | MEMINFO | VIDINFO
 CHECKSUM    equ -(MAGIC + FLAGS)
 
 KERNEL_VIRTUAL_BASE equ 0xC0000000
-KERNEL_PAGE_DIR_NUMBER equ 768;(KERNEL_VIRTUAL_BASE >> 22)
+KERNEL_PAGE_DIR_NUMBER equ (KERNEL_VIRTUAL_BASE >> 22); 768
 
 section .multiboot.hdr
 align 4 ; Multiboot Header
@@ -32,24 +32,12 @@ dd 32
 
 
 section .multiboot.data
-;align 0x1000
-;boot_page_directory: ; Create a temporary PSE (quick and easy to set up) page directory until we go to the higher half
-;	dd 0x00000083
-;    times (KERNEL_PAGE_DIR_NUMBER - 1) dd 0                 ; Pages before kernel space.
-;    ; This page directory entry defines a 4MB page containing the kernel.
-;    dd 0x00000083
-;	dd 0x00400083
-;	
-;    times (1024 - KERNEL_PAGE_DIR_NUMBER - 12) dd 0  ; Pages after the kernel image.
 
-;boot_page_table
 align 0x1000
 boot_page_directory:
 	times 1024 dd 0
-
 boot_page_table1:
 	times 1024 dd 0
-
 boot_page_table2:
 	times 1024 dd 0
 
@@ -78,10 +66,6 @@ next_page:
 
 	mov ecx, boot_page_directory ; Load page directory
 	mov cr3, ecx
-	
-	;mov ecx, cr4
-	;or ecx, 0x00000010 ; Enable PSE
-	;mov cr4, ecx
 
 	mov ecx, cr0
 	or ecx, 0x80000000 ; Enable Paging
@@ -95,25 +79,30 @@ entry_hh:
     mov esp, stack_top
     push eax
 
-	; Enable SSE
-	mov eax, cr4
-	or eax, 3 << 9 ; Set bits 9 & 10 in cr4
-	mov cr4, eax
+	mov eax, cr0
+	and ax, 0xFFFB		; Clear coprocessor emulation
+	or ax, 0x2			; Set coprocessor monitoring
+	mov cr0, eax
 
-	;mov eax, cr0
-	;and ax, 0xFFFB		;clear coprocessor emulation
-	;or ax, 0x2			;set coprocessor monitoring
-	;mov cr0, eax
-	;mov eax, cr4
-	;or ax, 3 << 9		; set flags for sse
-	;mov cr4, eax
+	;Enable SSE
+	mov eax, cr4
+	or ax, 3 << 9		; Set flags for SSE
+	mov cr4, eax
 
 	add ebx, KERNEL_VIRTUAL_BASE
     push ebx
-    call kmain
+    call kmain ; Call Kernel Main
     
     cli
     hlt
+
+extern Idle_process
+global idle_proc_
+
+idle_proc_:
+	call Idle_process
+	jmp idle_proc_
+	hlt
 
 section .bss
 align 32

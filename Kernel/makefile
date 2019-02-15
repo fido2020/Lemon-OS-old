@@ -2,7 +2,7 @@
 
 ARCH := x86
 
-SRCDIRS := src/arch/$(ARCH) src src/liballoc src/gui
+SRCDIRS := src/arch/$(ARCH) src src/liballoc src/gui src/fs
 INCLUDEPATH := -I src/include -I src/arch/$(ARCH)/include
 
 CFLAGS-x86 := -Wall -Wno-pointer-arith -fno-permissive -fno-exceptions -fno-rtti -std=c++14 -fno-pic -Wno-address -m32 -ffreestanding -Wno-write-strings -fno-stack-protector $(INCLUDEPATH)
@@ -23,7 +23,7 @@ ifeq ($(ARCH),x86_64)
 CFLAGS=$(CFLAGS-x86_64)
 endif
 
-.PHONY: all copy
+.PHONY: all copy initrd
 
 all: $(ARCH)
 
@@ -34,6 +34,11 @@ x86: $(OBJFILES)
 x86_64: $(OBJFILES)
 	@./buildasmx86_64.sh
 	@g++ -m64 -T linkscript-x86_64.ld -o bin/$(ARCH)/kernel.sys -fno-pic -Wl,--build-id=none -ffreestanding -O2 -nostdlib obj/x86_64/*.asm.o obj/x86_64/*.c.o obj/x86_64/*.cpp.o -lgcc -fno-pic
+
+initrd:
+	@cd ../Core/wm && ./build.sh && cp wm.elf ../../Tools/initrdwriter/
+	@cd ../Tools/initrdwriter && rm initrd.img && ./copy.sh
+	@cp ../Tools/initrdwriter/initrd.img ../initrd.img
 
 copy:
 	@cd .. && sudo ./copytodisk.sh

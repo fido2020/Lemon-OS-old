@@ -10,7 +10,7 @@
 #include <serial.h>
 #include <initrd.h>
 #include <memory.h>
-#include <windowmanager.h>
+#include <window.h>
 #include <math.h>
 #include <physallocator.h>
 #include <multitasking.h>
@@ -21,6 +21,7 @@
 #include <cpuid.h>
 #include <bitmap.h>
 #include <snake.h>
+#include <elf.h>
 
 #include <hal.h>
 
@@ -28,77 +29,20 @@ extern uint32_t physalloc_used_blocks;
 cpuid_info_t cpuid_info;
 int ram_amount;
 
-WindowManager* wm;
-Console* sh_con;
+extern uint8_t* video_buffer;
 
-void Shell_render_callback(int x, int y){
-	sh_con->relocate(x, y + 24);
-	sh_con->refresh();
-}
-
-void Shell_process(){
-sh_restart:
-	Window* win = wm_getinstance()->Window_New(10,10,500,375, windowtype_framebuffer);
-	Console con = Console(0,0,500,375-24);
-	Shell sh = Shell(&con);
-	sh_con = &con;
-	win->render_callback = Shell_render_callback;
-	while(win->exists){
-		//con.relocate(sh_win->x,sh_win->y);
-		while(win->event_stack->num){
-			if((*win->event_stack)[0]->type == event_key)
-				sh.Update(true, ((KeyEventData*)(*win->event_stack)[0]->data)->key/*((KeyEvent*)((*win->event_stack)[0]->dervied))->key*/);
-			(*win->event_stack)[0]->~Event();
-			free((*win->event_stack)[0]);
-			win->event_stack->remove_at(0);
-		}
-	}
-	free(win);
-	goto sh_restart;
-}
-
-Snake* snekkk;
-
-void Snake_render_callback(int x, int y){
-	snekkk->Relocate(x,y + 24);
-	snekkk->Render();
-}
-
-void Snake_process(){
-	Window* win = wm_getinstance()->Window_New(64,64,640,480,windowtype_framebuffer);
-	Snake snake = Snake(64,64,640,480 - 24);
-	snekkk = &snake;
-	win->render_callback = Snake_render_callback;
-	while(win->exists){
-		while(win->event_stack->num){
-			if(win->event_stack->operator[](0)->type == event_key){
-				snake.OnKeyPressed(((KeyEventData*)(*win->event_stack)[0]->data)->key);
-			}
-			win->event_stack->operator[](0)->~Event(); // Run event class destructor
-			free(win->event_stack->operator[](0)); // Unallocate event class
-			win->event_stack->remove_at(0);
-		}
-		snake.Update();
-	}
-	free(win);
-	for(;;);
-}
-
-void WindowManager_process(){
-	WindowManager winmgr = WindowManager(&HAL::video_mode);
-	wm = & winmgr;
-	create_process((void*)Shell_process);
-	//create_process((void*)Snake_process);
+extern "C"
+void Idle_process(){
+	create_process_elf((void*)initrd_read(2));
 	for(;;){
-		screen_clear(96, 192, 192);
-		winmgr.Update();
+		if(get_main_desktop())
+			memcpy_sse2(video_buffer, get_main_desktop()->surface.buffer, HAL::video_mode.height * HAL::video_mode.pitch);
 		screen_update();
 	}
 }
 
-void idle2(){
-	for(;;);
-}
+extern "C"
+void idle_proc_();
 
 extern "C"
 void kmain(uint32_t mb_info_addr) {
@@ -136,17 +80,9 @@ void kmain(uint32_t mb_info_addr) {
 	}
 
 	initrd_init(initrd_module.mod_start,initrd_module.mod_end - initrd_module.mod_start);
-	write_serial_string("\r\n0x");
-	write_serial_string(itoa(kernel_pages_allocate(1), 0, 16));
-	write_serial_string("\r\n0x");
-	write_serial_string(itoa(kernel_pages_allocate(2), 0, 16));
-	write_serial_string("\r\n0x");
-	write_serial_string(itoa(kernel_pages_allocate(20), 0, 16));
-	write_serial_string("\r\n0x");
-	write_serial_string(itoa(kernel_pages_allocate(20), 0, 16));
 
-	
-	void* splashscreen_bmp = (void*)(initrd_read(2));
+
+	void* splashscreen_bmp = (void*)(initrd_read(1));
 	void* progress_bmp = (void*)(initrd_read(0));
 
 	screen_clear(0, 0, 0);
@@ -154,14 +90,11 @@ void kmain(uint32_t mb_info_addr) {
 	drawbitmap_noscale(video_mode.width / 2 - 260, video_mode.height / 2 - 250, 525, 366, (uint8_t*)(splashscreen_bmp + 54), 24);
 	screen_update();
 	
-
 	drawbitmap_noscale(video_mode.width / 2 - 32 * 2, video_mode.height / 2 + 250, 32, 32, (uint8_t*)(progress_bmp + 54), 24);
 	screen_update();
 
 	keyboard_install();
 	mouse_install();
-	multitasking_init();
-
 
 	drawbitmap_noscale(video_mode.width / 2 - 32 * 1, video_mode.height / 2 + 250, 32, 32, (uint8_t*)(progress_bmp + 54), 24);
 	screen_update();
@@ -169,16 +102,17 @@ void kmain(uint32_t mb_info_addr) {
 	drawbitmap_noscale(video_mode.width / 2, video_mode.height / 2 + 250, 32, 32, (uint8_t*)(progress_bmp + 54), 24);
 	screen_update();
 
-	drawbitmap_noscale(video_mode.width / 2 + 32 * 1, video_mode.height / 2 + 250, 32, 32, (uint8_t*)(progress_bmp + 54), 24);
-	screen_update();
-
 	screen_clear(96, 192, 192);
 	screen_update();
 
-	create_process((void*)idle2);
-	create_process((void*)WindowManager_process);
-	
+	syscalls_init();
+
 	timer_install(1000); // The scheduler will start running when the timer is set up.
-	
+
+	drawbitmap_noscale(video_mode.width / 2 + 32 * 1, video_mode.height / 2 + 250, 32, 32, (uint8_t*)(progress_bmp + 54), 24);
+	screen_update();
+
+	multitasking_init();
+
 	for(;;);
 }

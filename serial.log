@@ -1,19 +1,21 @@
 Initializing Lemon...
 
-0xc044e6ec
+0xc044f6ec
+xcv
+0xc1f25000
+0xc1f26000
+0xc1f28000
+0xc1f3c000proc addr:c1e02080
 
-abababc
+Entry: c001d02c
+proc addr:c1e02140
 
-abababc
+Entry: c001d034
+proc addr:c1e02200
 
-abababc
-
-0xc1e06000
-0xc1e08000
-0xc1e0b000
-0xc1e20000
-abababc
-
-abababc
-
-abababc
+Elf section address 0x2000at elf entry: 26e8
+elf entry: 2710
+Entry: 2710
+qwerty00
+Width: 640
+Magic: beef

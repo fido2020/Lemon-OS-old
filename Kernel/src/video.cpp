@@ -5,6 +5,7 @@
 #include <serial.h>
 #include <string.h>
 #include <math.h>
+#include <gui.h>
 
 video_mode_t video_mode;
 
@@ -38,7 +39,6 @@ void screen_clear() {
 
 // Clears the screen with specified colour
 void screen_clear(uint8_t r, uint8_t g, uint8_t b) {
-	write_serial_string("dejladkjlw");
 	if (video_mode.type != Graphical) return; // Text Mode is only 16-colors
 	screen_fillrect(0, 0, video_mode.width, video_mode.height, r, g, b);
 }
@@ -176,7 +176,6 @@ video_mode_t get_video_mode()
 void drawbitmap(int x, int y, int w, int h, int bmp_w, int bmp_h, uint8_t *data, int bmp_bpp)
 {
 	uint32_t row_size = floor((bmp_bpp*bmp_w+31)/32)*4;
-	uint32_t video_mem_offset = y*video_mode.pitch;
 	uint32_t bmp_offset = 0;
 	uint32_t bmp_buffer_offset = 0;
 	uint8_t* bmp_buffer = (uint8_t*)malloc(w * h * (video_mode.bpp / 8));

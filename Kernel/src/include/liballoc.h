@@ -68,6 +68,8 @@ extern "C" {
 	*/
 	extern int liballoc_free(void*, size_t);
 
+	extern int templiballoc_unlock();
+
 #if defined DEBUG || defined INFO || true
 	void liballoc_dump();
 #endif
@@ -77,6 +79,7 @@ extern "C" {
 	extern void    *PREFIX(realloc)(void *, size_t);		///< The standard function.
 	extern void    *PREFIX(calloc)(size_t, size_t);		///< The standard function.
 	extern void     PREFIX(free)(void *);					///< The standard function.
+	extern void *PREFIX(tempmalloc)(size_t req_size);
 
 #ifdef __cplusplus
 }

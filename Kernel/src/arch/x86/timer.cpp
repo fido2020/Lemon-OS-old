@@ -34,6 +34,8 @@ void scheduler_tick();
 
 uint32_t frequency;
 
+extern "C" void task_switch();
+
 // Timer handler
 void timer_handler(regs32_t *r) {
 	/*sys_uptime_ticks++;

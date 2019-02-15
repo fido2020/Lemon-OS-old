@@ -207,11 +207,17 @@ extern "C"
 void isr_handler(regs32_t* regs) {
 
 	if (interrupt_handlers[regs->int_num] != 0) {
-		write_serial_string("Interrupt: ");
 		interrupt_handlers[regs->int_num](regs);
-	} else {
+	} else if(regs->int_num == 0x69){
+		write_serial_string("\r\nWARN: Early syscall");
+	}
+	else {
 		write_serial_string("Fatal Exception: ");
 		write_serial_string(itoa(regs->int_num));
+		write_serial_string("\r\nEIP: ");
+		write_serial_string(itoa(regs->eip,0,16));
+		write_serial_string("\r\nError Code: ");
+		write_serial_string(itoa(regs->err_code,0,16));
 		for (;;);
 	}
 }
@@ -224,7 +230,7 @@ void irq_handler(regs32_t* regs) {
 	}
 
 	outportb(0x20, 0x20);
-	int a;
+	
 	if (interrupt_handlers[regs->int_num] != 0) {
 		isr_t handler;
 		handler = interrupt_handlers[regs->int_num];
@@ -234,8 +240,5 @@ void irq_handler(regs32_t* regs) {
 
 extern "C"
 void interrupt_register_handler(uint8_t interrupt, isr_t handler) {
-	//puts("Registering handler for Interrupt ");
-	//puts(itoa(interrupt));
-	//putc('\n');
 	interrupt_handlers[interrupt] = handler;
 }

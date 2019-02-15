@@ -72,6 +72,7 @@ using page_tables_t = page_table_t[TABLES_PER_DIR];
 
 typedef struct {
 	page_directory_t* page_directory;
+	uint32_t page_directory_phys;
 	page_table_t* page_tables;
 } __attribute__((packed)) page_directory_ptr_t;
 
@@ -88,9 +89,10 @@ void map_kernel();
 
 void page_fault_handler(regs32_t* regs);
 bool map_page(uint32_t phys, uint32_t virt, uint32_t amount);
+bool map_page(uint32_t phys, uint32_t virt, uint32_t amount, page_directory_ptr_t pdir);
 void unmap_page(uint32_t addr);
 
-uint32_t pages_allocate(uint32_t amount);
+uint32_t pages_allocate(uint32_t amount, page_directory_ptr_t dir);
 uint32_t kernel_pages_allocate(uint32_t amount);
 void pages_free(uint32_t virt, uint32_t amount);
 

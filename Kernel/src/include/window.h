@@ -4,6 +4,7 @@
 #include <console.h>
 #include <list.h>
 #include <widget.h>
+#include <gui.h>
 
 #define WINDOW_DEFAULT_BG_COLOUR_R 225
 #define WINDOW_DEFAULT_BG_COLOUR_G 225
@@ -18,6 +19,7 @@
 #define WINDOW_TITLEBAR_COLOUR_B 180
 
 #define WINDOW_FLAGS_NODECORATION 0x1
+#define WINDOW_FLAGS_
 
 enum WindowType {
 	windowtype_gui, // GUI window with widgets
@@ -50,46 +52,42 @@ struct MouseEventData{
 	int button;
 };
 
-class Window {
-public:
+struct process;
+
+typedef struct {
 	uint16_t x = 0;
 	uint16_t y = 0;
 
-	uint16_t width = 0;
-	uint16_t height = 0;
+	uint16_t width = 0; // Width
+	uint16_t height = 0; // Height
 
-	uint32_t r, g, b;
+	uint32_t flags; // Window Flags
+
+	char title[96]; // Title of window
+} __attribute__((packed)) win_info_t;
+
+struct Desktop;
+
+typedef struct Window{
+	uint16_t x;
+	uint16_t y;
+	uint16_t width;
+	uint16_t height;
 
 	uint32_t flags;
 
-	uint8_t type;
-	Console* console;
+	uint8_t* buffer;
 
-	List<Event*>* event_stack;
+	Desktop* desktop;
 
-	bool active; // Whether the window is the active window
-	bool exists = true; // This lets the program owning the window know when to destroy the window and exit
+	char title[96];
+} window_t;
 
-public:
-	Window(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint8_t type = windowtype_gui);
-	Window();
-	void Render();
-	void(*render_callback)(int,int) = 0; // Depracated
-	void(*mouse_callback)(int,int) = 0; // Depracated
-};
+typedef struct Desktop{
+	List<window_t*>* windows;
 
-class FramebufferWindow : public Window{
-public:
-	uint8_t* framebuffer;
+	surface_t surface;
+} __attribute__((packed)) desktop_t;
 
-	FramebufferWindow(uint16_t x, uint16_t y, uint16_t width, uint16_t height);
-	void Render();
-};
-
-class WidgetWindow : public Window{
-public:
-	List<Widget> widgets;
-	
-	WidgetWindow(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint8_t type = windowtype_gui);
-	void Render();
-};
+void set_main_desktop(desktop_t* desktop);
+desktop_t* get_main_desktop();
